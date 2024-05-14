@@ -1,0 +1,81 @@
+import { Images } from '../../utils/images';
+
+export const menuData = [
+  {
+    id: 1,
+    icon: Images.chat,
+    title: 'Liên hệ',
+    routeName: 'Contact',
+    routeData: {},
+  },
+  {
+    id: 2,
+    icon: Images.store,
+    title: 'Hệ thống cửa hàng',
+    routeName: 'StoreSystem',
+    routeData: {},
+  },
+  {
+    id: 3,
+    icon: Images.document,
+    title: 'Hướng dẫn sử dụng app',
+    routeName: '',
+    routeData: {},
+  },
+  {
+    id: 4,
+    icon: Images.document,
+    title: 'Tư vấn size',
+    routeName: '',
+    routeData: {},
+  },
+  {
+    id: 5,
+    icon: Images.document,
+    title: 'Bảo quản',
+    routeName: '',
+    routeData: {},
+  },
+  {
+    id: 6,
+    icon: Images.document,
+    title: 'Hướng dẫn mua hàng',
+    routeName: '',
+    routeData: {},
+  },
+  {
+    id: 7,
+    icon: Images.document,
+    title: 'Chính sách thanh toán',
+    routeName: '',
+    routeData: {},
+  },
+  {
+    id: 8,
+    icon: Images.document,
+    title: 'Chính sách giao nhận - vận chuyển',
+    routeName: '',
+    routeData: {},
+  },
+  {
+    id: 9,
+    icon: Images.document,
+    title: 'Chính sách đổi hàng',
+    routeName: '',
+    routeData: {},
+  },
+  {
+    id: 10,
+    icon: Images.document,
+    title: 'Chính sách bảo hành & sửa chữa',
+    routeName: '',
+    routeData: {},
+  },
+  {
+    id: 11,
+    icon: Images.document,
+    title: 'Chính sách điều khoản sử dụng',
+    routeName: '',
+    routeData: {},
+  },
+];
