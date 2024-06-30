@@ -58,6 +58,7 @@ const ProfileNavigator = (): React.JSX.Element => {
           options={{
             presentation: 'transparentModal',
             animation: 'fade',
+            headerBackVisible: false,
           }}
         />
         <Stack.Screen
@@ -66,6 +67,7 @@ const ProfileNavigator = (): React.JSX.Element => {
           options={{
             presentation: 'transparentModal',
             animation: 'fade',
+            headerBackVisible: false,
           }}
         />
         <Stack.Screen
@@ -74,14 +76,16 @@ const ProfileNavigator = (): React.JSX.Element => {
           options={{
             presentation: 'transparentModal',
             animation: 'fade',
+            headerBackVisible: false,
           }}
         />
         <Stack.Screen
-          name="OtpVerification"
+          name="OTPVerification"
           component={OTPVerificationScreen}
           options={{
             presentation: 'transparentModal',
             animation: 'fade',
+            headerBackVisible: false,
           }}
         />
       </Stack.Group>

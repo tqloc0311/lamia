@@ -9,9 +9,13 @@ import {
   DeliveryAddressScreen,
   EditDeliveryAddressScreen,
   FavoriteScreen,
+  LoginScreen,
   NotificationsScreen,
+  OTPVerificationScreen,
+  PasswordResettingScreen,
   ProductDetailScreen,
   ProductsScreen,
+  RegisterScreen,
   SplashScreen,
   StoreSystemScreen,
   UserInfoScreen,
@@ -20,17 +24,36 @@ import CIcon from '../components/shared/custom-icon';
 import { Images } from '../utils/images';
 import CartNavigator from './cart-navigator';
 import BottomTabNavigator from './bottom-tab-navigator';
-import { AppNavigationType, AppStackParams } from './types';
+import {
+  AppNavigationType,
+  AppStackParams,
+  ProfileNavigationType,
+} from './types';
 import CartButton from '@lamia/components/cart/cart-button';
 import ProductCommentsScreen from '@lamia/screens/product-comments';
 import ProductCommentSubmitScreen from '@lamia/screens/product-comment-submit';
 import OrderManagementTabNavigator from './order-management-tab-navigator';
+import { Colors } from '@lamia/utils/theme/colors';
+import CButton from '@lamia/components/shared/custom-button';
+import HeaderLogo from '@lamia/components/shared/header-logo';
 
 const Stack = createNativeStackNavigator<AppStackParams>();
 
 const AppNavigator = (): React.JSX.Element => {
   const renderBackButton = (navigation: AppNavigationType) => {
     return <CIcon image={Images.arrowLeft} onPress={() => navigation.pop()} />;
+  };
+
+  const renderCloseButton = (navigation: ProfileNavigationType) => {
+    return (
+      <CButton
+        textColor="white"
+        onPress={() => {
+          navigation.pop();
+        }}>
+        Đóng
+      </CButton>
+    );
   };
 
   return (
@@ -148,6 +171,7 @@ const AppNavigator = (): React.JSX.Element => {
         component={ProductsScreen}
         options={({ navigation }) => ({
           headerShown: true,
+          headerShadowVisible: true,
           headerLeft: () => renderBackButton(navigation),
           headerRight: () => <CartButton />,
         })}
@@ -182,6 +206,53 @@ const AppNavigator = (): React.JSX.Element => {
           headerLeft: () => renderBackButton(navigation),
         })}
       />
+      <Stack.Group
+        screenOptions={({ navigation }) => ({
+          headerShown: true,
+          headerTransparent: true,
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerTitle: () => <HeaderLogo color="white" />,
+          headerLeft: () => renderCloseButton(navigation),
+        })}>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            presentation: 'transparentModal',
+            animation: 'fade',
+            headerBackVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={RegisterScreen}
+          options={{
+            presentation: 'transparentModal',
+            animation: 'fade',
+            headerBackVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="PasswordResetting"
+          component={PasswordResettingScreen}
+          options={{
+            presentation: 'transparentModal',
+            animation: 'fade',
+            headerBackVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="OTPVerification"
+          component={OTPVerificationScreen}
+          options={{
+            presentation: 'transparentModal',
+            animation: 'fade',
+            headerBackVisible: false,
+          }}
+        />
+      </Stack.Group>
     </Stack.Navigator>
   );
 };
@@ -190,7 +261,7 @@ export default AppNavigator;
 
 const styles = StyleSheet.create({
   headerTitle: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Inter',
     fontWeight: '700',
     fontSize: 16,
   },

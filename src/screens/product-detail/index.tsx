@@ -54,7 +54,7 @@ const ProductDetailScreen = () => {
   return (
     <Box flex={1} bg="white">
       <Box style={{ marginBottom: HALF_BOTTOM_SHEET_VIEW - HANDLE_HEIGHT }}>
-        <CImage source={Images.test.girl1} />
+        <CImage source={Images.test.girl1} resizeMode="stretch" />
       </Box>
       <BottomSheet
         handleComponent={renderHandleComponent}

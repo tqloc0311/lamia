@@ -31,7 +31,8 @@ const ProductSort = (props: ProductSortProps) => {
         onPress={() => {
           // props.didSelect(item.id);
           props.dismiss();
-        }}>
+        }}
+        hitSlop={8}>
         <Box my="2" flexDirection="row">
           <CImage
             source={
@@ -54,7 +55,7 @@ const ProductSort = (props: ProductSortProps) => {
   return (
     <Modal
       style={{
-        paddingTop: headerHeight - 22,
+        paddingTop: Platform.OS === 'android' ? 34 : headerHeight - 22,
       }}
       isVisible={props.isVisible}
       hasBackdrop={false}
@@ -62,20 +63,20 @@ const ProductSort = (props: ProductSortProps) => {
       animationOut="bounceOutUp"
       animationInTiming={200}
       animationOutTiming={10}>
-      <SafeAreaWrapper style={{ marginHorizontal: -22 }}>
+      <SafeAreaWrapper style={{ marginHorizontal: -20 }}>
         <Box
           position="absolute"
           top={0}
-          left={0}
-          bottom={-insets.bottom}
-          width={Layout.window.width + 1}
+          left={-2}
+          bottom={-100}
+          width={Layout.window.width + 4}
           bg="semiTransparentBlack"
         />
-        <Box bg="white">
+        <Box bg="white" overflow="hidden" style={{ marginHorizontal: -2 }}>
           <Box
             bg="white"
             height={42}
-            px="3"
+            px="4"
             flexDirection="row"
             alignItems="center"
             justifyContent="space-between"
@@ -83,7 +84,7 @@ const ProductSort = (props: ProductSortProps) => {
             shadowOffset={{ width: 0, height: 2 }}
             shadowOpacity={0.05}
             shadowRadius={5}
-            elevation={3}>
+            elevation={1}>
             <Text>Sắp xếp theo</Text>
             <CIcon image={Images.closeRed} size={16} onPress={props.dismiss} />
           </Box>

@@ -6,7 +6,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { useAppDispatch, useAppSelector } from '../../hooks/context';
 import styles from './styles';
 import { Box } from '@lamia/utils/theme';
-import { StatusBar } from 'react-native';
+import { Platform, StatusBar } from 'react-native';
 import DismissKeyboardView from '../../components/shared/dismiss-keyboard-view';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AuthTextInput from '../../components/auth/auth-text-input';
@@ -26,7 +26,9 @@ const LoginScreen = (props: LoginScreenProps) => {
     if (currentUser) {
       navigation.pop();
     }
-  }, [currentUser]);
+  }, [currentUser, navigation]);
+
+  const handler = useAndroidModalHandler();
 
   return (
     <DismissKeyboardView>
@@ -37,7 +39,7 @@ const LoginScreen = (props: LoginScreenProps) => {
           textStyle={{ color: 'white' }}
         />
         <StatusBar barStyle="light-content" />
-        <BlurView style={styles.absoluteFill} blurType="light" blurAmount={3} />
+        {/* <BlurView style={styles.absoluteFill} blurType="light" blurAmount={3} /> */}
         <SafeAreaWrapper>
           <Box flex={1} bg="transparent" p="4">
             <Box backgroundColor="transparent" mt="4">
@@ -79,3 +81,42 @@ const LoginScreen = (props: LoginScreenProps) => {
 };
 
 export default LoginScreen;
+
+export const useAndroidModalHandler = () => {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    //Don't want to do anything on iOS
+    if (Platform.OS !== 'android') {
+      return;
+    }
+
+    const tabNavigator = getTabNavigatorProp(navigation.getParent());
+
+    if (!tabNavigator) {
+      return;
+    }
+
+    tabNavigator.setOptions({ headerShown: false });
+    tabNavigator.setOptions({ tabBarStyle: { display: 'none' } });
+
+    return () => {
+      //Unmounted callback
+      tabNavigator.setOptions({ headerShown: true });
+
+      tabNavigator.setOptions({
+        tabBarStyle: { display: 'flex' },
+      });
+    };
+  }, []);
+};
+
+const getTabNavigatorProp = (route: any): any => {
+  if (!route) {
+    return null;
+  }
+  if (route.getId() === 'BottomTab') {
+    return route;
+  }
+  return getTabNavigatorProp(route.getParent());
+};

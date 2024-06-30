@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Text, Theme } from '@lamia/utils/theme';
 import { Pressable } from 'react-native';
 import CImage from '../shared/custom-image';

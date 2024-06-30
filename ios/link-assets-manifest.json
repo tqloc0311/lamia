@@ -54,6 +54,38 @@
       "sha1": "4b2bce6c792493a4a5716b6fec2dbefe89492c3f"
     },
     {
+      "path": "src/assets/fonts/Inter-Bold.ttf",
+      "sha1": "48747b7a60086f97af0d373febcbd1f1bee87f17"
+    },
+    {
+      "path": "src/assets/fonts/Inter-Italic.ttf",
+      "sha1": "e4d1197681f380cf9050be01e80b0f7cb428ce3f"
+    },
+    {
+      "path": "src/assets/fonts/Inter-Light.ttf",
+      "sha1": "dd9ec1ae67dd85143bacf7a3cb37e9f0ac979843"
+    },
+    {
+      "path": "src/assets/fonts/Inter-Medium.ttf",
+      "sha1": "a418a8ba73bbcfa8c131c426ab836d78457afa9b"
+    },
+    {
+      "path": "src/assets/fonts/Inter-MediumItalic.ttf",
+      "sha1": "ee08f2c9708cc2d335bebe623aa558434cf00780"
+    },
+    {
+      "path": "src/assets/fonts/Inter-Regular.ttf",
+      "sha1": "7237d9cf55f177702066a28a4dde1e4c7e8ab576"
+    },
+    {
+      "path": "src/assets/fonts/Inter-SemiBold.ttf",
+      "sha1": "431007da316de60d85174aeec9b8389b5c73e7d6"
+    },
+    {
+      "path": "src/assets/fonts/Inter-SemiBoldItalic.ttf",
+      "sha1": "4937032cfa63d6e07cafdb4a2b5170c468cab6a7"
+    },
+    {
       "path": "src/assets/fonts/Ionicons.ttf",
       "sha1": "86e07c3d974eb09099e6e5a9b3b8310303cf0feb"
     },
@@ -64,10 +96,6 @@
     {
       "path": "src/assets/fonts/MaterialIcons.ttf",
       "sha1": "7e02c3f005532ff4d24148567c84089756a7848a"
-    },
-    {
-      "path": "src/assets/fonts/Montserrat.ttf",
-      "sha1": "debd10e57fb07dd24187c41679885129449c1435"
     },
     {
       "path": "src/assets/fonts/Octicons.ttf",

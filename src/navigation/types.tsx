@@ -23,7 +23,7 @@ export type ProfileStackParams = {
   Login: NativeStackNavigationBaseType;
   Register: NativeStackNavigationBaseType;
   PasswordResetting: NativeStackNavigationBaseType;
-  OtpVerification: NativeStackNavigationBaseType;
+  OTPVerification: NativeStackNavigationBaseType;
 };
 
 export type AppStackParams = {

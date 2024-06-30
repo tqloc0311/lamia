@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1044005958314",
+    "project_id": "lamia-836e5",
+    "storage_bucket": "lamia-836e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044005958314:android:3f38d2f252f92e4c1916d3",
+        "android_client_info": {
+          "package_name": "vn.lamia.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLw7fCIhjwpgHdvQJfiC2mn31MqZpPS0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

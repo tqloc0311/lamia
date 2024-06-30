@@ -7,9 +7,11 @@ import { Box, Theme } from '@lamia/utils/theme';
 import { useTheme } from '@shopify/restyle';
 import { ProfileMenuItemType } from '@lamia/utils/types';
 
-interface Props {}
+interface UnauthorizedViewProps {
+  navigateTo: (routeName: string, data: any) => void;
+}
 
-const UnauthorizedView = (props: Props) => {
+const UnauthorizedView = (props: UnauthorizedViewProps) => {
   const theme = useTheme<Theme>();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
@@ -17,10 +19,16 @@ const UnauthorizedView = (props: Props) => {
     {
       icon: Images.bell,
       title: 'Thông báo của tôi',
+      onPress: () => {
+        props.navigateTo('Notifications', {});
+      },
     },
     {
       icon: Images.support,
       title: 'Liên hệ',
+      onPress: () => {
+        props.navigateTo('Contact', {});
+      },
     },
     {
       icon: Images.logout,

@@ -6,6 +6,7 @@ import { StyleSheet } from 'react-native';
 import {
   CategoriesScreen,
   HomeScreen,
+  ProfileScreen,
   SearchScreen,
   SupportScreen,
 } from '../../screens';
@@ -17,6 +18,7 @@ import { BottomTabParams } from '../types';
 import { Box, Text } from '../../utils/theme';
 import ProfileNavigator from '../profile-navigator';
 import CartButton from '@lamia/components/cart/cart-button';
+import { Colors } from '@lamia/utils/theme/colors';
 
 type Props = {
   navigation: any;
@@ -57,6 +59,10 @@ const BottomTabNavigator = (props: Props) => {
           headerShown: true,
           headerRight: () => <CartButton />,
           headerShadowVisible: true,
+          headerStyle: {
+            borderBottomColor: Colors.gray8,
+            borderBottomWidth: 1,
+          },
         }}
       />
       <Tab.Screen
@@ -68,6 +74,10 @@ const BottomTabNavigator = (props: Props) => {
           headerShown: true,
           headerRight: () => <CartButton />,
           headerShadowVisible: true,
+          headerStyle: {
+            borderBottomColor: Colors.gray8,
+            borderBottomWidth: 1,
+          },
         }}
       />
       <Tab.Screen
@@ -79,17 +89,25 @@ const BottomTabNavigator = (props: Props) => {
           headerShown: true,
           headerRight: () => <CartButton />,
           headerShadowVisible: true,
+          headerStyle: {
+            borderBottomColor: Colors.gray8,
+            borderBottomWidth: 1,
+          },
         }}
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileNavigator}
+        component={ProfileScreen}
         options={{
           headerTitleAlign: 'center',
           headerTitle: () => <HeaderLogo />,
           headerShown: true,
           headerRight: () => <CartButton />,
           headerShadowVisible: true,
+          headerStyle: {
+            borderBottomColor: Colors.gray8,
+            borderBottomWidth: 1,
+          },
         }}
       />
     </Tab.Navigator>

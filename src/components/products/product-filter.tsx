@@ -26,7 +26,6 @@ interface ProductFilterProps {
 const ProductFilter = (props: ProductFilterProps) => {
   const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
-
   const [multiSliderValue, setMultiSliderValue] = useState([0, 300]);
 
   const multiSliderValuesChange = (values: number[]) =>
@@ -50,7 +49,7 @@ const ProductFilter = (props: ProductFilterProps) => {
   return (
     <Modal
       style={{
-        paddingTop: headerHeight - 22,
+        paddingTop: Platform.OS === 'android' ? 34 : headerHeight - 22,
       }}
       isVisible={props.isVisible}
       hasBackdrop={false}
@@ -58,20 +57,20 @@ const ProductFilter = (props: ProductFilterProps) => {
       animationOut="bounceOutUp"
       animationInTiming={200}
       animationOutTiming={10}>
-      <SafeAreaWrapper style={{ marginHorizontal: -22 }}>
+      <SafeAreaWrapper style={{ marginHorizontal: -20 }}>
         <Box
           position="absolute"
           top={0}
-          left={0}
-          bottom={-insets.bottom}
-          width={Layout.window.width + 1}
+          left={-2}
+          bottom={-100}
+          width={Layout.window.width + 4}
           bg="semiTransparentBlack"
         />
-        <Box bg="white">
+        <Box bg="white" overflow="hidden" style={{ marginHorizontal: -2 }}>
           <Box
             bg="white"
             height={42}
-            px="3"
+            px="4"
             flexDirection="row"
             alignItems="center"
             justifyContent="space-between"
@@ -79,12 +78,12 @@ const ProductFilter = (props: ProductFilterProps) => {
             shadowOffset={{ width: 0, height: 2 }}
             shadowOpacity={0.05}
             shadowRadius={5}
-            elevation={3}>
+            elevation={1}>
             <Text>Bộ lọc</Text>
             <CIcon image={Images.closeRed} size={16} onPress={props.dismiss} />
           </Box>
 
-          <Box px="2" py="1">
+          <Box px="4" py="1">
             {renderCaption('Màu sắc')}
 
             <ProductColorPicker />
@@ -148,15 +147,11 @@ const ProductFilter = (props: ProductFilterProps) => {
             shadowOpacity={0.05}
             shadowRadius={4}
             elevation={3}>
-            <CButton
-              outline
-              flex={1}
-              justifyContent="center"
-              onPress={() => {}}>
+            <CButton outline justifyContent="center" onPress={() => {}}>
               Xóa lọc
             </CButton>
             <Box width={12} />
-            <CButton filled flex={1} justifyContent="center" onPress={() => {}}>
+            <CButton filled justifyContent="center" onPress={() => {}}>
               Xem kết quả
             </CButton>
           </Box>

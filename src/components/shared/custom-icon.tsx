@@ -46,6 +46,7 @@ const CIcon = (_props: CIconProps) => {
 
   return (
     <Pressable
+      hitSlop={8}
       {...props}
       disabled={!props.onPress || props.disabled}
       onPress={props.onPress}>

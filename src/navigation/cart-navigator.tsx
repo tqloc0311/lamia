@@ -77,7 +77,7 @@ export default CartNavigator;
 
 const styles = StyleSheet.create({
   headerTitle: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Inter',
     fontWeight: '700',
     fontSize: 16,
   },

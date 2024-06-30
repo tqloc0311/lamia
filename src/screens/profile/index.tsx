@@ -21,7 +21,11 @@ const ProfileScreen = () => {
       }}
     />
   ) : (
-    <UnauthorizedView />
+    <UnauthorizedView
+      navigateTo={(routeName, data) => {
+        navigation.navigate(routeName, data);
+      }}
+    />
   );
 };
 

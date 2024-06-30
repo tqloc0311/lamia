@@ -66,7 +66,6 @@ const CImage = (_props: CImageProps) => {
   ) as StyleProp<any>;
 
   const { color, ...excludedColorStyle } = combinedStyle;
-
   return (
     <Image
       resizeMode="contain"

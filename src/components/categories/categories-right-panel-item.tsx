@@ -27,8 +27,10 @@ const CategoriesRightPanelItem = (props: CategoriesRightPanelItemProps) => {
             style={styles.image}
             source={{ uri: props.subCategory.imageUrl }}
             defaultSource={Images.headerLogo}
+            resizeMode="stretch"
           />
         </Box>
+
         <Text fontSize={12} fontWeight="400" lineHeight={14} textAlign="center">
           {props.subCategory.name}
         </Text>

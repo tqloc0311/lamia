@@ -8,7 +8,7 @@ export const StackNavigationScreenOptions: NativeStackNavigationOptions = {
     backgroundColor: '#fff',
   },
   headerTitleStyle: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Inter',
     fontSize: 15,
   },
   gestureEnabled: false,

@@ -13,7 +13,7 @@ const CTextInput = (props: CTextInputProps) => {
 
   return (
     <Box py="1" {...boxProps}>
-      <TextInput {...inputProps} style={inputStyle} />
+      <TextInput {...inputProps} style={[{ paddingVertical: 0 }, inputStyle]} />
     </Box>
   );
 };
@@ -22,7 +22,7 @@ export default CTextInput;
 
 const styles = StyleSheet.create({
   input: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Inter',
     fontWeight: '400',
     fontSize: 14,
   },

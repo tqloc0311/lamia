@@ -95,8 +95,9 @@ const AuthorizedView = (props: AuthorizedViewProps) => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      style={{ backgroundColor: 'white' }}>
-      <Box flex={1}>
+      style={{ backgroundColor: 'white' }}
+      contentContainerStyle={{ paddingBottom: 150 }}>
+      <Box flex={1} mt="2">
         <MembershipCard mx="3" />
         {menuData.map((item, index) => (
           <MenuItem
