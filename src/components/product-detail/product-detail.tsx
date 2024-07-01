@@ -31,7 +31,7 @@ const ProductDetail = () => {
           {'   #989484   '}
         </Text>
         <Text style={styles.inStockText} fontSize={14} color="green">
-          {` Còn hàng `}
+          {' Còn hàng '}
         </Text>
       </Text>
 
@@ -60,7 +60,7 @@ const ProductDetail = () => {
       <Box height={8} />
 
       <Box flexDirection="row" alignItems="center">
-        <ProductColorPicker />
+        <ProductColorPicker didSelect={() => {}} />
         <CButton filled px="5">
           Mua ngay
         </CButton>
