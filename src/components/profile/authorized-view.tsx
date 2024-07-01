@@ -3,9 +3,7 @@ import MenuItem from '../shared/menu-item';
 import { ScrollView, StyleSheet } from 'react-native';
 import MembershipCard from './membership-card';
 import { Images } from '@lamia/utils/images';
-import { Colors } from '@lamia/utils/theme/colors';
-import { Box, Text, Theme } from '@lamia/utils/theme';
-import { useTheme } from '@shopify/restyle';
+import { Box, Text } from '@lamia/utils/theme';
 import { ProfileMenuItemType } from '@lamia/utils/types';
 
 interface AuthorizedViewProps {
@@ -14,8 +12,6 @@ interface AuthorizedViewProps {
 }
 
 const AuthorizedView = (props: AuthorizedViewProps) => {
-  const theme = useTheme<Theme>();
-
   const menuData: ProfileMenuItemType[] = [
     {
       icon: Images.account,
@@ -95,8 +91,8 @@ const AuthorizedView = (props: AuthorizedViewProps) => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      style={{ backgroundColor: 'white' }}
-      contentContainerStyle={{ paddingBottom: 150 }}>
+      style={styles.scrollView}
+      contentContainerStyle={styles.scrollViewContentContainer}>
       <Box flex={1} mt="2">
         <MembershipCard mx="3" />
         {menuData.map((item, index) => (
@@ -118,3 +114,12 @@ const AuthorizedView = (props: AuthorizedViewProps) => {
 };
 
 export default AuthorizedView;
+
+const styles = StyleSheet.create({
+  scrollViewContentContainer: {
+    paddingBottom: 150,
+  },
+  scrollView: {
+    backgroundColor: 'white',
+  },
+});

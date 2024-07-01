@@ -1,4 +1,5 @@
-import { Box, Text } from '@lamia/utils/theme';
+import React from 'react';
+import { Box } from '@lamia/utils/theme';
 import { Pressable, StyleSheet } from 'react-native';
 import CImage from '../shared/custom-image';
 import { Images } from '@lamia/utils/images';
@@ -6,7 +7,7 @@ import { Images } from '@lamia/utils/images';
 const ProductCommentImageTile = () => {
   return (
     <Pressable
-      style={{ flex: 1 }}
+      style={styles.pressable}
       onPress={() => {
         /// ..
       }}>
@@ -29,6 +30,9 @@ const ProductCommentImageTile = () => {
 export default ProductCommentImageTile;
 
 const styles = StyleSheet.create({
+  pressable: {
+    flex: 1,
+  },
   image: {
     borderRadius: 200,
     aspectRatio: 1,

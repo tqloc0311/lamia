@@ -12,7 +12,7 @@ interface ProductSortAndFiltersProps {}
 
 interface CombinedProps extends ProductSortAndFiltersProps, BoxProps<Theme> {}
 
-const ProductSortAndFilters = (props: ProductSortAndFiltersProps) => {
+const ProductSortAndFilters = (_: CombinedProps) => {
   const [isSortModalVisible, setIsSortModalVisible] = useState(false);
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
 

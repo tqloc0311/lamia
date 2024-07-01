@@ -12,7 +12,9 @@ const SegmentedControl = (props: SegmentedControlProps) => {
   return (
     <Box flexDirection="row" borderBottomColor="gray6" borderBottomWidth={1}>
       {props.items.map((item, index) => (
-        <Pressable style={{ flex: 1 }} onPress={() => props.onSelect(index)}>
+        <Pressable
+          style={styles.pressable}
+          onPress={() => props.onSelect(index)}>
           <Box
             pb="4"
             borderBottomWidth={props.selectedIndex == index ? 2 : 0}
@@ -32,4 +34,8 @@ const SegmentedControl = (props: SegmentedControlProps) => {
 
 export default SegmentedControl;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  pressable: {
+    flex: 1,
+  },
+});

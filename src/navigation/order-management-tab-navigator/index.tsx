@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unstable-nested-components */
+import React from 'react';
 import { OrderManagementScreen } from '@lamia/screens';
 import { Colors } from '@lamia/utils/theme/colors';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';

@@ -10,7 +10,7 @@ interface AuthButtonProps extends CButtonProps {
 const AuthButton = (props: AuthButtonProps) => {
   var defaultButtonStyle: ViewStyle = {
     backgroundColor: 'transparent',
-    borderWidth: props.type == 'bordered' ? 1 : 0,
+    borderWidth: props.type === 'bordered' ? 1 : 0,
     borderColor: 'white',
     borderTopLeftRadius: 0,
     borderBottomRightRadius: 0,

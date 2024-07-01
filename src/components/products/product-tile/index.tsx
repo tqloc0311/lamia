@@ -1,7 +1,8 @@
+import React from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 import CImage from '../../shared/custom-image';
 import { Images } from '@lamia/utils/images';
-import { Pressable, StyleSheet, ViewStyle } from 'react-native';
+import { Pressable, ViewStyle } from 'react-native';
 import { moneyFormat } from '@lamia/utils/helpers';
 import ProductColorPicker from '../product-color-picker';
 import { useNavigation } from '@react-navigation/native';
@@ -95,7 +96,7 @@ const ProductTile = (props: ProductTileProps) => {
     return <Box></Box>;
   };
 
-  const addToCartHandler = (size: string) => {
+  const addToCartHandler = (_: string) => {
     dispatch(
       addToCart({ id: 1, name: 'Product 1', price: 1234567, quantity: 1 }),
     );
@@ -166,5 +167,3 @@ const ProductTile = (props: ProductTileProps) => {
 };
 
 export default ProductTile;
-
-const styles = StyleSheet.create({});

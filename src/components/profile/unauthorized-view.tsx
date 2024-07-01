@@ -3,8 +3,7 @@ import MenuItem from '../shared/menu-item';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Images } from '@lamia/utils/images';
-import { Box, Theme } from '@lamia/utils/theme';
-import { useTheme } from '@shopify/restyle';
+import { Box } from '@lamia/utils/theme';
 import { ProfileMenuItemType } from '@lamia/utils/types';
 
 interface UnauthorizedViewProps {
@@ -12,7 +11,6 @@ interface UnauthorizedViewProps {
 }
 
 const UnauthorizedView = (props: UnauthorizedViewProps) => {
-  const theme = useTheme<Theme>();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const menuData: ProfileMenuItemType[] = [

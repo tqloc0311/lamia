@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, ViewProps } from 'react-native';
+import { FlatList, ViewProps } from 'react-native';
 import React from 'react';
 import SubCategory from '../../models/sub-category';
 
@@ -25,5 +25,3 @@ const CategoriesRightPanel = (props: CategoriesRightPanelProps) => {
 };
 
 export default CategoriesRightPanel;
-
-const styles = StyleSheet.create({});

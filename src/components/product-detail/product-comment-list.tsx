@@ -1,4 +1,4 @@
-import { FlatList, ListRenderItemInfo, StyleSheet } from 'react-native';
+import { FlatList, ListRenderItemInfo } from 'react-native';
 import React from 'react';
 import { Box } from '@lamia/utils/theme';
 import ProductCommentListItem from './product-comment-list-item';
@@ -10,7 +10,7 @@ const ProductCommentList = () => {
   const navigation = useNavigation<AppNavigationType>();
 
   const data = Array.from({ length: 5 }).map((_, index) => index + 1);
-  const renderItem = (data: ListRenderItemInfo<any>) => {
+  const renderItem = (_: ListRenderItemInfo<any>) => {
     return <ProductCommentListItem />;
   };
 
@@ -48,5 +48,3 @@ const ProductCommentList = () => {
 };
 
 export default ProductCommentList;
-
-const styles = StyleSheet.create({});

@@ -1,7 +1,8 @@
 import React from 'react';
 import CButton from '../shared/custom-button';
-import { StyleSheet, ViewProps } from 'react-native';
+import { ViewProps } from 'react-native';
 import { Box } from '@lamia/utils/theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface CartBottomButtonProps extends ViewProps {
   buttonTitle: string;
@@ -9,8 +10,9 @@ interface CartBottomButtonProps extends ViewProps {
 }
 
 const CartBottomButton = (props: CartBottomButtonProps) => {
+  const insets = useSafeAreaInsets();
   return (
-    <Box p="3" {...props}>
+    <Box px="4" py="2" style={{ marginBottom: insets.bottom }} {...props}>
       <CButton filled onPress={props.onPress}>
         {props.buttonTitle}
       </CButton>

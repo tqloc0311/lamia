@@ -1,7 +1,5 @@
-import { Box } from '@lamia/utils/theme';
 import React from 'react';
 import {
-  FlatListProps,
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
@@ -17,8 +15,8 @@ interface ProductListProps {
 }
 
 const ProductList = (props: ProductListProps) => {
-  const renderItem = (data: any) => {
-    return <ProductTile styles={{ flex: 1 }} />;
+  const renderItem = (_: any) => {
+    return <ProductTile styles={styles.tile} />;
   };
 
   const renderHeader = () => {
@@ -45,6 +43,9 @@ const ProductList = (props: ProductListProps) => {
 export default ProductList;
 
 const styles = StyleSheet.create({
+  tile: {
+    flex: 1,
+  },
   list: {},
   listContent: {
     gap: 12,

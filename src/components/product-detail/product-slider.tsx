@@ -2,7 +2,6 @@ import { FlatList, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import { Box, Theme } from '@lamia/utils/theme';
 import ProductTile from '../products/product-tile';
-import Layout from '@lamia/constants/Layout';
 import { BoxProps } from '@shopify/restyle';
 
 interface ProductSliderProps extends BoxProps<Theme> {
@@ -19,7 +18,7 @@ const ProductSlider = (props: ProductSliderProps) => {
     height: 0,
   });
 
-  const renderItem = (data: any) => {
+  const renderItem = (_: any) => {
     return (
       <ProductTile
         styles={{

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { sleep } from '../../utils/helpers';
-import { setDidRegister, setLoading } from '../../redux/slices/authSlice';
+import { setLoading } from '../../redux/slices/authSlice';
 import { setCurrentUser } from '../../redux/slices/appSlice';
 import User from '../../models/user';
 

@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
-import { BlurView } from '@react-native-community/blur';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/context';
-import styles from './styles';
 import { Box } from '@lamia/utils/theme';
-import { Platform, StatusBar } from 'react-native';
+import { Platform, StatusBar, StyleSheet } from 'react-native';
 import DismissKeyboardView from '../../components/shared/dismiss-keyboard-view';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AuthTextInput from '../../components/auth/auth-text-input';
@@ -16,7 +14,7 @@ import SafeAreaWrapper from '@lamia/components/shared/safe-area-wrapper';
 
 type LoginScreenProps = {};
 
-const LoginScreen = (props: LoginScreenProps) => {
+const LoginScreen = (_: LoginScreenProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(state => state.auth.isLoading);
@@ -28,7 +26,7 @@ const LoginScreen = (props: LoginScreenProps) => {
     }
   }, [currentUser, navigation]);
 
-  const handler = useAndroidModalHandler();
+  useAndroidModalHandler();
 
   return (
     <DismissKeyboardView>
@@ -108,7 +106,7 @@ export const useAndroidModalHandler = () => {
         tabBarStyle: { display: 'flex' },
       });
     };
-  }, []);
+  }, [navigation]);
 };
 
 const getTabNavigatorProp = (route: any): any => {
@@ -120,3 +118,20 @@ const getTabNavigatorProp = (route: any): any => {
   }
   return getTabNavigatorProp(route.getParent());
 };
+
+const styles = StyleSheet.create({
+  absoluteFill: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  input: {},
+  loginButton: {
+    alignSelf: 'flex-end',
+  },
+  buttonRow: {
+    justifyContent: 'space-between',
+  },
+});

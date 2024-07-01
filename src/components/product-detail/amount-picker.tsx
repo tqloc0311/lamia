@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 
@@ -37,7 +37,7 @@ const AmountPicker = (props: AmountPickerProps) => {
 
   useEffect(() => {
     props.onPick(value);
-  }, [value]);
+  }, [value, props]);
 
   return (
     <Box flexDirection="row" alignItems="center">
@@ -75,5 +75,3 @@ const AmountPicker = (props: AmountPickerProps) => {
 };
 
 export default AmountPicker;
-
-const styles = StyleSheet.create({});

@@ -14,7 +14,7 @@ import { register } from './actions';
 
 type OTPVerificationScreenProps = {};
 
-const OTPVerificationScreen = (props: OTPVerificationScreenProps) => {
+const OTPVerificationScreen = (_: OTPVerificationScreenProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(state => state.auth.isLoading);

@@ -1,7 +1,6 @@
-import { ViewStyle } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
 import React from 'react';
 import { Box } from '@lamia/utils/theme';
-import styles from './styles';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import CategoriesLeftPanel from '../../components/categories/categories-left-panel';
 import { mockData } from '../../models/category';
@@ -31,3 +30,10 @@ const CategoriesScreen = () => {
 };
 
 export default CategoriesScreen;
+
+const styles = StyleSheet.create({
+  container: {},
+  leftPanel: {
+    width: 90,
+  },
+});

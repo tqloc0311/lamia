@@ -40,7 +40,7 @@ const Dropdown = (props: DropdownProps, ref: any) => {
       }}
       saveScrollPosition={false}
       renderRowComponent={Pressable}
-      renderRow={(option, index, isSelected) => {
+      renderRow={option => {
         return (
           <Box height={DEFAULT_ROW_HEIGHT} px="5" justifyContent="center">
             <Text>{option[props.titleKey]}</Text>

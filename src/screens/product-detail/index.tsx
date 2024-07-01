@@ -1,9 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import BottomSheet, {
-  BottomSheetScrollView,
-  BottomSheetView,
-} from '@gorhom/bottom-sheet';
-import styles from './styles';
+import React, { useCallback } from 'react';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import ProductDetail from '@lamia/components/product-detail/product-detail';
 import { Box } from '@lamia/utils/theme';
 import CImage from '@lamia/components/shared/custom-image';
@@ -14,6 +10,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { StyleSheet } from 'react-native';
 
 const ProductDetailScreen = () => {
   const HALF_BOTTOM_SHEET_VIEW = 150;
@@ -22,13 +19,18 @@ const ProductDetailScreen = () => {
   const heightAnimation = useSharedValue(0);
   const opacityAnimation = useSharedValue(0);
 
-  const handleSheetChanges = useCallback((index: number) => {
-    heightAnimation.value = withTiming(index == 1 ? 0 : HANDLE_HEIGHT, {
-      duration: 200,
-      easing: Easing.bounce,
-    });
-    opacityAnimation.value = withTiming(index == 1 ? 0 : 1, { duration: 100 });
-  }, []);
+  const handleSheetChanges = useCallback(
+    (index: number) => {
+      heightAnimation.value = withTiming(index === 1 ? 0 : HANDLE_HEIGHT, {
+        duration: 200,
+        easing: Easing.bounce,
+      });
+      opacityAnimation.value = withTiming(index === 1 ? 0 : 1, {
+        duration: 100,
+      });
+    },
+    [heightAnimation, opacityAnimation],
+  );
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -39,7 +41,7 @@ const ProductDetailScreen = () => {
 
   const renderHandleComponent = () => {
     return (
-      <Animated.View style={[{ width: '100%' }, animatedStyle]}>
+      <Animated.View style={[styles.handleWrapper, animatedStyle]}>
         <Box
           bg="transparent"
           height={HANDLE_HEIGHT}
@@ -71,3 +73,15 @@ const ProductDetailScreen = () => {
 };
 
 export default ProductDetailScreen;
+
+const styles = StyleSheet.create({
+  handleWrapper: {
+    width: '100%',
+  },
+  bottomSheet: {},
+  contentContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingBottom: 100,
+  },
+});

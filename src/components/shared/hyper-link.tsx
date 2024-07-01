@@ -1,4 +1,4 @@
-import { Linking, Pressable, StyleSheet } from 'react-native';
+import { Linking, Pressable } from 'react-native';
 import React from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 import CImage from './custom-image';
@@ -35,5 +35,3 @@ const HyperLink = (props: HyperLinkProps) => {
 };
 
 export default HyperLink;
-
-const styles = StyleSheet.create({});

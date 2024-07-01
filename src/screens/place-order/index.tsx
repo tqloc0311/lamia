@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styles from './styles';
 import { Box, Text, Theme } from '@lamia/utils/theme';
 import CartStepsView from '../../components/cart/cart-steps-view';
 import CartBottomButton from '../../components/cart/cart-bottom-button';
@@ -36,14 +35,13 @@ const supporters = [
 
 interface PlaceOrderProps {}
 
-const PlaceOrderScreen = (props: PlaceOrderProps) => {
+const PlaceOrderScreen = (_: PlaceOrderProps) => {
   const theme = useTheme<Theme>();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const cartItemsCount = 2;
 
   const [vatReceipt, setVatReceipt] = useState(false);
   const [paymentMethodId, setPaymentMethodId] = useState(1);
-  const [supporterId, setSupporterId] = useState(0);
 
   const renderPaymentItem = (id: number, title: string) => {
     return (

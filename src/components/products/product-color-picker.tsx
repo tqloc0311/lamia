@@ -1,11 +1,11 @@
-import { Pressable, ScrollView, StyleSheet } from 'react-native';
+import { Pressable, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import { Box } from '@lamia/utils/theme';
 
 interface ProductColorPickerProps {
   didSelect: () => void;
 }
-const ProductColorPicker = () => {
+const ProductColorPicker = (_: ProductColorPickerProps) => {
   const colors = ['#FF5733', '#33FF57', '#3357FF', '#F1C40F', '#9B59B6'];
 
   const [selectedColor, setSelectedColor] = useState<string>(colors[0]);
@@ -31,5 +31,3 @@ const ProductColorPicker = () => {
 };
 
 export default ProductColorPicker;
-
-const styles = StyleSheet.create({});

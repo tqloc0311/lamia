@@ -1,10 +1,10 @@
+import React from 'react';
 import { Box, Text } from '@lamia/utils/theme';
-import { Colors } from '@lamia/utils/theme/colors';
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
-import { Pressable, TouchableOpacity } from 'react-native';
+import { Pressable } from 'react-native';
 
 const OrderManagementTabBar = (props: MaterialTopTabBarProps) => {
-  const { state, descriptors, navigation, position } = props;
+  const { state, descriptors, navigation } = props;
 
   return (
     <Box flexDirection="row" bg="white" gap="1" px="1">
@@ -37,9 +37,6 @@ const OrderManagementTabBar = (props: MaterialTopTabBarProps) => {
             target: route.key,
           });
         };
-
-        const activeColor = Colors.primary;
-        const inactiveColor = Colors.gray5;
 
         return (
           <Pressable

@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React, { useEffect } from 'react';
+import { StyleSheet, Text } from 'react-native';
+import React from 'react';
 import { Box } from '@lamia/utils/theme';
 import CIcon from '../shared/custom-icon';
 import { Images } from '@lamia/utils/images';

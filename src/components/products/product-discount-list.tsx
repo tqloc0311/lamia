@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Theme } from '@lamia/utils/theme';
 import ProductDiscountTile from './product-discount-tile';
 import { FlatList } from 'react-native';
@@ -19,8 +20,8 @@ const ProductDiscountList = (props: ProductDiscountListProps) => {
         contentContainerStyle={{ paddingHorizontal: 12, gap: 8 }}
         horizontal
         data={data}
-        keyExtractor={data => data.toString()}
-        renderItem={data => renderItem()}
+        keyExtractor={itemData => itemData.toString()}
+        renderItem={_ => renderItem()}
       />
     </Box>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -15,6 +16,7 @@ import {
   PasswordResettingScreen,
   ProductDetailScreen,
   ProductsScreen,
+  ProfileScreen,
   RegisterScreen,
   SplashScreen,
   StoreSystemScreen,
@@ -24,16 +26,11 @@ import CIcon from '../components/shared/custom-icon';
 import { Images } from '../utils/images';
 import CartNavigator from './cart-navigator';
 import BottomTabNavigator from './bottom-tab-navigator';
-import {
-  AppNavigationType,
-  AppStackParams,
-  ProfileNavigationType,
-} from './types';
+import { AppNavigationType, AppStackParams } from './types';
 import CartButton from '@lamia/components/cart/cart-button';
 import ProductCommentsScreen from '@lamia/screens/product-comments';
 import ProductCommentSubmitScreen from '@lamia/screens/product-comment-submit';
 import OrderManagementTabNavigator from './order-management-tab-navigator';
-import { Colors } from '@lamia/utils/theme/colors';
 import CButton from '@lamia/components/shared/custom-button';
 import HeaderLogo from '@lamia/components/shared/header-logo';
 
@@ -44,7 +41,7 @@ const AppNavigator = (): React.JSX.Element => {
     return <CIcon image={Images.arrowLeft} onPress={() => navigation.pop()} />;
   };
 
-  const renderCloseButton = (navigation: ProfileNavigationType) => {
+  const renderCloseButton = (navigation: AppNavigationType) => {
     return (
       <CButton
         textColor="white"
@@ -251,6 +248,11 @@ const AppNavigator = (): React.JSX.Element => {
             animation: 'fade',
             headerBackVisible: false,
           }}
+        />
+        <Stack.Screen
+          name="ProfileInfo"
+          component={ProfileScreen}
+          options={{ headerShown: false }}
         />
       </Stack.Group>
     </Stack.Navigator>

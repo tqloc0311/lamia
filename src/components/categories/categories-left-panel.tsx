@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, ViewProps } from 'react-native';
+import { FlatList, ViewProps } from 'react-native';
 import React, { useState } from 'react';
 import Category from '../../models/category';
 import CategoriesLeftPanelItem from './categories-left-panel-item';
@@ -22,7 +22,7 @@ const CategoriesLeftPanel = (props: CategoriesLeftPanelProps) => {
         extraData={selectedItemId}
         renderItem={data => (
           <CategoriesLeftPanelItem
-            isSelected={selectedItemId == data.item.id}
+            isSelected={selectedItemId === data.item.id}
             category={data.item}
             onPress={item => {
               setSelectedItemId(item.id);
@@ -36,5 +36,3 @@ const CategoriesLeftPanel = (props: CategoriesLeftPanelProps) => {
 };
 
 export default CategoriesLeftPanel;
-
-const styles = StyleSheet.create({});

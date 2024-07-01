@@ -8,7 +8,7 @@ import SizePicker from './size-picker';
 import AmountPicker from './amount-picker';
 import HyperLink from '../shared/hyper-link';
 import { Images } from '@lamia/utils/images';
-import { Size, dummySizeArray } from '@lamia/utils/types';
+import { dummySizeArray } from '@lamia/utils/types';
 import SegmentedControl from '../shared/segmented_control';
 import ExpandableText from '../shared/expandable-text';
 import { faker } from '@faker-js/faker';
@@ -28,12 +28,9 @@ const ProductDetail = () => {
           ĐẦM CỔ TIM TAY PHỒNG PHỐI CÚC NGỰC LD194 | ABC | XYZ
         </Text>
         <Text fontSize={14} color="gray6">
-          {`   #989484   `}
+          {'   #989484   '}
         </Text>
-        <Text
-          style={{ backgroundColor: '#f2fcf5', paddingLeft: 16 }}
-          fontSize={14}
-          color="green">
+        <Text style={styles.inStockText} fontSize={14} color="green">
           {` Còn hàng `}
         </Text>
       </Text>
@@ -81,7 +78,7 @@ const ProductDetail = () => {
           initialValue={1}
           maxValue={10}
           onPick={value => {
-            // console.log(value);
+            console.log(value);
           }}
         />
       </Box>
@@ -110,7 +107,7 @@ const ProductDetail = () => {
         items={['CHÍNH SÁCH ĐỔI TRẢ', 'CHI TIẾT SẢN PHẨM']}
       />
       <Box height={16} />
-      {selectedSegmentIndex == 0 && (
+      {selectedSegmentIndex === 0 && (
         <ExpandableText
           text={faker.lorem.paragraphs({ min: 5, max: 10 })}
           minHeight={200}
@@ -192,4 +189,9 @@ const ProductDetail = () => {
 
 export default ProductDetail;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  inStockText: {
+    backgroundColor: '#f2fcf5',
+    paddingLeft: 16,
+  },
+});

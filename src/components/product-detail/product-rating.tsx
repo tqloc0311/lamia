@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable } from 'react-native';
 import React from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 import { Rating } from 'react-native-ratings';
@@ -51,5 +51,3 @@ const ProductRating = () => {
 };
 
 export default ProductRating;
-
-const styles = StyleSheet.create({});

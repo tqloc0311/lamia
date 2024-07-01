@@ -1,4 +1,4 @@
-import { Pressable } from 'react-native';
+import { Platform, Pressable, StyleSheet } from 'react-native';
 import React from 'react';
 import Modal from 'react-native-modal';
 import { Box, Text } from '@lamia/utils/theme';
@@ -6,9 +6,9 @@ import CIcon from '../shared/custom-icon';
 import { Images } from '@lamia/utils/images';
 import Layout from '@lamia/constants/Layout';
 import SafeAreaWrapper from '../shared/safe-area-wrapper';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CImage from '../shared/custom-image';
 import { useHeaderHeight } from '@react-navigation/elements';
+import { Colors } from '@lamia/utils/theme/colors';
 
 interface ProductSortProps {
   isVisible: boolean;
@@ -21,7 +21,6 @@ interface SortItem {
 }
 
 const ProductSort = (props: ProductSortProps) => {
-  const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
 
   const renderItem = (item: SortItem) => {
@@ -54,6 +53,7 @@ const ProductSort = (props: ProductSortProps) => {
 
   return (
     <Modal
+      // eslint-disable-next-line react-native/no-inline-styles
       style={{
         paddingTop: Platform.OS === 'android' ? 34 : headerHeight - 22,
       }}
@@ -63,7 +63,7 @@ const ProductSort = (props: ProductSortProps) => {
       animationOut="bounceOutUp"
       animationInTiming={200}
       animationOutTiming={10}>
-      <SafeAreaWrapper style={{ marginHorizontal: -20 }}>
+      <SafeAreaWrapper style={styles.safeArea}>
         <Box
           position="absolute"
           top={0}
@@ -72,7 +72,7 @@ const ProductSort = (props: ProductSortProps) => {
           width={Layout.window.width + 4}
           bg="semiTransparentBlack"
         />
-        <Box bg="white" overflow="hidden" style={{ marginHorizontal: -2 }}>
+        <Box bg="white" overflow="hidden" style={styles.container}>
           <Box
             bg="white"
             height={42}
@@ -99,6 +99,34 @@ const ProductSort = (props: ProductSortProps) => {
 };
 
 export default ProductSort;
+
+const styles = StyleSheet.create({
+  sliderTrack: {
+    backgroundColor: '#CECECE',
+  },
+  sliderMarker: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    shadowColor: '#000000',
+    shadowRadius: 1,
+    shadowOpacity: 0.16,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+  },
+  sliderContainer: {
+    marginLeft: 12,
+  },
+  container: {
+    marginHorizontal: -2,
+  },
+  safeArea: {
+    marginHorizontal: -20,
+  },
+});
 
 const sortItems: SortItem[] = [
   {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { combineStyles } from '../../utils/helpers';
 import TextInput, { CTextInputProps } from '../shared/custom-text-input';
 import { Box } from '@lamia/utils/theme';

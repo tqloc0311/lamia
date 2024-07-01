@@ -6,7 +6,7 @@ import { Pressable } from 'react-native';
 
 interface StoreTileProps {}
 
-const StoreTile = (props: StoreTileProps) => {
+const StoreTile = (_: StoreTileProps) => {
   return (
     <Box py="4" borderBottomColor="gray8" borderBottomWidth={1} gap="2">
       <Text fontWeight="700">Lamia HCM</Text>

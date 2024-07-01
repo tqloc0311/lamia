@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet, ViewProps } from 'react-native';
 import CImage from '../shared/custom-image';
 import { Images } from '../../utils/images';
-import { combineStyles } from '../../utils/helpers';
+import {} from '../../utils/helpers';
 import { Box, Text, Theme } from '@lamia/utils/theme';
-import { BoxProps, useTheme } from '@shopify/restyle';
+import { BoxProps } from '@shopify/restyle';
 
 interface CartStepsViewProps extends BoxProps<Theme> {
   step: 0 | 1 | 2;
@@ -21,7 +20,7 @@ const CartStepsView = (props: CartStepsViewProps) => {
         alignItems="center">
         <CImage
           size={24}
-          source={props.step == 0 ? Images.cartStep1 : Images.cartStep2}
+          source={props.step === 0 ? Images.cartStep1 : Images.cartStep2}
         />
         <Box
           flex={1}
@@ -32,9 +31,9 @@ const CartStepsView = (props: CartStepsViewProps) => {
         <CImage
           size={24}
           source={
-            props.step == 0
+            props.step === 0
               ? Images.cartStep0
-              : props.step == 1
+              : props.step === 1
               ? Images.cartStep1
               : Images.cartStep2
           }

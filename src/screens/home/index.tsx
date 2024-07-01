@@ -5,10 +5,11 @@ import HomeCarousel from '../../components/home/home-carousel';
 import { useFocusEffect } from '@react-navigation/native';
 import { setBottomBarTransparent } from '../../redux/slices/appSlice.ts';
 import SafeAreaWrapper from '@lamia/components/shared/safe-area-wrapper';
+import { StyleSheet } from 'react-native';
 
-type Props = {};
+type HomeScreenProps = {};
 
-const HomeScreen = (props: Props) => {
+const HomeScreen = (_: HomeScreenProps) => {
   const dispatch = useAppDispatch();
 
   useFocusEffect(
@@ -18,14 +19,12 @@ const HomeScreen = (props: Props) => {
       return () => {
         dispatch(setBottomBarTransparent(false));
       };
-    }, []),
+    }, [dispatch]),
   );
 
   return (
     <SafeAreaWrapper edges={['right', 'left']}>
-      <Box
-        flex={1}
-        style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
+      <Box flex={1} style={styles.absoluteFill}>
         <HomeCarousel />
       </Box>
     </SafeAreaWrapper>
@@ -33,3 +32,13 @@ const HomeScreen = (props: Props) => {
 };
 
 export default HomeScreen;
+
+const styles = StyleSheet.create({
+  absoluteFill: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+  },
+});

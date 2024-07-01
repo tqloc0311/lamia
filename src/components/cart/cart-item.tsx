@@ -68,7 +68,7 @@ const CartItem = (props: CartItemProps) => {
               </Box>
             </Box>
 
-            <AmountPicker onPick={amount => {}} />
+            <AmountPicker onPick={_ => {}} />
           </Box>
         </Box>
       </Box>

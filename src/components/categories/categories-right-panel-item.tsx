@@ -17,7 +17,7 @@ const CategoriesRightPanelItem = (props: CategoriesRightPanelItemProps) => {
 
   return (
     <Pressable
-      style={{ flex: 1 }}
+      style={styles.pressable}
       onPress={() => {
         navigation.navigate('Products');
       }}>
@@ -42,6 +42,9 @@ const CategoriesRightPanelItem = (props: CategoriesRightPanelItemProps) => {
 export default CategoriesRightPanelItem;
 
 const styles = StyleSheet.create({
+  pressable: {
+    flex: 1,
+  },
   image: {
     borderRadius: 200,
     aspectRatio: 1,

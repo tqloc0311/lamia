@@ -1,4 +1,5 @@
-import { FlatList, ViewProps } from 'react-native';
+import React from 'react';
+import { FlatList, StyleSheet, ViewProps } from 'react-native';
 import ProductCollectionTile from './product-collection-tile';
 import { Box } from '@lamia/utils/theme';
 
@@ -10,14 +11,21 @@ const ProductCollection = (props: ProductCollectionProps) => {
     <Box py="2" width="auto" bg="gray9" {...props}>
       <FlatList
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 16, gap: 6 }}
+        contentContainerStyle={styles.flatListContentContainer}
         horizontal
         data={data}
-        keyExtractor={data => data.toString()}
-        renderItem={data => <ProductCollectionTile />}
+        keyExtractor={itemData => itemData.toString()}
+        renderItem={_ => <ProductCollectionTile />}
       />
     </Box>
   );
 };
 
 export default ProductCollection;
+
+const styles = StyleSheet.create({
+  flatListContentContainer: {
+    paddingHorizontal: 16,
+    gap: 6,
+  },
+});

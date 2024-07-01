@@ -12,7 +12,7 @@ const cities = [
 const data = [...Array(10)].map((_, i) => i + 1);
 
 const StoreSystemScreen = () => {
-  const renderItem = (data: ListRenderItemInfo<number>) => {
+  const renderItem = (_: ListRenderItemInfo<number>) => {
     return <StoreTile />;
   };
 

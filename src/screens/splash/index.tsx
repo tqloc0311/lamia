@@ -16,13 +16,13 @@ const SplashScreen = () => {
 
   useEffect(() => {
     dispatch(initialize());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (initialized) {
       navigation.navigate('BottomTab');
     }
-  }, [initialized]);
+  }, [initialized, navigation]);
 
   return (
     <View style={styles.container}>

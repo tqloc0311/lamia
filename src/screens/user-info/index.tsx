@@ -25,7 +25,7 @@ const UserInfoScreen = () => {
         <Box flexDirection="row" alignItems="center">
           <CImage
             source={
-              selectedGender == gender
+              selectedGender === gender
                 ? Images.radioActive
                 : Images.radioInactive
             }

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 import { Pressable } from 'react-native';
 

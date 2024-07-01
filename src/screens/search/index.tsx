@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './styles';
 import { Box } from '@lamia/utils/theme';
 import ProductList from '@lamia/components/products/product-list';
 import CTextInput from '@lamia/components/shared/custom-text-input';

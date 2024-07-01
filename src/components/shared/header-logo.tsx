@@ -5,7 +5,7 @@ import Layout from '@lamia/constants/Layout';
 import { Colors } from '@lamia/utils/theme/colors';
 
 interface HeaderLogoProps {
-  color: keyof typeof Colors;
+  color?: keyof typeof Colors;
 }
 
 const HeaderLogo = (props: HeaderLogoProps) => {

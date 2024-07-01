@@ -6,7 +6,6 @@ import CIcon from '../shared/custom-icon';
 import { Images } from '@lamia/utils/images';
 import Layout from '@lamia/constants/Layout';
 import SafeAreaWrapper from '../shared/safe-area-wrapper';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
 import { useHeaderHeight } from '@react-navigation/elements';
@@ -14,9 +13,9 @@ import CButton from '../shared/custom-button';
 import ProductColorPicker from './product-color-picker';
 import SizePicker from '../product-detail/size-picker';
 import { dummySizeArray } from '@lamia/utils/types';
-import CImage from '../shared/custom-image';
 import { Colors } from '@lamia/utils/theme/colors';
 import { moneyFormat } from '@lamia/utils/helpers';
+import { StyleSheet } from 'react-native';
 
 interface ProductFilterProps {
   isVisible: boolean;
@@ -24,7 +23,6 @@ interface ProductFilterProps {
 }
 
 const ProductFilter = (props: ProductFilterProps) => {
-  const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
   const [multiSliderValue, setMultiSliderValue] = useState([0, 300]);
 
@@ -48,6 +46,7 @@ const ProductFilter = (props: ProductFilterProps) => {
 
   return (
     <Modal
+      // eslint-disable-next-line react-native/no-inline-styles
       style={{
         paddingTop: Platform.OS === 'android' ? 34 : headerHeight - 22,
       }}
@@ -57,7 +56,7 @@ const ProductFilter = (props: ProductFilterProps) => {
       animationOut="bounceOutUp"
       animationInTiming={200}
       animationOutTiming={10}>
-      <SafeAreaWrapper style={{ marginHorizontal: -20 }}>
+      <SafeAreaWrapper style={styles.safeArea}>
         <Box
           position="absolute"
           top={0}
@@ -66,7 +65,7 @@ const ProductFilter = (props: ProductFilterProps) => {
           width={Layout.window.width + 4}
           bg="semiTransparentBlack"
         />
-        <Box bg="white" overflow="hidden" style={{ marginHorizontal: -2 }}>
+        <Box bg="white" overflow="hidden" style={styles.container}>
           <Box
             bg="white"
             height={42}
@@ -86,7 +85,7 @@ const ProductFilter = (props: ProductFilterProps) => {
           <Box px="4" py="1">
             {renderCaption('Màu sắc')}
 
-            <ProductColorPicker />
+            <ProductColorPicker didSelect={() => {}} />
 
             {renderCaption('Kích cỡ')}
 
@@ -95,27 +94,13 @@ const ProductFilter = (props: ProductFilterProps) => {
             {renderCaption('Khoảng giá')}
 
             <MultiSlider
-              containerStyle={{ marginLeft: 12 }}
-              markerStyle={{
-                width: 20,
-                height: 20,
-                borderWidth: 1,
-                borderColor: Colors.primary,
-                shadowColor: '#000000',
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowRadius: 1,
-                shadowOpacity: 0.16,
-              }}
+              containerStyle={styles.sliderContainer}
+              markerStyle={styles.sliderMarker}
               isMarkersSeparated
               selectedStyle={{
                 backgroundColor: Colors.primary,
               }}
-              trackStyle={{
-                backgroundColor: '#CECECE',
-              }}
+              trackStyle={styles.sliderTrack}
               //   touchDimensions={{
               //     height: 40,
               //     width: 40,
@@ -162,3 +147,31 @@ const ProductFilter = (props: ProductFilterProps) => {
 };
 
 export default ProductFilter;
+
+const styles = StyleSheet.create({
+  sliderTrack: {
+    backgroundColor: '#CECECE',
+  },
+  sliderMarker: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    shadowColor: '#000000',
+    shadowRadius: 1,
+    shadowOpacity: 0.16,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+  },
+  sliderContainer: {
+    marginLeft: 12,
+  },
+  container: {
+    marginHorizontal: -2,
+  },
+  safeArea: {
+    marginHorizontal: -20,
+  },
+});

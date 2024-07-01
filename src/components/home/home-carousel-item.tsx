@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box } from '@lamia/utils/theme';
 import Animated, {
   SharedValue,
@@ -5,10 +6,9 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 import CImage from '../shared/custom-image';
-import { Pressable, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Layout from '@lamia/constants/Layout';
-import { Images } from '@lamia/utils/images';
 
 interface HomeCarouselItemProps {
   url: string;
@@ -47,16 +47,7 @@ const HomeCarouselItem: React.FC<HomeCarouselItemProps> = ({
         />
         <Animated.View
           pointerEvents="none"
-          style={[
-            {
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-            },
-            maskStyle,
-          ]}
+          style={[styles.absoluteFill, maskStyle]}
         />
       </Box>
     </TouchableOpacity>
@@ -66,6 +57,13 @@ const HomeCarouselItem: React.FC<HomeCarouselItemProps> = ({
 export default HomeCarouselItem;
 
 const styles = StyleSheet.create({
+  absoluteFill: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
   wrapper: {
     width: Layout.window.width,
     height: Layout.window.height,

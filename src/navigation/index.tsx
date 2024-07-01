@@ -1,6 +1,5 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaEdgesContext, useAppSelector } from '../hooks/context';
 import AppNavigator from './app-navigator';
 
 const Navigation = () => {

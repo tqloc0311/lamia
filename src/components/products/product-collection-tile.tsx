@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 import { Pressable, StyleSheet } from 'react-native';
 import CImage from '../shared/custom-image';
@@ -6,7 +7,7 @@ import { Images } from '@lamia/utils/images';
 const ProductCollectionTile = () => {
   return (
     <Pressable
-      style={{ flex: 1 }}
+      style={styles.pressable}
       onPress={() => {
         /// ..
       }}>
@@ -38,6 +39,9 @@ const ProductCollectionTile = () => {
 export default ProductCollectionTile;
 
 const styles = StyleSheet.create({
+  pressable: {
+    flex: 1,
+  },
   image: {
     borderWidth: 1,
     borderColor: 'red',

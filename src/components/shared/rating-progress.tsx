@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import React from 'react';
 import { Box, Text, Theme } from '@lamia/utils/theme';
 import { BoxProps } from '@shopify/restyle';
@@ -31,5 +30,3 @@ const RatingProgress = (props: RatingProgressProps) => {
 };
 
 export default RatingProgress;
-
-const styles = StyleSheet.create({});

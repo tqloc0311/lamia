@@ -34,7 +34,7 @@ const CartScreen = () => {
     );
   };
 
-  const renderItem = (data: any) => {
+  const renderItem = (_: any) => {
     return <CartItem />;
   };
 
@@ -59,7 +59,7 @@ const CartScreen = () => {
       <CartStepsView step={0} />
 
       <Box flex={1}>
-        {cartItemsCount == 0 ? renderNoCart() : renderCartList()}
+        {cartItemsCount === 0 ? renderNoCart() : renderCartList()}
       </Box>
       <Box
         bg="white"

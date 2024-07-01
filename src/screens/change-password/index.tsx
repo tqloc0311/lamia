@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 import CTextInput from '@lamia/components/shared/custom-text-input';
 import { AppNavigationType } from '@lamia/navigation/types';

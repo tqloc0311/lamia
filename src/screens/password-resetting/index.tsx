@@ -1,16 +1,15 @@
 import React from 'react';
 import { BlurView } from '@react-native-community/blur';
 import { Box, Text } from '@lamia/utils/theme';
-import { StatusBar } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import DismissKeyboardView from '../../components/shared/dismiss-keyboard-view';
-import styles from './styles';
 import AuthTextInput from '../../components/auth/auth-text-input';
 import AuthButton from '../../components/auth/auth-button';
 import SafeAreaWrapper from '@lamia/components/shared/safe-area-wrapper';
 
 type PasswordResettingScreenProps = {};
 
-const PasswordResettingScreen = (props: PasswordResettingScreenProps) => {
+const PasswordResettingScreen = (_: PasswordResettingScreenProps) => {
   return (
     <DismissKeyboardView>
       <Box flex={1} bg="semiTransparentBlack">
@@ -39,3 +38,23 @@ const PasswordResettingScreen = (props: PasswordResettingScreenProps) => {
 };
 
 export default PasswordResettingScreen;
+
+const styles = StyleSheet.create({
+  absoluteFill: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 12,
+  },
+  guide: {
+    fontWeight: '400',
+    marginBottom: 16,
+  },
+  input: {},
+});

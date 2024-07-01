@@ -7,6 +7,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import ProductList from '@lamia/components/products/product-list';
+import { StyleSheet } from 'react-native';
 
 const PRODUCT_COLLECTION_HEIGHT = 100;
 
@@ -36,7 +37,7 @@ const ProductsScreen = () => {
 
   return (
     <Box flex={1} bg="white">
-      <Animated.View style={[{ width: '100%' }, animatedStyle]}>
+      <Animated.View style={[styles.wrapper, animatedStyle]}>
         <ProductCollection style={{ height: PRODUCT_COLLECTION_HEIGHT }} />
       </Animated.View>
       <ProductList data={data} onScroll={scrollHandler} discountShown />
@@ -45,3 +46,9 @@ const ProductsScreen = () => {
 };
 
 export default ProductsScreen;
+
+const styles = StyleSheet.create({
+  wrapper: {
+    width: '100%',
+  },
+});

@@ -1,17 +1,11 @@
-import {
-  Pressable,
-  StyleSheet,
-  TextStyle,
-  ViewProps,
-  ViewStyle,
-} from 'react-native';
+import { Pressable, StyleSheet, ViewProps, ViewStyle } from 'react-native';
 import React from 'react';
 import Category from '../../models/category';
 
 import { Images } from '../../utils/images';
 import CImage from '../shared/custom-image';
-import { Box, Text, Theme } from '@lamia/utils/theme';
-import { useTheme } from '@shopify/restyle';
+import { Box, Text } from '@lamia/utils/theme';
+
 import { Colors } from '@lamia/utils/theme/colors';
 
 interface CategoriesLeftPanelItemProps extends ViewProps {

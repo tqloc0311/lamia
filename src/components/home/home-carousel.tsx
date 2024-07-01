@@ -1,10 +1,8 @@
 import React from 'react';
 import { interpolate } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
-
 import { Box } from '@lamia/utils/theme';
 import Layout from '../../constants/Layout';
-import { faker } from '@faker-js/faker';
 import { useNavigation } from '@react-navigation/native';
 import { AppNavigationType } from '@lamia/navigation/types';
 import HomeCarouselItem from './home-carousel-item';
@@ -19,7 +17,7 @@ type TAnimationStyle = (value: number) => {
 
 interface HomeCarouselProps {}
 
-const HomeCarousel = (props: HomeCarouselProps) => {
+const HomeCarousel = (_: HomeCarouselProps) => {
   const navigation = useNavigation<AppNavigationType>();
 
   const { banners } = useAppSelector(state => state.banners);

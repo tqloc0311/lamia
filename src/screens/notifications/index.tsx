@@ -6,7 +6,7 @@ import NotificationTile from '@lamia/components/notifications/notification-tile'
 const data = [...Array(10)].map((_, i) => i + 1);
 
 const NotificationsScreen = () => {
-  const renderItem = (data: ListRenderItemInfo<number>) => {
+  const renderItem = (_: ListRenderItemInfo<number>) => {
     return <NotificationTile />;
   };
 

@@ -8,7 +8,7 @@ import DeliveryAddressList from '@lamia/components/delivery-address/delivery-add
 
 interface CartDeliveryAddressProps {}
 
-const CartDeliveryAddressScreen = (props: CartDeliveryAddressProps) => {
+const CartDeliveryAddressScreen = (_: CartDeliveryAddressProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   return (

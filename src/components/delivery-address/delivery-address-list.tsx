@@ -11,20 +11,20 @@ interface DeliveryAddressListProps {}
 
 const data = [...Array(10)].map((_, i) => i + 1);
 
-const DeliveryAddressList = (props: DeliveryAddressListProps) => {
+const DeliveryAddressList = (_: DeliveryAddressListProps) => {
   const navigation = useNavigation<NativeStackNavigationBaseType>();
   const [selectedId, setSelectedId] = useState(1);
   let defaultId = 1;
 
-  const renderItem = (data: ListRenderItemInfo<number>) => {
+  const renderItem = (itemData: ListRenderItemInfo<number>) => {
     return (
       <DeliveryAddressItem
-        onSelect={() => setSelectedId(data.item)}
+        onSelect={() => setSelectedId(itemData.item)}
         onEdit={() =>
-          navigation.navigate('EditDeliveryAddress', { address: data.item })
+          navigation.navigate('EditDeliveryAddress', { address: itemData.item })
         }
-        selected={selectedId == data.item}
-        default={defaultId == data.item}
+        selected={selectedId === itemData.item}
+        default={defaultId === itemData.item}
       />
     );
   };

@@ -1,4 +1,3 @@
-import { Pressable, StyleSheet } from 'react-native';
 import React from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 
@@ -19,5 +18,3 @@ const ProductDetailCaption = (props: ProductDetailCaptionProps) => {
 };
 
 export default ProductDetailCaption;
-
-const styles = StyleSheet.create({});

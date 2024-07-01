@@ -5,14 +5,14 @@ import { Box } from '@lamia/utils/theme';
 import MenuItem from '../../components/shared/menu-item';
 import { menuData } from './data';
 
-type Props = {};
+type ContactScreenProps = {};
 
-const ContactScreen = (props: Props) => {
+const ContactScreen = (_: ContactScreenProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   return (
     <Box flex={1} bg="white">
-      {menuData.map((item, index) => (
+      {menuData.map(item => (
         <MenuItem
           key={item.id}
           icon={item.icon}

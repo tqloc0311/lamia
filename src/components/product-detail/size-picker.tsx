@@ -35,12 +35,12 @@ const SizePicker = (props: SizePickerProps) => {
           mr="1.5"
           aspectRatio={1}
           borderWidth={1}
-          borderColor={selectedId == size.id ? 'primary' : 'gray6'}
+          borderColor={selectedId === size.id ? 'primary' : 'gray6'}
           bg={!size.disabled ? 'white' : 'gray9'}
           justifyContent="center"
           alignItems="center">
           <Text
-            color={selectedId == size.id ? 'primary' : 'gray5'}
+            color={selectedId === size.id ? 'primary' : 'gray5'}
             fontSize={12}>
             {size.title}
           </Text>

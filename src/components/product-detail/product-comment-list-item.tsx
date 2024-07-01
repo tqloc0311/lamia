@@ -36,12 +36,10 @@ const ProductCommentListItem = () => {
       <Box>
         <FlatList
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{
-            gap: 6,
-          }}
+          contentContainerStyle={styles.flatListContentContainer}
           horizontal
           data={images}
-          renderItem={data => <ProductCommentImageTile />}
+          renderItem={_ => <ProductCommentImageTile />}
         />
       </Box>
 
@@ -59,4 +57,8 @@ const ProductCommentListItem = () => {
 
 export default ProductCommentListItem;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  flatListContentContainer: {
+    gap: 6,
+  },
+});

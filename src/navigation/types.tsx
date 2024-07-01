@@ -9,21 +9,13 @@ export type BottomTabParams = {
   ProductCategories: NativeStackNavigationBaseType;
   Search: NativeStackNavigationBaseType;
   Support: NativeStackNavigationBaseType;
-  Profile: NativeStackNavigationProp<ProfileStackParams>;
+  Profile: NativeStackNavigationBaseType;
 };
 
 export type CartStackParams = {
   Cart: NativeStackNavigationBaseType;
   CartDeliveryAddress: NativeStackNavigationBaseType;
   PlaceOrder: NativeStackNavigationBaseType;
-};
-
-export type ProfileStackParams = {
-  ProfileInfo: NativeStackNavigationBaseType;
-  Login: NativeStackNavigationBaseType;
-  Register: NativeStackNavigationBaseType;
-  PasswordResetting: NativeStackNavigationBaseType;
-  OTPVerification: NativeStackNavigationBaseType;
 };
 
 export type AppStackParams = {
@@ -45,12 +37,13 @@ export type AppStackParams = {
   ProductDetail: NativeStackNavigationBaseType;
   ProductComments: NativeStackNavigationBaseType;
   ProductCommentSubmit: NativeStackNavigationBaseType;
+  ProfileInfo: NativeStackNavigationBaseType;
+  Login: NativeStackNavigationBaseType;
+  Register: NativeStackNavigationBaseType;
+  PasswordResetting: NativeStackNavigationBaseType;
+  OTPVerification: NativeStackNavigationBaseType;
 };
 
 export type AppNavigationType = NativeStackNavigationProp<
   AppStackParams | ParamListBase
->;
-
-export type ProfileNavigationType = NativeStackNavigationProp<
-  ProfileStackParams | ParamListBase
 >;

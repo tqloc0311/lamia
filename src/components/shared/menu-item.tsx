@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable } from 'react-native';
 import CIcon from './custom-icon.tsx';
 import { Images } from '../../utils/images.ts';
 
@@ -70,13 +70,5 @@ const MenuItem = (_props: MenuItemProps) => {
     </Pressable>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default MenuItem;

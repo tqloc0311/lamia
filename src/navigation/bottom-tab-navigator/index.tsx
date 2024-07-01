@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -10,13 +11,9 @@ import {
   SearchScreen,
   SupportScreen,
 } from '../../screens';
-
-import CIcon from '../../components/shared/custom-icon';
 import HeaderLogo from '../../components/shared/header-logo';
-import { Images } from '../../utils/images';
 import { BottomTabParams } from '../types';
-import { Box, Text } from '../../utils/theme';
-import ProfileNavigator from '../profile-navigator';
+import { Box } from '../../utils/theme';
 import CartButton from '@lamia/components/cart/cart-button';
 import { Colors } from '@lamia/utils/theme/colors';
 
@@ -26,20 +23,13 @@ type Props = {
 
 const Tab = createBottomTabNavigator<BottomTabParams>();
 
-const BottomTabNavigator = (props: Props) => {
+const BottomTabNavigator = (_: Props) => {
   return (
     <Tab.Navigator
       screenOptions={{}}
       sceneContainerStyle={{}}
       tabBar={tabBarProps => (
-        <Box
-          style={{
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            left: 0,
-            bottom: 0,
-            right: 0,
-          }}>
+        <Box style={styles.tabBarWrapper}>
           <MainTabBar {...tabBarProps} currentUser={null} />
         </Box>
       )}>
@@ -115,3 +105,13 @@ const BottomTabNavigator = (props: Props) => {
 };
 
 export default BottomTabNavigator;
+
+const styles = StyleSheet.create({
+  tabBarWrapper: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+});

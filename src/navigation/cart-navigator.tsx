@@ -11,7 +11,7 @@ import {
   CartDeliveryAddressScreen,
   PlaceOrderScreen,
 } from '../screens';
-import { ParamListBase, useNavigation } from '@react-navigation/native';
+import { ParamListBase } from '@react-navigation/native';
 import CIcon from '../components/shared/custom-icon';
 import { Images } from '../utils/images';
 
@@ -19,7 +19,7 @@ const Stack = createNativeStackNavigator();
 
 interface CartNavigatorProps {}
 
-const CartNavigator = (props: CartNavigatorProps): React.JSX.Element => {
+const CartNavigator = (_: CartNavigatorProps): React.JSX.Element => {
   // const navigation = useNavigation<NativeStackNavigationBaseType>();
 
   const renderBackButton = (

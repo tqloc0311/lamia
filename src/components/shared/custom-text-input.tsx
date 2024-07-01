@@ -4,16 +4,18 @@ import { Box, Theme } from '@lamia/utils/theme';
 import { combineStyles } from '@lamia/utils/helpers';
 import { BoxProps } from '@shopify/restyle';
 
-export interface CTextInputProps extends TextInputProps, BoxProps<Theme> {}
+export interface CTextInputProps
+  extends Omit<TextInputProps, 'borderWidth' | 'borderColor' | 'borderRadius'>,
+    BoxProps<Theme> {}
 
-const CTextInput = (props: CTextInputProps) => {
-  const inputStyle = combineStyles(props.style, styles.input);
-  const boxProps: Omit<CTextInputProps, keyof TextInputProps> = { ...props };
-  const { borderWidth, borderColor, borderRadius, ...inputProps } = props;
+const CTextInput: React.FC<CTextInputProps> = props => {
+  const { style, ...rest } = props;
+  const inputStyle = combineStyles(style, styles.input);
+  const boxProps: Omit<CTextInputProps, keyof TextInputProps> = { ...rest };
 
   return (
     <Box py="1" {...boxProps}>
-      <TextInput {...inputProps} style={[{ paddingVertical: 0 }, inputStyle]} />
+      <TextInput {...rest} style={inputStyle} />
     </Box>
   );
 };
@@ -25,5 +27,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter',
     fontWeight: '400',
     fontSize: 14,
+    paddingVertical: 0,
   },
 });

@@ -10,14 +10,14 @@ const SupportScreen = () => {
 
   return (
     <Box flex={1} bg="white">
-      {menuData.map((item, index) => (
+      {menuData.map(item => (
         <MenuItem
           key={item.id}
           icon={item.icon}
           title={item.title}
           hasRightArrow={false}
           onPress={() => {
-            if (item.routeName != '') {
+            if (item.routeName !== '') {
               navigation.navigate(item.routeName, item.routeData);
             }
           }}

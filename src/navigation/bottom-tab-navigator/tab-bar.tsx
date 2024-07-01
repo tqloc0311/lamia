@@ -6,8 +6,7 @@ import User from '../../models/user.ts';
 import { Images } from '../../utils/images';
 import { useAppSelector } from '../../hooks/context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Box, Text, Theme } from '@lamia/utils/theme';
-import { useTheme } from '@shopify/restyle';
+import { Box, Text } from '@lamia/utils/theme';
 
 type Props = {
   state: any;
@@ -57,13 +56,14 @@ const getIcon = (tab: Tab) => {
 const TabBar = (props: Props) => {
   const { state, navigation } = props;
   const isBottomBarTransparent = useAppSelector(
-    state => state.app.isBottomBarTransparent,
+    storeState => storeState.app.isBottomBarTransparent,
   );
 
   const insets = useSafeAreaInsets();
 
   return (
     <Box
+      // eslint-disable-next-line react-native/no-inline-styles
       style={{
         ...styles.tab,
         backgroundColor: isBottomBarTransparent ? 'transparent' : 'white',
