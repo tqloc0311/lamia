@@ -1,24 +1,31 @@
-import React, { useEffect } from 'react';
-import { BlurView } from '@react-native-community/blur';
+import React, { useEffect, useState } from 'react';
+// import { BlurView } from '@react-native-community/blur';
 import { Box, Text } from '@lamia/utils/theme';
 import { StatusBar, StyleSheet } from 'react-native';
 import DismissKeyboardView from '../../components/shared/dismiss-keyboard-view';
 import AuthTextInput from '../../components/auth/auth-text-input';
 import AuthButton from '../../components/auth/auth-button';
 import SafeAreaWrapper from '@lamia/components/shared/safe-area-wrapper';
-import { ParamListBase, useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+
 import { useAppDispatch, useAppSelector } from '@lamia/hooks/context';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { register } from './actions';
+import { resend, verifyOTP } from './actions';
+import { AppNavigationType, AppStackParams } from '@lamia/navigation/types';
+import Toast from 'react-native-toast-message';
+import ToastHelper from '@lamia/utils/toast-helper';
 
-type OTPVerificationScreenProps = {};
+type OTPVerificationScreenProps = RouteProp<AppStackParams, 'OTPVerification'>;
 
 const OTPVerificationScreen = (_: OTPVerificationScreenProps) => {
-  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const navigation = useNavigation<AppNavigationType>();
+  const route = useRoute<OTPVerificationScreenProps>();
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(state => state.auth.isLoading);
   const currentUser = useAppSelector(state => state.app.currentUser);
+  const [otp, setOtp] = useState('');
+
+  const { phoneNumber = '', password = '', name = '' } = route.params ?? {};
 
   useEffect(() => {
     if (currentUser) {
@@ -26,18 +33,28 @@ const OTPVerificationScreen = (_: OTPVerificationScreenProps) => {
     }
   }, [currentUser, navigation]);
 
+  const submit = () => {
+    if (otp === '') {
+      ToastHelper.showToast('Lỗi', 'Bạn chưa nhập mã xác thực.');
+      return;
+    }
+
+    dispatch(verifyOTP({ phoneNumber, password, name }));
+  };
+
   return (
     <DismissKeyboardView>
       <Box flex={1} bg="semiTransparentBlack">
-        <Spinner
-          visible={isLoading}
-          textContent={'Đăng ký...'}
-          textStyle={styles.pinnerTextColor}
-        />
         <StatusBar barStyle="light-content" />
-        <BlurView style={styles.absoluteFill} blurType="light" blurAmount={3} />
+        {/* <BlurView style={styles.absoluteFill} blurType="light" blurAmount={3} /> */}
         <SafeAreaWrapper>
-          <Box flex={1} bg="transparent" p="4">
+          <Box flex={1} bg="transparent" p="4" mt="3">
+            <Toast />
+            <Spinner
+              visible={isLoading}
+              textContent={'Đang gửi...'}
+              textStyle={styles.pinnerTextColor}
+            />
             <Box backgroundColor="transparent">
               <Text mt="3" color="white" style={styles.title}>
                 Nhập mã xác thực
@@ -45,16 +62,36 @@ const OTPVerificationScreen = (_: OTPVerificationScreenProps) => {
               <Text color="white" style={styles.guide}>
                 Vui lòng nhập mã xác thực đã được gửi tới số điện thoại của bạn
               </Text>
-              <AuthTextInput style={styles.input} placeholder="Mã xác thực" />
+              <AuthTextInput
+                style={styles.input}
+                placeholder="Mã xác thực"
+                keyboardType="number-pad"
+                value={otp}
+                onChangeText={setOtp}
+              />
               <AuthButton
                 px="12"
                 py="3"
                 mt="4"
                 type="bordered"
-                onPress={() => dispatch(register())}>
+                onPress={() => submit()}>
                 Xác nhận
               </AuthButton>
-              <AuthButton px="12" py="2" mt="5" type="bordered">
+              <AuthButton
+                px="12"
+                py="2"
+                mt="5"
+                type="bordered"
+                onPress={() =>
+                  dispatch(
+                    resend({
+                      phoneNumber,
+                      completion: () => {
+                        setOtp('');
+                      },
+                    }),
+                  )
+                }>
                 Gửi lại mã xác thực
               </AuthButton>
             </Box>

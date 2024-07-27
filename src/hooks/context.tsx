@@ -6,6 +6,9 @@ import { createContext } from 'react';
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
+export type DispatchType = ReturnType<typeof useDispatch>;
+export type AppDispatchType = ReturnType<typeof useAppDispatch>;
+
 export type SafeAreaEdges = Edge[];
 
 export const SafeAreaEdgesContext = createContext<{

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import Spinner from 'react-native-loading-spinner-overlay';
-
+import Toast from 'react-native-toast-message';
 import { useAppDispatch, useAppSelector } from '../../hooks/context';
 import { Box } from '@lamia/utils/theme';
 import { Platform, StatusBar, StyleSheet } from 'react-native';
@@ -11,6 +11,7 @@ import AuthTextInput from '../../components/auth/auth-text-input';
 import AuthButton from '../../components/auth/auth-button';
 import { login } from './actions';
 import SafeAreaWrapper from '@lamia/components/shared/safe-area-wrapper';
+import ToastHelper from '@lamia/utils/toast-helper';
 
 type LoginScreenProps = {};
 
@@ -19,6 +20,10 @@ const LoginScreen = (_: LoginScreenProps) => {
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(state => state.auth.isLoading);
   const currentUser = useAppSelector(state => state.app.currentUser);
+  // const [phoneNumber, setPhoneNumber] = useState('');
+  // const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('0708558773');
+  const [password, setPassword] = useState('nguyenvietduc.org');
 
   useEffect(() => {
     if (currentUser) {
@@ -28,28 +33,62 @@ const LoginScreen = (_: LoginScreenProps) => {
 
   useAndroidModalHandler();
 
+  const loginHandler = () => {
+    if (!phoneNumber) {
+      ToastHelper.showToast(
+        'Lỗi đăng nhập',
+        'Bạn chưa nhập số điện thoại!',
+        'error',
+      );
+      return;
+    }
+
+    if (!password) {
+      ToastHelper.showToast(
+        'Lỗi đăng nhập',
+        'Bạn chưa nhập mật khẩu!',
+        'error',
+      );
+      return;
+    }
+
+    dispatch(login({ phoneNumber, password }));
+  };
+
   return (
     <DismissKeyboardView>
       <Box flex={1} bg="semiTransparentBlack">
-        <Spinner
-          visible={isLoading}
-          textContent={'Đăng nhập...'}
-          textStyle={{ color: 'white' }}
-        />
         <StatusBar barStyle="light-content" />
         {/* <BlurView style={styles.absoluteFill} blurType="light" blurAmount={3} /> */}
         <SafeAreaWrapper>
           <Box flex={1} bg="transparent" p="4">
+            <Spinner
+              visible={isLoading}
+              textContent={'Đăng nhập...'}
+              textStyle={styles.spinnerText}
+            />
+            <Toast />
             <Box backgroundColor="transparent" mt="4">
-              <AuthTextInput style={styles.input} placeholder="Số điện thoại" />
-              <AuthTextInput style={styles.input} placeholder="Mật khẩu" />
+              <AuthTextInput
+                style={styles.input}
+                placeholder="Số điện thoại"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+              />
+              <AuthTextInput
+                style={styles.input}
+                placeholder="Mật khẩu"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+              />
               <AuthButton
                 px="12"
                 py="2"
                 mt="4"
                 buttonStyle={styles.loginButton}
                 type="bordered"
-                onPress={() => dispatch(login())}>
+                onPress={loginHandler}>
                 Đăng nhập
               </AuthButton>
               <Box
@@ -120,6 +159,9 @@ const getTabNavigatorProp = (route: any): any => {
 };
 
 const styles = StyleSheet.create({
+  spinnerText: {
+    color: 'white',
+  },
   absoluteFill: {
     position: 'absolute',
     top: 0,

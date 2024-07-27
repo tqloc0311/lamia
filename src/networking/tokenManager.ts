@@ -1,6 +1,19 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default class TokenManager {
+class _TokenManager {
+  private static instance: _TokenManager;
+
+  private constructor() {
+    // private constructor to prevent instantiation
+  }
+
+  static getInstance(): _TokenManager {
+    if (!_TokenManager.instance) {
+      _TokenManager.instance = new _TokenManager();
+    }
+    return _TokenManager.instance;
+  }
+
   async saveToken(token: string) {
     try {
       await AsyncStorage.setItem('accessToken', token);
@@ -18,3 +31,6 @@ export default class TokenManager {
     }
   }
 }
+
+const TokenManager = _TokenManager.getInstance();
+export default TokenManager;

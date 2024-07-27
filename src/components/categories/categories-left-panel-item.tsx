@@ -40,11 +40,11 @@ const CategoriesLeftPanelItem = (props: CategoriesLeftPanelItemProps) => {
             ml="3"
             fontWeight={props.isSelected ? '700' : '500'}
             color={props.isSelected ? 'primary' : 'gray2'}>
-            {props.category.title}
+            {props.category.name}
           </Text>
         </Box>
 
-        {props.category.isSaleOff && (
+        {props.category.id === 19 && (
           <CImage source={Images.discount} style={styles.discount} />
         )}
 

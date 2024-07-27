@@ -5,6 +5,7 @@ import MembershipCard from './membership-card';
 import { Images } from '@lamia/utils/images';
 import { Box, Text } from '@lamia/utils/theme';
 import { ProfileMenuItemType } from '@lamia/utils/types';
+import { useAppSelector } from '@lamia/hooks/context';
 
 interface AuthorizedViewProps {
   logoutHandler: () => void;
@@ -12,11 +13,12 @@ interface AuthorizedViewProps {
 }
 
 const AuthorizedView = (props: AuthorizedViewProps) => {
+  const user = useAppSelector(state => state.app.currentUser);
   const menuData: ProfileMenuItemType[] = [
     {
       icon: Images.account,
-      title: 'Tên của tui',
-      appendingTitle: '0909 123 456',
+      title: user?.first_name ?? 'Unknown',
+      appendingTitle: user?.phone_number ?? 'Unknown',
       onPress: () => {
         props.navigateTo('UserInfo', {});
       },

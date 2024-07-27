@@ -41,7 +41,11 @@ export type AppStackParams = {
   Login: NativeStackNavigationBaseType;
   Register: NativeStackNavigationBaseType;
   PasswordResetting: NativeStackNavigationBaseType;
-  OTPVerification: NativeStackNavigationBaseType;
+  OTPVerification: {
+    phoneNumber?: string;
+    password?: string;
+    name?: string;
+  };
 };
 
 export type AppNavigationType = NativeStackNavigationProp<

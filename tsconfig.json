@@ -7,5 +7,5 @@
       "@lamia/*": ["*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "declarations.d.ts"]
 }

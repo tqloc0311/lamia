@@ -3,8 +3,14 @@ import { Box, Text } from '@lamia/utils/theme';
 import { Pressable, StyleSheet } from 'react-native';
 import CImage from '../shared/custom-image';
 import { Images } from '@lamia/utils/images';
+import Category from '@lamia/models/category';
+import { Colors } from '@lamia/utils/theme/colors';
 
-const ProductCollectionTile = () => {
+interface ProductCollectionTileProps {
+  category: Category;
+}
+
+const ProductCollectionTile = (props: ProductCollectionTileProps) => {
   return (
     <Pressable
       style={styles.pressable}
@@ -12,12 +18,16 @@ const ProductCollectionTile = () => {
         /// ..
       }}>
       <Box flex={1} p="1" alignItems="center">
-        <Box mb="1" justifyContent="center" alignItems="center">
+        <Box
+          mb="1"
+          justifyContent="center"
+          alignItems="center"
+          width="100%"
+          flex={1}>
           <CImage
-            size={40}
             style={styles.image as any}
             source={{
-              uri: 'https://e7.pngegg.com/pngimages/524/289/png-clipart-red-and-white-special-discount-icon-special-discount-sign-miscellaneous-discount-signs-thumbnail.png',
+              uri: props.category.image,
             }}
             defaultSource={Images.headerLogo}
           />
@@ -28,7 +38,7 @@ const ProductCollectionTile = () => {
             fontWeight="400"
             lineHeight={14}
             textAlign="center">
-            Discount
+            {props.category.name}
           </Text>
         </Box>
       </Box>
@@ -43,11 +53,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    borderWidth: 1,
-    borderColor: 'red',
     borderRadius: 200,
+    borderWidth: 1,
+    borderColor: Colors.gray6,
     aspectRatio: 1,
-    width: '100%',
-    height: 'auto',
   },
 });

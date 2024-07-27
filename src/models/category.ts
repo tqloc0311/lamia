@@ -1,35 +1,46 @@
-interface Category {
+interface ICategory {
   id: number;
-  title: string;
-  isSaleOff: boolean;
+  name: string;
+  parent_id: number;
+  description: string | null;
+  status: string;
+  order: number;
+  image: string;
+  is_featured: number;
+  is_rand: number;
+  created_at: string;
+  updated_at: string;
+  products_count: number;
 }
 
-class Category {
+class Category implements ICategory {
   id: number;
-  title: string;
-  isSaleOff: boolean;
+  name: string;
+  parent_id: number;
+  description: string | null;
+  status: string;
+  order: number;
+  image: string;
+  is_featured: number;
+  is_rand: number;
+  created_at: string;
+  updated_at: string;
+  products_count: number;
 
-  constructor(id: number, title: string, isSaleOff: boolean) {
-    this.id = id;
-    this.title = title;
-    this.isSaleOff = isSaleOff;
-  }
-
-  static parseFromJSON(json: any): Category {
-    return new Category(json.id, json.title, json.isSaleOff);
+  constructor(data: ICategory) {
+    this.id = data.id;
+    this.name = data.name;
+    this.parent_id = data.parent_id;
+    this.description = data.description;
+    this.status = data.status;
+    this.order = data.order;
+    this.image = data.image;
+    this.is_featured = data.is_featured;
+    this.is_rand = data.is_rand;
+    this.created_at = data.created_at;
+    this.updated_at = data.updated_at;
+    this.products_count = data.products_count;
   }
 }
-
-export const mockData = [
-  new Category(1, 'Sản phẩm', false),
-  new Category(2, 'Đồng giá', false),
-  new Category(3, 'Sale-off', true),
-  new Category(4, 'Áo dài', false),
-  new Category(5, 'Đầm', false),
-  new Category(6, 'Quần chân váy', false),
-  new Category(7, 'Vest nữ', false),
-  new Category(8, 'Sơ mi nữ', false),
-  new Category(9, 'Phụ kiện', false),
-];
 
 export default Category;

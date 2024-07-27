@@ -15,7 +15,7 @@ export const palette = {
   transparent: 'transparent',
   white: 'white',
   black: 'black',
-  semiTransparentBlack: '#000000CC',
+  semiTransparentBlack: '#000000DD',
   green: '#10984B',
   green7: '#F2FCF5',
   blue: 'blue',

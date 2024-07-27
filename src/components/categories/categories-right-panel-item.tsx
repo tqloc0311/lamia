@@ -4,12 +4,12 @@ import CImage from '../shared/custom-image';
 
 import { Images } from '../../utils/images';
 import { useNavigation } from '@react-navigation/native';
-import SubCategory from '../../models/sub-category';
+import Category from '../../models/category';
 import { Box, Text } from '@lamia/utils/theme';
 import { AppNavigationType } from '@lamia/navigation/types';
 
 interface CategoriesRightPanelItemProps extends ViewProps {
-  subCategory: SubCategory;
+  category?: Category | null;
 }
 
 const CategoriesRightPanelItem = (props: CategoriesRightPanelItemProps) => {
@@ -22,18 +22,26 @@ const CategoriesRightPanelItem = (props: CategoriesRightPanelItemProps) => {
         navigation.navigate('Products');
       }}>
       <Box flex={1} p="1">
-        <Box height={64} mb="1" justifyContent="center" alignItems="center">
-          <CImage
-            style={styles.image}
-            source={{ uri: props.subCategory.imageUrl }}
-            defaultSource={Images.headerLogo}
-            resizeMode="stretch"
-          />
-        </Box>
+        {!!props.category && (
+          <Box height={64} mb="1" justifyContent="center" alignItems="center">
+            <CImage
+              style={styles.image}
+              source={{ uri: props.category.image }}
+              defaultSource={Images.headerLogo}
+              resizeMode="stretch"
+            />
+          </Box>
+        )}
 
-        <Text fontSize={12} fontWeight="400" lineHeight={14} textAlign="center">
-          {props.subCategory.name}
-        </Text>
+        {!!props.category && (
+          <Text
+            fontSize={12}
+            fontWeight="400"
+            lineHeight={14}
+            textAlign="center">
+            {props.category.name}
+          </Text>
+        )}
       </Box>
     </Pressable>
   );

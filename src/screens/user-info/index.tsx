@@ -2,6 +2,7 @@ import CButton from '@lamia/components/shared/custom-button';
 import CImage from '@lamia/components/shared/custom-image';
 import CTextInput from '@lamia/components/shared/custom-text-input';
 import Popup from '@lamia/components/shared/popup';
+import { useAppSelector } from '@lamia/hooks/context';
 import { AppNavigationType } from '@lamia/navigation/types';
 import { Images } from '@lamia/utils/images';
 import { Box, Text } from '@lamia/utils/theme';
@@ -14,10 +15,15 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const UserInfoScreen = () => {
   const navigation = useNavigation<AppNavigationType>();
+  const user = useAppSelector(state => state.app.currentUser);
+
   const [dateOfBirth, setDateOfBirth] = useState<Date | null>(null);
   const [selectedGender, setSelectedGender] = useState<Gender>(Gender.male);
   const [isSelectingDate, setIsSelectingDate] = useState<boolean>(false);
   const [isDeletionPopupVisible, setIsDeletionPopupVisible] = useState(false);
+  const [email, setEmail] = useState(user?.email ?? '');
+  const [phone, setPhone] = useState(user?.phone_number ?? '');
+  const [job, setJob] = useState('');
 
   const renderGenderItem = (gender: Gender, title: string) => {
     return (
@@ -105,6 +111,8 @@ const UserInfoScreen = () => {
               borderWidth={1}
               borderColor="gray6"
               borderRadius="rounded"
+              value={email}
+              onChangeText={setEmail}
             />
           </Box>
 
@@ -118,6 +126,8 @@ const UserInfoScreen = () => {
               borderWidth={1}
               borderColor="gray6"
               borderRadius="rounded"
+              value={phone}
+              onChangeText={setPhone}
             />
           </Box>
 
@@ -161,6 +171,8 @@ const UserInfoScreen = () => {
               borderWidth={1}
               borderColor="gray6"
               borderRadius="rounded"
+              value={job}
+              onChangeText={setJob}
             />
           </Box>
 
@@ -175,7 +187,7 @@ const UserInfoScreen = () => {
           </Pressable>
         </Box>
       </ScrollView>
-      <Box gap="3" p="3">
+      <Box gap="3" p="4" mb="4">
         <CButton filled>Cập nhật thông tin</CButton>
         <CButton outline onPress={() => setIsDeletionPopupVisible(true)}>
           Xóa tài khoản

@@ -53,7 +53,6 @@ const CImage = (props: CImageProps) => {
     defaultStyle,
     style,
   ) as StyleProp<any>;
-
   return (
     <Image
       resizeMode="contain"

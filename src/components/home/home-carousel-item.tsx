@@ -11,7 +11,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Layout from '@lamia/constants/Layout';
 
 interface HomeCarouselItemProps {
-  url: string;
+  url: string | undefined;
   animationValue: SharedValue<number>;
   onPress?: () => void;
 }
@@ -43,7 +43,7 @@ const HomeCarouselItem: React.FC<HomeCarouselItemProps> = ({
           key={url}
           style={styles.image}
           source={{ uri: url }}
-          resizeMode="stretch"
+          resizeMode="contain"
         />
         <Animated.View
           pointerEvents="none"

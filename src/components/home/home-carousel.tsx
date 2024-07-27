@@ -21,7 +21,7 @@ const HomeCarousel = (_: HomeCarouselProps) => {
   const navigation = useNavigation<AppNavigationType>();
 
   const { banners } = useAppSelector(state => state.banners);
-  const imageUrls = banners.map(banner => banner.imageUrl);
+  const imageUrls = banners.map(banner => banner.image);
 
   const animationStyle: TAnimationStyle = React.useCallback((value: number) => {
     'worklet';
