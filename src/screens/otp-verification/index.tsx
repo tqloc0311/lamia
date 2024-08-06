@@ -20,12 +20,16 @@ type OTPVerificationScreenProps = RouteProp<AppStackParams, 'OTPVerification'>;
 const OTPVerificationScreen = (_: OTPVerificationScreenProps) => {
   const navigation = useNavigation<AppNavigationType>();
   const route = useRoute<OTPVerificationScreenProps>();
+  const {
+    phoneNumber = '',
+    password = '',
+    otp: defaultOTP = '',
+  } = route.params ?? {};
+
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(state => state.auth.isLoading);
   const currentUser = useAppSelector(state => state.app.currentUser);
-  const [otp, setOtp] = useState('');
-
-  const { phoneNumber = '', password = '', name = '' } = route.params ?? {};
+  const [otp, setOtp] = useState(defaultOTP);
 
   useEffect(() => {
     if (currentUser) {
@@ -39,7 +43,7 @@ const OTPVerificationScreen = (_: OTPVerificationScreenProps) => {
       return;
     }
 
-    dispatch(verifyOTP({ phoneNumber, password, name }));
+    dispatch(verifyOTP({ phoneNumber, password, otp }));
   };
 
   return (
@@ -86,8 +90,8 @@ const OTPVerificationScreen = (_: OTPVerificationScreenProps) => {
                   dispatch(
                     resend({
                       phoneNumber,
-                      completion: () => {
-                        setOtp('');
+                      completion: (newOTP: string) => {
+                        setOtp(newOTP);
                       },
                     }),
                   )

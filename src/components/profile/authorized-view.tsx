@@ -14,12 +14,14 @@ interface AuthorizedViewProps {
 
 const AuthorizedView = (props: AuthorizedViewProps) => {
   const user = useAppSelector(state => state.app.currentUser);
+
   const menuData: ProfileMenuItemType[] = [
     {
       icon: Images.account,
-      title: user?.first_name ?? 'Unknown',
+      title: user?.name ?? 'Unknown',
       appendingTitle: user?.phone_number ?? 'Unknown',
       onPress: () => {
+        console.log('abc');
         props.navigateTo('UserInfo', {});
       },
     },
@@ -50,14 +52,6 @@ const AuthorizedView = (props: AuthorizedViewProps) => {
       onPress: () => {
         props.navigateTo('Favorite', {});
       },
-    },
-    {
-      icon: Images.qr,
-      title: 'Scan QR',
-    },
-    {
-      icon: Images.qr,
-      title: 'Liên kết thiết bị',
     },
     {
       icon: Images.phone,

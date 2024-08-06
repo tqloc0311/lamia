@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { sleep } from '../../utils/helpers';
 import { setLoading } from '../../redux/slices/authSlice';
 import { AppNavigationType } from '@lamia/navigation/types';
 import ToastHelper from '@lamia/utils/toast-helper';
+import API from '@lamia/networking/api';
 
 export const register = createAsyncThunk(
   'register',
@@ -17,17 +17,29 @@ export const register = createAsyncThunk(
   ) => {
     try {
       dispatch(setLoading(true));
-      //   const response = await fetch('YOUR_API_ENDPOINT');
-      //   const data = await response.json();
+      const response = await API.authAPI.register(
+        arg.phoneNumber,
+        arg.password,
+        arg.name,
+      );
 
-      await sleep(1000);
+      const error = response?.error;
+      const message = response?.message;
+      const data = response?.data;
 
-      dispatch(setLoading(false));
-
-      const params: Omit<typeof arg, 'navigation'> = { ...arg };
-      arg.navigation.replace('OTPVerification', params);
+      if (error) {
+        throw { message };
+      } else if (data) {
+        const { phone: phoneNumber, code: otp } = data;
+        const params = { ...arg, phoneNumber, otp };
+        arg.navigation.replace('OTPVerification', params);
+      } else {
+        throw { message: 'Lỗi không xác định (data response not found).' };
+      }
     } catch (error: any) {
       ToastHelper.showError('Lỗi', error);
+    } finally {
+      dispatch(setLoading(false));
     }
   },
 );

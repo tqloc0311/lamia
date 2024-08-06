@@ -87,6 +87,7 @@ const RegisterScreen = (_: RegisterScreenProps) => {
               <AuthTextInput
                 style={styles.input}
                 placeholder="Số điện thoại (*)"
+                keyboardType="number-pad"
                 value={phoneNumber}
                 onChangeText={setPhoneNumber}
               />
@@ -95,12 +96,16 @@ const RegisterScreen = (_: RegisterScreenProps) => {
                 placeholder="Mật khẩu (*)"
                 value={password}
                 onChangeText={setPassword}
+                secureTextEntry
+                textContentType={'oneTimeCode'}
               />
               <AuthTextInput
                 style={styles.input}
                 placeholder="Nhập lại mật khẩu (*)"
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
+                secureTextEntry
+                textContentType={'oneTimeCode'}
               />
               <AuthTextInput
                 style={styles.input}
@@ -112,7 +117,7 @@ const RegisterScreen = (_: RegisterScreenProps) => {
                 px="12"
                 py="4"
                 mt="4"
-                buttonStyle={styles.registerButton}
+                alignSelf="flex-end"
                 type="bordered"
                 onPress={() => {
                   registerHandler();
@@ -143,9 +148,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   input: {},
-  registerButton: {
-    alignSelf: 'flex-end',
-  },
   spinnerText: {
     color: 'white',
   },

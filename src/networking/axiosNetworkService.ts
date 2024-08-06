@@ -31,6 +31,7 @@ export default class AxiosNetworkService implements INetworkService {
       const token = await TokenManager.getToken();
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
       const response = await instance.post(url, data, { headers });
+      console.log('🚀 ~ AxiosNetworkService ~ post ~ response:', response);
       return response.data;
     } catch (error) {
       throw error;

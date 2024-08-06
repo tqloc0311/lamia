@@ -20,10 +20,10 @@ const LoginScreen = (_: LoginScreenProps) => {
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(state => state.auth.isLoading);
   const currentUser = useAppSelector(state => state.app.currentUser);
-  // const [phoneNumber, setPhoneNumber] = useState('');
-  // const [password, setPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('0708558773');
-  const [password, setPassword] = useState('nguyenvietduc.org');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [password, setPassword] = useState('');
+  // const [phoneNumber, setPhoneNumber] = useState('0708558773');
+  // const [password, setPassword] = useState('nguyenvietduc.org');
 
   useEffect(() => {
     if (currentUser) {

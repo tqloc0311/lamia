@@ -44,7 +44,7 @@ export type AppStackParams = {
   OTPVerification: {
     phoneNumber?: string;
     password?: string;
-    name?: string;
+    otp?: string;
   };
 };
 

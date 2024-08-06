@@ -6,10 +6,9 @@ interface IUser {
   email: string;
   email_verified_at: string | null;
   facebook: string | null;
-  first_name: string;
+  name: string;
   id: number;
   last_login: string; // ISO date string
-  last_name: string;
   linkedin: string | null;
   manage_supers: number;
   permissions: string[];
@@ -28,10 +27,9 @@ class User implements IUser {
   email: string;
   email_verified_at: string | null;
   facebook: string | null;
-  first_name: string;
+  name: string;
   id: number;
   last_login: string;
-  last_name: string;
   linkedin: string | null;
   manage_supers: number;
   permissions: string[];
@@ -49,10 +47,9 @@ class User implements IUser {
     this.email = data.email ?? '';
     this.email_verified_at = data.email_verified_at ?? null;
     this.facebook = data.facebook ?? null;
-    this.first_name = data.first_name ?? '';
+    this.name = data.name ?? '';
     this.id = data.id ?? 0;
     this.last_login = data.last_login ?? '';
-    this.last_name = data.last_name ?? '';
     this.linkedin = data.linkedin ?? null;
     this.manage_supers = data.manage_supers ?? 0;
     this.permissions = data.permissions ?? [];

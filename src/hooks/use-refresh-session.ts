@@ -19,7 +19,7 @@ const useRefreshSession = async (dispatch: DispatchType) => {
     }
   } catch (error) {
     console.error('Error refreshing session:', error);
-    throw error;
+    dispatch(setCurrentUser(undefined));
   }
 };
 

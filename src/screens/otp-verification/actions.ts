@@ -1,9 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { sleep } from '../../utils/helpers';
 import { setLoading } from '../../redux/slices/authSlice';
 import { setCurrentUser } from '../../redux/slices/appSlice';
 import User from '../../models/user';
 import ToastHelper from '@lamia/utils/toast-helper';
+import API from '@lamia/networking/api';
+import TokenManager from '@lamia/networking/tokenManager';
 
 export const verifyOTP = createAsyncThunk(
   'verifyOTP',
@@ -11,22 +12,45 @@ export const verifyOTP = createAsyncThunk(
     arg: {
       phoneNumber: string;
       password: string;
-      name: string;
+      otp: string;
     },
     { dispatch },
   ) => {
     try {
       dispatch(setLoading(true));
-      //   const response = await fetch('YOUR_API_ENDPOINT');
-      //   const data = await response.json();
 
-      await sleep(1000);
+      const response = await API.authAPI.verifyPhoneNumber(
+        arg.phoneNumber,
+        arg.otp,
+      );
 
-      dispatch(setLoading(false));
+      const error = response?.error;
+      const message = response?.message;
+      if (error) {
+        throw { message };
+      }
 
-      dispatch(setCurrentUser(new User(1)));
+      const loginResponse = await API.authAPI.login(
+        arg.phoneNumber,
+        arg.password,
+      );
+      const token = loginResponse.token;
+      if (!token) {
+        ToastHelper.showToast(
+          'Lỗi đăng nhập',
+          'Access token was not found',
+          'error',
+        );
+      }
+      await TokenManager.saveToken(token);
+
+      const userResponse = await API.userAPI.getUserInfo();
+      const user: User = new User(userResponse.data);
+      dispatch(setCurrentUser(user));
     } catch (error: any) {
       ToastHelper.showError('Lỗi', error);
+    } finally {
+      dispatch(setLoading(false));
     }
   },
 );
@@ -36,21 +60,32 @@ export const resend = createAsyncThunk(
   async (
     arg: {
       phoneNumber: string;
-      completion: () => void;
+      completion: (otp: string) => void;
     },
     { dispatch },
   ) => {
     try {
       dispatch(setLoading(true));
-      //   const response = await fetch('YOUR_API_ENDPOINT');
-      //   const data = await response.json();
+      console.log(arg.phoneNumber);
 
-      await sleep(1000);
+      const response = await API.authAPI.resendOTP(arg.phoneNumber);
 
-      dispatch(setLoading(false));
-      arg.completion();
+      const error = response?.error;
+      const message = response?.message;
+      const data = response?.data;
+      if (error) {
+        throw { message };
+      } else if (data) {
+        const { code: otp } = data;
+        arg.completion(otp);
+      } else {
+        throw { message: 'Lỗi không xác định (data response not found).' };
+      }
     } catch (error: any) {
+      console.log('🚀 ~ error:', error);
       ToastHelper.showError('Lỗi', error);
+    } finally {
+      dispatch(setLoading(false));
     }
   },
 );

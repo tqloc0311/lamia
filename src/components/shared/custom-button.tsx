@@ -92,15 +92,15 @@ const CButton = (props: CButtonProps) => {
   });
 
   return (
-    <Pressable
-      disabled={!isEnabled}
-      onPress={props.onPress}
-      style={styles.wrapper}>
-      <Box {...props} style={getButtonStyle()}>
-        {props.icon && props.icon}
-        <Text style={getTitleStyle()}>{props.children}</Text>
-      </Box>
-    </Pressable>
+    <Box {...props} style={getButtonStyle()}>
+      {props.icon && props.icon}
+      <Text style={getTitleStyle()}>{props.children}</Text>
+      <Pressable
+        disabled={!isEnabled}
+        onPress={props.onPress}
+        style={styles.wrapper}
+      />
+    </Box>
   );
 };
 
@@ -118,6 +118,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   wrapper: {
-    // flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });

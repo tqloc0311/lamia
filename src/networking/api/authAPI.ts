@@ -1,4 +1,4 @@
-import { postData } from '../networkLayer';
+import { fetchData, postData } from '../networkLayer';
 import { Platform } from 'react-native';
 
 export const register = async (
@@ -20,6 +20,13 @@ export const verifyPhoneNumber = async (phoneNumber: string, otp: string) => {
     code: otp,
   };
   return postData('checkcode', params);
+};
+
+export const resendOTP = async (phoneNumber: string) => {
+  const params = {
+    phone_number: phoneNumber,
+  };
+  return fetchData('resendcode', params);
 };
 
 export const login = async (phoneNumber: string, password: string) => {
