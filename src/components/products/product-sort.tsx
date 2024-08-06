@@ -13,6 +13,8 @@ import { Colors } from '@lamia/utils/theme/colors';
 interface ProductSortProps {
   isVisible: boolean;
   dismiss: () => void;
+  selectedId: number;
+  didSelect: (id: number) => void;
 }
 
 interface SortItem {
@@ -28,20 +30,16 @@ const ProductSort = (props: ProductSortProps) => {
       <Pressable
         key={item.id}
         onPress={() => {
-          // props.didSelect(item.id);
-          props.dismiss();
-        }}
-        hitSlop={8}>
-        <Box my="2" flexDirection="row">
+          props.didSelect(item.id);
+        }}>
+        <Box my="2" flexDirection="row" gap="2">
           <CImage
             source={
-              // props.selectedId == item.id
-              //   ? Images.radioActive
-              //   : Images.radioInactive
-              Images.radioInactive
+              props.selectedId === item.id
+                ? Images.radioActive
+                : Images.radioInactive
             }
             size={16}
-            mr="4"
           />
           <Text fontSize={14} fontWeight="400" color="gray3">
             {item.title}

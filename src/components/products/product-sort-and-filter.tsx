@@ -16,9 +16,13 @@ const ProductSortAndFilters = (_: CombinedProps) => {
   const [isSortModalVisible, setIsSortModalVisible] = useState(false);
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
 
+  const [selectedSortId, setSelectedSortId] = useState(1);
+
   return (
     <Box mx="3" width="auto" flexDirection="row" alignItems="center">
       <ProductSort
+        selectedId={selectedSortId}
+        didSelect={setSelectedSortId}
         isVisible={isSortModalVisible}
         dismiss={() => setIsSortModalVisible(false)}
       />
