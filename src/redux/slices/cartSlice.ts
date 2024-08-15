@@ -1,11 +1,5 @@
+import { CartItem } from '@lamia/models/cart-item';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-type CartItem = {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-};
 
 interface CartState {
   cartItems: CartItem[];
@@ -20,8 +14,10 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart(state, action: PayloadAction<CartItem>) {
-      const { id, quantity } = action.payload;
-      const existingItem = state.cartItems.find(item => item.id === id);
+      const { product, size, quantity } = action.payload;
+      const existingItem = state.cartItems.find(
+        item => item.product.id === product.id && item.size.id === size.id,
+      );
       if (existingItem) {
         existingItem.quantity += quantity;
       } else {

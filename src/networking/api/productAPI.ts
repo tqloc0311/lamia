@@ -12,3 +12,7 @@ export const fetchProducts = async (
   };
   return await fetchData('products', params);
 };
+
+export const fetchProductDetail = async (id: number) => {
+  return await fetchData(`product/${id}`);
+};

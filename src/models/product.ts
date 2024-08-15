@@ -142,16 +142,8 @@ class Product implements IProduct {
   product_labels?: ProductLabel[];
   variation_attribute_swatches_for_product_list?: AttributeSwatch[];
   product_collections?: any[];
-
-  constructor(data: IProduct) {
-    Object.assign(this, data);
-    this.slugable = data.slugable;
-    this.variations = data.variations;
-    this.product_labels = data.product_labels;
-    this.variation_attribute_swatches_for_product_list =
-      data.variation_attribute_swatches_for_product_list;
-    this.product_collections = data.product_collections;
-  }
 }
+
+export type OptionalProduct = Product | undefined;
 
 export default Product;

@@ -45,7 +45,7 @@ export const dummySizeArray: Size[] = [
   {
     id: 6,
     title: 'XXL',
-    disabled: true,
+    disabled: false,
   },
 ];
 

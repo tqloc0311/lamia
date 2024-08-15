@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box } from '@lamia/utils/theme';
 import ProductCollection from '@lamia/components/products/product-collection';
 import Animated, {
@@ -8,11 +8,35 @@ import Animated, {
 } from 'react-native-reanimated';
 import ProductList from '@lamia/components/products/product-list';
 import { StyleSheet } from 'react-native';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { AppStackParams } from '@lamia/navigation/types';
+import { useAppDispatch, useAppSelector } from '@lamia/hooks/context';
+import { useEffectOnce } from 'react-use';
+import { fetchProducts } from './actions';
+import { reset } from './store';
+import ProductCollectionListSkeleton from '@lamia/components/products/product-list-skeleton';
 
 const PRODUCT_COLLECTION_HEIGHT = 100;
 
+type ProductsScreenScreenProps = RouteProp<AppStackParams, 'Products'>;
+
 const ProductsScreen = () => {
-  const data = [...Array(10)].map((_, i) => i + 1);
+  const dispatch = useAppDispatch();
+  const route = useRoute<ProductsScreenScreenProps>();
+  const { categoryId = 0 } = route.params ?? {};
+  const { products, loading, totalProducts } = useAppSelector(
+    state => state.productsScreen,
+  );
+
+  useEffectOnce(() => {
+    dispatch(fetchProducts(categoryId));
+  });
+
+  useEffect(() => {
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch]);
 
   const contentOffsetY = useSharedValue(0);
 
@@ -40,7 +64,14 @@ const ProductsScreen = () => {
       <Animated.View style={[styles.wrapper, animatedStyle]}>
         <ProductCollection style={{ height: PRODUCT_COLLECTION_HEIGHT }} />
       </Animated.View>
-      <ProductList data={data} onScroll={scrollHandler} discountShown />
+      {!loading && (
+        <ProductList
+          data={products}
+          onScroll={scrollHandler}
+          numOfProducts={totalProducts}
+        />
+      )}
+      {loading && <ProductCollectionListSkeleton numOfItems={8} />}
     </Box>
   );
 };

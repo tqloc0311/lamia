@@ -10,6 +10,7 @@ interface LoginParams {
   phoneNumber: string;
   password: string;
 }
+
 export const login = createAsyncThunk(
   'login',
   async (params: LoginParams, { dispatch }) => {

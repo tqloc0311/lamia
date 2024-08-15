@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import CartStepsView from '../../components/cart/cart-steps-view';
 import CartBottomButton from '../../components/cart/cart-bottom-button';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
@@ -10,13 +10,21 @@ import { FlatList, StyleSheet } from 'react-native';
 import CartItem from '@lamia/components/cart/cart-item';
 import CartSummary from '@lamia/components/cart/cart-summary';
 import { useAppSelector } from '@lamia/hooks/context';
+import { CartItem as CartItemModel } from '@lamia/models/cart-item';
 
 const CartScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const { cartItems } = useAppSelector(state => state.cart);
-  let cartItemsCount = cartItems.length;
 
-  const data = [...Array(cartItemsCount)].map((_, i) => i + 1);
+  const totalPrice = useMemo(
+    () =>
+      cartItems.reduce(
+        (acc, item) =>
+          acc + (item.product.front_sale_price || 0) * item.quantity,
+        0,
+      ),
+    [cartItems],
+  );
 
   const renderNoCart = () => {
     return (
@@ -34,8 +42,8 @@ const CartScreen = () => {
     );
   };
 
-  const renderItem = (_: any) => {
-    return <CartItem />;
+  const renderItem = (item: CartItemModel) => {
+    return <CartItem data={item} />;
   };
 
   const renderCartList = () => {
@@ -44,8 +52,8 @@ const CartScreen = () => {
         <FlatList
           style={styles.list}
           contentContainerStyle={styles.listContent}
-          data={data}
-          renderItem={renderItem}
+          data={cartItems}
+          renderItem={itemData => renderItem(itemData.item)}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           scrollEventThrottle={16}
@@ -59,7 +67,7 @@ const CartScreen = () => {
       <CartStepsView step={0} />
 
       <Box flex={1}>
-        {cartItemsCount === 0 ? renderNoCart() : renderCartList()}
+        {cartItems.length === 0 ? renderNoCart() : renderCartList()}
       </Box>
       <Box
         bg="white"
@@ -68,17 +76,17 @@ const CartScreen = () => {
         shadowOpacity={0.05}
         shadowRadius={2}
         elevation={3}>
-        {cartItemsCount > 0 && (
-          <CartSummary total={2000000} discount={100000} />
+        {cartItems.length > 0 && (
+          <CartSummary total={totalPrice} discount={0} />
         )}
         <CartBottomButton
           buttonTitle={
-            cartItemsCount > 0
-              ? `Đặt hàng (${cartItemsCount})`
+            cartItems.length > 0
+              ? `Đặt hàng (${cartItems.length})`
               : 'Tiếp tục mua sắm'
           }
           onPress={() => {
-            if (cartItemsCount > 0) {
+            if (cartItems.length > 0) {
               navigation.navigate('CartDeliveryAddress');
             } else {
               navigation.pop();

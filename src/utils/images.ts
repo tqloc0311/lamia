@@ -52,6 +52,8 @@ export const Images = {
   noCart: require('../assets/images/no-cart.png'),
   switchOn: require('../assets/images/switch-on.png'),
   switchOff: require('../assets/images/switch-off.png'),
+  emptyData: require('../assets/images/img_empty_box.png'),
+  noImage: require('../assets/images/no-image.jpeg'),
   bottomTabs: {
     home: require('../assets/images/tab_icon_home.png'),
     product: require('../assets/images/tab_icon_product.png'),

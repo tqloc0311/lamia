@@ -20,16 +20,18 @@ const CartSummary = (props: CartSummaryProps) => {
         </Text>
       </Box>
 
-      <Box flexDirection="row" justifyContent="space-between" my="2">
-        <Text color="gray4" fontWeight="400" fontSize={14}>
-          Mã giảm giá
-        </Text>
-        <Text color="gray4" fontWeight="400" fontSize={14}>
-          {moneyFormat(props.discount) + 'đ'}
-        </Text>
-      </Box>
+      {props.discount > 0 && (
+        <Box flexDirection="row" justifyContent="space-between" mt="2">
+          <Text color="gray4" fontWeight="400" fontSize={14}>
+            Mã giảm giá
+          </Text>
+          <Text color="gray4" fontWeight="400" fontSize={14}>
+            {moneyFormat(props.discount) + 'đ'}
+          </Text>
+        </Box>
+      )}
 
-      <Box flexDirection="row" justifyContent="space-between">
+      <Box flexDirection="row" justifyContent="space-between" mt="2">
         <Text fontSize={14}>Tạm tính</Text>
         <Text fontSize={14}>
           {moneyFormat(props.total - props.discount) + 'đ'}

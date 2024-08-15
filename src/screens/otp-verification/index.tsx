@@ -17,7 +17,7 @@ import ToastHelper from '@lamia/utils/toast-helper';
 
 type OTPVerificationScreenProps = RouteProp<AppStackParams, 'OTPVerification'>;
 
-const OTPVerificationScreen = (_: OTPVerificationScreenProps) => {
+const OTPVerificationScreen = () => {
   const navigation = useNavigation<AppNavigationType>();
   const route = useRoute<OTPVerificationScreenProps>();
   const {

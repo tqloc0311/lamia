@@ -8,11 +8,13 @@ import { useState } from 'react';
 import ProductSort from './product-sort';
 import ProductFilter from './product-filter';
 
-interface ProductSortAndFiltersProps {}
+interface ProductSortAndFiltersProps {
+  numOfProducts: number;
+}
 
 interface CombinedProps extends ProductSortAndFiltersProps, BoxProps<Theme> {}
 
-const ProductSortAndFilters = (_: CombinedProps) => {
+const ProductSortAndFilters = (props: CombinedProps) => {
   const [isSortModalVisible, setIsSortModalVisible] = useState(false);
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
 
@@ -33,7 +35,7 @@ const ProductSortAndFilters = (_: CombinedProps) => {
       />
 
       <Box flex={1}>
-        <Text>21 sản phẩm</Text>
+        <Text>{`${props.numOfProducts ?? 0} sản phẩm`}</Text>
       </Box>
       <Pressable
         onPress={() => {

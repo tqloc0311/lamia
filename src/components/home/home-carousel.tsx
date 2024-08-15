@@ -51,7 +51,11 @@ const HomeCarousel = (_: HomeCarouselProps) => {
               key={url}
               url={url}
               animationValue={animationValue}
-              onPress={() => navigation.navigate('Products')}
+              onPress={() =>
+                navigation.navigate('Products', {
+                  categoryId: banners[index].id,
+                })
+              }
             />
           );
         }}

@@ -5,11 +5,12 @@ import ProductSortAndFilters from './product-sort-and-filter';
 
 interface ProductListHeaderProps {
   discountShown?: boolean;
+  numOfProducts: number;
 }
 export const ProductListHeader = (props: ProductListHeaderProps) => {
   return (
     <Box width="auto" bg="white" mx="-3" py="2">
-      <ProductSortAndFilters />
+      <ProductSortAndFilters numOfProducts={props.numOfProducts} />
       {props.discountShown && <ProductDiscountList mt="4" />}
     </Box>
   );

@@ -1,19 +1,23 @@
 import React from 'react';
 import { Box, Text } from '@lamia/utils/theme';
-import CImage from '../../shared/custom-image';
+import CImage from '../shared/custom-image';
 import { Images } from '@lamia/utils/images';
 import { Pressable, ViewStyle } from 'react-native';
-import { moneyFormat } from '@lamia/utils/helpers';
-import ProductColorPicker from '../product-color-picker';
+import { moneyFormat, randomNumber } from '@lamia/utils/helpers';
+import ProductColorPicker from './product-color-picker';
 import { useNavigation } from '@react-navigation/native';
 import { AppNavigationType } from '@lamia/navigation/types';
 import { useState } from 'react';
-import Popup from '../../shared/popup';
+import Popup from '../shared/popup';
 import { useAppDispatch } from '@lamia/hooks/context';
-import { addToCart } from './actions';
+import Product from '@lamia/models/product';
+import { dummySizeArray, Size } from '@lamia/utils/types';
+import { CartItem } from '@lamia/models/cart-item';
+import { addToCart } from '@lamia/redux/actions/cart';
 
 interface ProductTileProps {
-  styles?: ViewStyle;
+  style?: ViewStyle;
+  product: Product;
   thumbnailRef?: any;
 }
 
@@ -33,11 +37,11 @@ const ProductTile = (props: ProductTileProps) => {
           <CImage source={Images.star} size={10} />
           <Box width={4} />
           <Text fontSize={10} color="primary">
-            4.4
+            {randomNumber(40, 50) / 10}
           </Text>
         </Box>
         <Box flexDirection="row" alignItems="center">
-          <Pressable>
+          {/* <Pressable>
             <Box
               aspectRatio={1}
               justifyContent="center"
@@ -47,7 +51,7 @@ const ProductTile = (props: ProductTileProps) => {
             </Box>
           </Pressable>
 
-          <Box width={4} />
+          <Box width={4} /> */}
 
           <Pressable onPress={() => setIsSizePickerVisible(true)}>
             <Box
@@ -96,28 +100,39 @@ const ProductTile = (props: ProductTileProps) => {
     return <Box></Box>;
   };
 
-  const addToCartHandler = (_: string) => {
-    dispatch(
-      addToCart({ id: 1, name: 'Product 1', price: 1234567, quantity: 1 }),
-    );
+  const addToCartHandler = (size: Size) => {
+    const item: CartItem = {
+      product: props.product,
+      quantity: 1,
+      size,
+    };
+
+    dispatch(addToCart(item));
   };
 
+  if (!props.product) {
+    return null;
+  }
+
   return (
-    <Box style={props.styles}>
-      <Popup visible={isSizePickerVisible} position="bottom">
+    <Box style={props.style}>
+      <Popup
+        visible={isSizePickerVisible}
+        position="bottom"
+        onTouchOutside={() => setIsSizePickerVisible(false)}>
         <Box bg="white" px="3" pb="4">
           <Box gap="5">
-            {['S', 'M', 'L', 'XL'].map(size => {
+            {dummySizeArray.map(size => {
               return (
                 <Pressable
-                  key={size}
+                  key={size.id}
                   onPress={() => {
                     setIsSizePickerVisible(false);
                     addToCartHandler(size);
                   }}>
                   <Box px="2">
                     <Text textAlign="center" fontSize={18} fontWeight="700">
-                      {size}
+                      {size.title}
                     </Text>
                   </Box>
                 </Pressable>
@@ -130,37 +145,46 @@ const ProductTile = (props: ProductTileProps) => {
           </Text>
         </Box>
       </Popup>
-      <Pressable onPress={() => navigation.navigate('ProductDetail')}>
+      <Pressable
+        onPress={() => {
+          navigation.navigate('ProductDetail', { productId: props.product.id });
+        }}>
         <Box ref={props.thumbnailRef} aspectRatio={162.0 / 234.0}>
-          <CImage source={Images.test.girl1} />
+          <CImage
+            source={
+              props.product?.images?.[0]
+                ? { uri: props.product.images[0] }
+                : Images.test.girl1
+            }
+          />
         </Box>
         <Box height={8} />
         {renderActions()}
         <Box height={8} />
-        <ProductColorPicker didSelect={() => {}} />
-        <Box height={42} my="2">
-          <Text
-            numberOfLines={2}
-            fontWeight="400"
-            fontSize={14}
-            color="text">{`Tên sản phẩm`}</Text>
+        {/* <ProductColorPicker didSelect={() => {}} /> */}
+        <Box height={32} my="2">
+          <Text numberOfLines={2} fontWeight="400" fontSize={14} color="text">
+            {props.product?.name}
+          </Text>
         </Box>
         <Box height={20} flexDirection="row">
           <Text fontWeight="700" fontSize={14} color="primary">
-            {moneyFormat(1234567)}
+            {moneyFormat(props.product.front_sale_price)}
           </Text>
           <Box width={12} />
-          <Text
-            textDecorationStyle="solid"
-            textDecorationLine="line-through"
-            fontWeight="400"
-            fontSize={14}
-            color="gray6">
-            {moneyFormat(1234567)}
-          </Text>
+          {props.product.front_sale_price !== props.product.original_price && (
+            <Text
+              textDecorationStyle="solid"
+              textDecorationLine="line-through"
+              fontWeight="400"
+              fontSize={14}
+              color="gray6">
+              {moneyFormat(props.product.original_price)}
+            </Text>
+          )}
         </Box>
 
-        {renderDiscount()}
+        {/* {renderDiscount()} */}
       </Pressable>
     </Box>
   );

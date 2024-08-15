@@ -3,24 +3,24 @@ import React from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 import CImage from './custom-image';
 import { Images } from '@lamia/utils/images';
+import RenderHtml from 'react-native-render-html';
 
-interface ExpandableTextProps {
-  text: string;
+interface ExpandableHtmlProps {
+  html: string;
   expanded: boolean;
   toggleExpanded: () => void;
   minHeight: number;
+  width: number;
 }
 
-const ExpandableText = (props: ExpandableTextProps) => {
+const ExpandableHtml = (props: ExpandableHtmlProps) => {
   return (
     <Box>
-      <Box height={props.expanded ? 'auto' : props.minHeight}>
-        <Text fontSize={14} color="gray3" lineHeight={22}>
-          {props.text}
-        </Text>
+      <Box height={props.expanded ? 'auto' : props.minHeight} overflow="hidden">
+        <RenderHtml contentWidth={props.width} source={{ html: props.html }} />
       </Box>
-      <Pressable onPress={props.toggleExpanded}>
-        <Box flexDirection="row" alignItems="center" mt="4">
+      <Pressable onPress={props.toggleExpanded} hitSlop={4}>
+        <Box flexDirection="row" alignItems="center" my="2">
           <Box height={1} bg="gray6" flex={1} />
           <Box flexDirection="row" alignItems="center" mx="4">
             <Text fontSize={14} fontWeight="500" mr="2">
@@ -38,4 +38,4 @@ const ExpandableText = (props: ExpandableTextProps) => {
   );
 };
 
-export default ExpandableText;
+export default ExpandableHtml;

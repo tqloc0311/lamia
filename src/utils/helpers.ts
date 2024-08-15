@@ -66,7 +66,11 @@ export const randomNumericString = (size: number) => {
   return result;
 };
 
-export const moneyFormat = (x: number) => {
+export const moneyFormat = (x: number | undefined | null) => {
+  if (!x) {
+    return '';
+  }
+
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
@@ -114,4 +118,13 @@ export function combineStyles(...styles: Array<StyleProps>): StyleProps {
   });
 
   return combinedStyle;
+}
+
+export function fillArrayToFour(arr: any[]): any[] {
+  const remainder = arr.length % 4;
+  if (remainder !== 0) {
+    const toAdd = 4 - remainder;
+    arr = [...arr, ...new Array(toAdd).fill(undefined)];
+  }
+  return arr;
 }

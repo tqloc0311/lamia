@@ -33,8 +33,12 @@ export type AppStackParams = {
     address?: any;
   };
   OrderManagement: NativeStackNavigationBaseType;
-  Products: NativeStackNavigationBaseType;
-  ProductDetail: NativeStackNavigationBaseType;
+  Products: {
+    categoryId: number;
+  };
+  ProductDetail: {
+    productId: number;
+  };
   ProductComments: NativeStackNavigationBaseType;
   ProductCommentSubmit: NativeStackNavigationBaseType;
   ProfileInfo: NativeStackNavigationBaseType;
