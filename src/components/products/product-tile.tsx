@@ -154,15 +154,15 @@ const ProductTile = (props: ProductTileProps) => {
             source={
               props.product?.images?.[0]
                 ? { uri: props.product.images[0] }
-                : Images.test.girl1
+                : Images.noImage
             }
           />
         </Box>
         <Box height={8} />
         {renderActions()}
-        <Box height={8} />
+        <Box height={4} />
         {/* <ProductColorPicker didSelect={() => {}} /> */}
-        <Box height={32} my="2">
+        <Box height={34} my="2">
           <Text numberOfLines={2} fontWeight="400" fontSize={14} color="text">
             {props.product?.name}
           </Text>

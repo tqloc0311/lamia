@@ -1,37 +1,41 @@
-import { FlatList, Pressable, StyleSheet } from 'react-native';
 import React from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 import CImage from '../shared/custom-image';
 import { Images } from '@lamia/utils/images';
-import { faker } from '@faker-js/faker';
-import ProductCommentImageTile from './product-comment-image-tile';
+import Review from '@lamia/models/review';
 
-const ProductCommentListItem = () => {
-  const images = Array(5).map((_, index) => index + 1);
+interface ProductCommentListItemProps {
+  review: Review;
+}
 
+const ProductCommentListItem: React.FC<ProductCommentListItemProps> = (
+  props: ProductCommentListItemProps,
+) => {
   return (
     <Box>
       <Box flexDirection="row" alignItems="center">
         <Text fontWeight="700" fontSize={14}>
-          Nguyễn Văn A
+          {props.review.user.name}
         </Text>
-        <CImage mx="1" size={16} source={Images.star} />
+        <Box mx="1">
+          <CImage size={16} source={Images.star} />
+        </Box>
         <Text fontSize={12} fontWeight="400">
-          4.5
+          {props.review.star}
         </Text>
         <Box flex={1} />
-        <Text fontSize={12} fontWeight="400" color="gray4">
+        {/* <Text fontSize={12} fontWeight="400" color="gray4">
           2024-1-01 12:34:56
-        </Text>
+        </Text> */}
       </Box>
 
       <Box height={10} />
 
       <Box>
-        <Text fontSize={12}>{faker.lorem.paragraphs(2)}</Text>
+        <Text fontSize={12}>{props.review.comment}</Text>
       </Box>
 
-      <Box height={10} />
+      {/* <Box height={10} />
 
       <Box>
         <FlatList
@@ -41,24 +45,24 @@ const ProductCommentListItem = () => {
           data={images}
           renderItem={_ => <ProductCommentImageTile />}
         />
-      </Box>
+      </Box> */}
 
-      <Box height={10} />
+      {/* <Box height={10} />
 
       <Pressable>
         <Box flexDirection="row">
           <CImage source={Images.thumbUp} size={16} mr="1" />
           <Text fontSize={12}>Hữu ích (99)</Text>
         </Box>
-      </Pressable>
+      </Pressable> */}
     </Box>
   );
 };
 
 export default ProductCommentListItem;
 
-const styles = StyleSheet.create({
-  flatListContentContainer: {
-    gap: 6,
-  },
-});
+// const styles = StyleSheet.create({
+//   flatListContentContainer: {
+//     gap: 6,
+//   },
+// });

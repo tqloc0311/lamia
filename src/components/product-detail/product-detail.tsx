@@ -10,11 +10,7 @@ import HyperLink from '../shared/hyper-link';
 import { Images } from '@lamia/utils/images';
 import { dummySizeArray, Size } from '@lamia/utils/types';
 import SegmentedControl from '../shared/segmented_control';
-import ExpandableText from '../shared/expandable-text';
-import { faker } from '@faker-js/faker';
-import ProductSlider from './product-slider';
 import ProductDetailCaption from './product-detail-caption';
-import ProductRating from './product-rating';
 import ProductCommentList from './product-comment-list';
 import Product from '@lamia/models/product';
 import ExpandableHtml from '../shared/expandable-html';
@@ -167,27 +163,31 @@ const ProductDetail = (props: ProductDetailProps) => {
 
       <Box height={16} />
 
-      <ExpandableHtml
-        html={props.product.content || ''}
-        minHeight={200}
-        expanded={isContentExpanded}
-        toggleExpanded={() => setIsContentExpanded(prev => !prev)}
-        width={Layout.window.width - 24}
-      />
+      {props.product.content && (
+        <ExpandableHtml
+          html={props.product.content || ''}
+          minHeight={200}
+          expanded={isContentExpanded}
+          toggleExpanded={() => setIsContentExpanded(prev => !prev)}
+          width={Layout.window.width - 24}
+        />
+      )}
 
-      {/* <Box height={10} bg="gray9" my="6" />
+      <Box height={10} bg="gray9" my="6" />
 
       <ProductDetailCaption text="ĐÁNH GIÁ KHÁCH HÀNG" />
 
+      {/* <Box height={16} />
+
+      <ProductRating /> */}
+
       <Box height={16} />
 
-      <ProductRating />
+      {props.product.id && (
+        <ProductCommentList productId={props.product.id} limit={5} />
+      )}
 
-      <Box height={16} />
-
-      <ProductCommentList />
-
-      <Box height={10} bg="gray9" my="6" />
+      {/* <Box height={10} bg="gray9" my="6" />
 
       <Text fontSize={20} fontWeight="700" textAlign="center">
         SẢN PHẨM LIÊN QUAN

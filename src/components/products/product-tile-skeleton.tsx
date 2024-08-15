@@ -3,8 +3,8 @@ import React from 'react';
 import { Box } from '@lamia/utils/theme';
 import { StyleSheet, View } from 'react-native';
 import { Colors } from '@lamia/utils/theme/colors';
-import { useSkeletonAnimation } from '@lamia/hooks/useSkeletonAnimation';
 import Animated from 'react-native-reanimated';
+import { useSkeletonAnimation } from '@lamia/hooks/use-skeleton-animation';
 
 const ProductCollectionTileSkeleton = () => {
   const skeletonAnimatedStyle = useSkeletonAnimation({

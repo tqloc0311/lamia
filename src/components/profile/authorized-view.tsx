@@ -21,7 +21,6 @@ const AuthorizedView = (props: AuthorizedViewProps) => {
       title: user?.name ?? 'Unknown',
       appendingTitle: user?.phone_number ?? 'Unknown',
       onPress: () => {
-        console.log('abc');
         props.navigateTo('UserInfo', {});
       },
     },

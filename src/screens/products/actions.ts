@@ -9,7 +9,7 @@ export const fetchProducts = createAsyncThunk(
     dispatch(setLoading(true));
     try {
       const response = await API.productAPI.fetchProducts([categoryId], 1, 20);
-      const products = response.data.map((json: any) => new Product(json));
+      const products: Product[] = response.data;
       const total = response.meta?.total ?? 0;
 
       dispatch(setProducts(products));

@@ -66,7 +66,6 @@ export const resend = createAsyncThunk(
   ) => {
     try {
       dispatch(setLoading(true));
-      console.log(arg.phoneNumber);
 
       const response = await API.authAPI.resendOTP(arg.phoneNumber);
 

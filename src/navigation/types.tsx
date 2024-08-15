@@ -39,8 +39,12 @@ export type AppStackParams = {
   ProductDetail: {
     productId: number;
   };
-  ProductComments: NativeStackNavigationBaseType;
-  ProductCommentSubmit: NativeStackNavigationBaseType;
+  ProductComments: {
+    productId: number;
+  };
+  ProductCommentSubmit: {
+    productId: number;
+  };
   ProfileInfo: NativeStackNavigationBaseType;
   Login: NativeStackNavigationBaseType;
   Register: NativeStackNavigationBaseType;

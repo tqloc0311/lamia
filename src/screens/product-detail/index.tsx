@@ -93,7 +93,7 @@ const ProductDetailScreen = () => {
   return (
     <Box flex={1} bg="white">
       {loading && <BarIndicator />}
-      {!product && (
+      {!product && !loading && (
         <Box justifyContent="center" alignItems="center" flex={1}>
           <Text>Data not found</Text>
         </Box>
