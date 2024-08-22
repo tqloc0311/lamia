@@ -2,7 +2,7 @@ import { OptionalProduct } from '@lamia/models/product';
 import { fillArrayToFour } from '@lamia/utils/helpers';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-interface ProductScreenState {
+interface CategoriesScreenState {
   products: OptionalProduct[];
   loading: boolean;
   isFetchingMore: boolean;
@@ -10,7 +10,7 @@ interface ProductScreenState {
   totalProducts: number;
 }
 
-const initialState: ProductScreenState = {
+const initialState: CategoriesScreenState = {
   products: [],
   loading: false,
   isFetchingMore: false,
@@ -18,8 +18,8 @@ const initialState: ProductScreenState = {
   totalProducts: 0,
 };
 
-const productScreenSlice = createSlice({
-  name: 'productsScreen',
+const categoriesScreenSlice = createSlice({
+  name: 'categoriesScreen',
   initialState,
   reducers: {
     setProducts(state, action: PayloadAction<OptionalProduct[]>) {
@@ -51,5 +51,5 @@ export const {
   setTotalProducts,
   setHasMoreData,
   setIsFetchingMore,
-} = productScreenSlice.actions;
-export default productScreenSlice.reducer;
+} = categoriesScreenSlice.actions;
+export default categoriesScreenSlice.reducer;

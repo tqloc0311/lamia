@@ -6,7 +6,7 @@ import { Colors } from '@lamia/utils/theme/colors';
 import Animated from 'react-native-reanimated';
 import { useSkeletonAnimation } from '@lamia/hooks/use-skeleton-animation';
 
-const ProductCollectionTileSkeleton = () => {
+const ProductTileSkeleton = () => {
   const skeletonAnimatedStyle = useSkeletonAnimation({
     targetOpacityValue: 0.5,
     speed: 500,
@@ -35,7 +35,7 @@ const ProductCollectionTileSkeleton = () => {
   );
 };
 
-export default ProductCollectionTileSkeleton;
+export default ProductTileSkeleton;
 
 const styles = StyleSheet.create({
   container: {
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   image: {
     backgroundColor: Colors.gray6,
     aspectRatio: 162.0 / 234.0,
+    borderRadius: 8,
   },
   row: {
     backgroundColor: Colors.gray6,

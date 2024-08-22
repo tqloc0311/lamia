@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Box } from '@lamia/utils/theme';
 import ProductCollection from '@lamia/components/products/product-collection';
 import Animated, {
@@ -24,13 +24,34 @@ const ProductsScreen = () => {
   const dispatch = useAppDispatch();
   const route = useRoute<ProductsScreenScreenProps>();
   const { categoryId = 0 } = route.params ?? {};
-  const { products, loading, totalProducts } = useAppSelector(
-    state => state.productsScreen,
+  const { products, loading, totalProducts, hasMoreData, isFetchingMore } =
+    useAppSelector(state => state.productsScreen);
+  const promotionItems = useAppSelector(
+    state => state.categories.promotionCategories,
+  );
+  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState<
+    number | undefined
+  >(undefined);
+  const page = useRef(1);
+
+  const selectedCategoryId = useMemo(
+    () =>
+      selectedSubCategoryId && selectedSubCategoryId > 0
+        ? selectedSubCategoryId
+        : categoryId,
+    [selectedSubCategoryId, categoryId],
   );
 
   useEffectOnce(() => {
-    dispatch(fetchProducts(categoryId));
+    refresh();
   });
+
+  useEffect(() => {
+    if (selectedCategoryId) {
+      refresh();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCategoryId]);
 
   useEffect(() => {
     return () => {
@@ -59,16 +80,44 @@ const ProductsScreen = () => {
     };
   });
 
+  const refresh = () => {
+    page.current = 1;
+    dispatch(fetchProducts({ categoryId: selectedCategoryId, page: 1 }));
+  };
+
+  const fetchMore = () => {
+    if (!hasMoreData || isFetchingMore) {
+      return;
+    }
+
+    page.current = page.current + 1;
+    dispatch(
+      fetchProducts({ categoryId: selectedCategoryId, page: page.current }),
+    );
+  };
+
   return (
     <Box flex={1} bg="white">
       <Animated.View style={[styles.wrapper, animatedStyle]}>
-        <ProductCollection style={{ height: PRODUCT_COLLECTION_HEIGHT }} />
+        <ProductCollection
+          categories={promotionItems}
+          style={{ height: PRODUCT_COLLECTION_HEIGHT }}
+          selectedId={selectedSubCategoryId}
+          onSelect={category => {
+            setSelectedSubCategoryId(prev =>
+              prev === category.id ? -1 : category.id,
+            );
+          }}
+        />
       </Animated.View>
       {!loading && (
         <ProductList
           data={products}
           onScroll={scrollHandler}
           numOfProducts={totalProducts}
+          onRefresh={refresh}
+          onEndReached={fetchMore}
+          showFilter
         />
       )}
       {loading && <ProductCollectionListSkeleton numOfItems={8} />}

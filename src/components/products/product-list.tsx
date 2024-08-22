@@ -7,6 +7,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { uniqueId } from 'lodash';
 import Animated from 'react-native-reanimated';
 import ProductTile from './product-tile';
 import { ProductListHeader } from './products-header';
@@ -24,6 +25,7 @@ interface ProductListProps {
   discountShown?: boolean;
   refreshing?: boolean;
   numOfProducts?: number;
+  showFilter?: boolean;
 }
 
 const ProductList = (props: ProductListProps) => {
@@ -38,10 +40,12 @@ const ProductList = (props: ProductListProps) => {
 
   const renderHeader = () => {
     return (
-      <ProductListHeader
-        numOfProducts={props.numOfProducts || 0}
-        discountShown={props.discountShown}
-      />
+      props.showFilter && (
+        <ProductListHeader
+          numOfProducts={props.numOfProducts || 0}
+          discountShown={props.discountShown}
+        />
+      )
     );
   };
 
@@ -58,6 +62,7 @@ const ProductList = (props: ProductListProps) => {
 
   return (
     <Animated.FlatList
+      keyExtractor={item => item?.id?.toString() || uniqueId()}
       style={styles.list}
       contentContainerStyle={styles.listContent}
       data={props.data}
@@ -89,7 +94,9 @@ const styles = StyleSheet.create({
   tile: {
     flex: 1,
   },
-  list: {},
+  list: {
+    backgroundColor: 'white',
+  },
   listContent: {
     gap: 12,
     paddingHorizontal: 12,

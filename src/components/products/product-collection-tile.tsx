@@ -8,15 +8,15 @@ import { Colors } from '@lamia/utils/theme/colors';
 
 interface ProductCollectionTileProps {
   category: Category;
+  isSelected?: boolean;
+  onPress?: (category: Category) => void;
 }
 
 const ProductCollectionTile = (props: ProductCollectionTileProps) => {
   return (
     <Pressable
       style={styles.pressable}
-      onPress={() => {
-        /// ..
-      }}>
+      onPress={() => props.onPress?.(props.category)}>
       <Box flex={1} p="1" alignItems="center">
         <Box
           mb="1"
@@ -25,7 +25,13 @@ const ProductCollectionTile = (props: ProductCollectionTileProps) => {
           width="100%"
           flex={1}>
           <CImage
-            style={styles.image as any}
+            style={{
+              ...(styles.image as any),
+              ...{
+                borderWidth: props.isSelected ? 2 : 1,
+                borderColor: !props.isSelected ? Colors.gray6 : 'black',
+              },
+            }}
             source={{
               uri: props.category.image,
             }}
@@ -54,8 +60,6 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 200,
-    borderWidth: 1,
-    borderColor: Colors.gray6,
     aspectRatio: 1,
   },
 });

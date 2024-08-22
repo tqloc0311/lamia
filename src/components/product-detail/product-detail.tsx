@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 import { moneyFormat } from '@lamia/utils/helpers';
-import ProductColorPicker from '../products/product-color-picker';
 import CButton from '../shared/custom-button';
 import SizePicker from './size-picker';
 import AmountPicker from './amount-picker';
@@ -80,8 +79,16 @@ const ProductDetail = (props: ProductDetailProps) => {
 
       <Box height={8} />
 
-      <Box flexDirection="row" alignItems="center">
-        <ProductColorPicker didSelect={() => {}} />
+      <Box
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between">
+        {/* <ProductColorPicker didSelect={() => {}} /> */}
+        <SizePicker
+          sizes={dummySizeArray}
+          selectedId={selectedSize.id}
+          onSelect={setSelectedSize}
+        />
         <CButton filled px="5" onPress={() => addToCartHandler(selectedSize)}>
           Mua ngay
         </CButton>
@@ -94,11 +101,12 @@ const ProductDetail = (props: ProductDetailProps) => {
         alignItems="center"
         justifyContent="space-between"
         height={30}>
-        <SizePicker
-          sizes={dummySizeArray}
-          selectedId={selectedSize.id}
-          onSelect={setSelectedSize}
+        <HyperLink
+          image={Images.ruler}
+          title="Cách chọn size"
+          url="https://google.com"
         />
+
         <AmountPicker
           initialValue={1}
           maxValue={10}
@@ -110,19 +118,13 @@ const ProductDetail = (props: ProductDetailProps) => {
 
       <Box height={8} />
 
-      <HyperLink
-        image={Images.ruler}
-        title="Cách chọn size"
-        url="https://google.com"
-      />
-
-      <Box height={8} />
+      {/* <Box height={8} />
 
       <HyperLink
         image={Images.marker}
         title="Tìm sản phẩm tại showroom"
         url="https://google.com"
-      />
+      /> */}
 
       <Box height={10} bg="gray9" my="6" />
 

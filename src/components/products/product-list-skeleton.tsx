@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
-import ProductCollectionTileSkeleton from './product-tile-skeleton';
+import ProductTileSkeleton from './product-tile-skeleton';
 
 interface ProductCollectionListSkeletonProps {
   numOfItems: number;
@@ -16,7 +16,8 @@ const ProductCollectionListSkeleton = (
   return (
     <FlatList
       data={data}
-      renderItem={() => <ProductCollectionTileSkeleton />}
+      style={styles.list}
+      renderItem={() => <ProductTileSkeleton />}
       contentContainerStyle={styles.listContent}
       numColumns={2}
       columnWrapperStyle={styles.column}
@@ -28,7 +29,9 @@ const ProductCollectionListSkeleton = (
 export default ProductCollectionListSkeleton;
 
 const styles = StyleSheet.create({
-  list: {},
+  list: {
+    marginTop: 12,
+  },
   listContent: {
     gap: 12,
     paddingHorizontal: 12,

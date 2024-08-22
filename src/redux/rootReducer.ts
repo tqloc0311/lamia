@@ -9,6 +9,7 @@ import reviewSlice from './slices/reviewSlice';
 import productScreenSlice from '@lamia/screens/products/store';
 import productDetailScreenSlice from '@lamia/screens/product-detail/store';
 import reviewSubmitScreenSlice from '@lamia/screens/product-comment-submit/store';
+import categoriesScreenSlice from '@lamia/screens/categories/store';
 
 const rootReducer = combineReducers({
   app: appSlice,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   productsScreen: productScreenSlice,
   productDetailScreen: productDetailScreenSlice,
   reviewSubmitScreen: reviewSubmitScreenSlice,
+  categoriesScreen: categoriesScreenSlice,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

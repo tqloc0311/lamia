@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { BASE_URL } from './apiConfig';
 import TokenManager from './tokenManager';
+// import curlirize from 'axios-curlirize';
 
 const instance = axios.create({
   baseURL: BASE_URL,
@@ -8,6 +9,7 @@ const instance = axios.create({
     'Content-Type': 'application/json',
   },
 });
+// curlirize(instance as any);
 
 export interface INetworkService {
   get(url: string, params: any): Promise<any>;

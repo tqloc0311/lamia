@@ -37,7 +37,7 @@ const ProductTile = (props: ProductTileProps) => {
           <CImage source={Images.star} size={10} />
           <Box width={4} />
           <Text fontSize={10} color="primary">
-            {randomNumber(40, 50) / 10}
+            {/* {randomNumber(40, 50) / 10} */}5
           </Text>
         </Box>
         <Box flexDirection="row" alignItems="center">
@@ -149,13 +149,18 @@ const ProductTile = (props: ProductTileProps) => {
         onPress={() => {
           navigation.navigate('ProductDetail', { productId: props.product.id });
         }}>
-        <Box ref={props.thumbnailRef} aspectRatio={162.0 / 234.0}>
+        <Box
+          ref={props.thumbnailRef}
+          aspectRatio={162.0 / 234.0}
+          borderRadius="rounded"
+          overflow="hidden">
           <CImage
             source={
               props.product?.images?.[0]
                 ? { uri: props.product.images[0] }
                 : Images.noImage
             }
+            resizeMode="center"
           />
         </Box>
         <Box height={8} />
