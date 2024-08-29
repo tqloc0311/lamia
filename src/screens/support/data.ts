@@ -47,7 +47,7 @@ export const menuData = [
     id: 7,
     icon: Images.document,
     title: 'Chính sách thanh toán',
-    routeName: '',
+    routeName: 'PaymentPolicy',
     routeData: {},
   },
   {

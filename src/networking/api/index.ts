@@ -1,4 +1,4 @@
-import * as dummyAPI from './dummy';
+import * as pageAPI from './pageAPI';
 import * as bannerAPI from './bannerAPI';
 import * as authAPI from './authAPI';
 import * as userAPI from './userAPI';
@@ -7,7 +7,7 @@ import * as productAPI from './productAPI';
 import * as reviewAPI from './reviewAPI';
 
 const API = {
-  dummyAPI,
+  pageAPI,
   bannerAPI,
   authAPI,
   userAPI,

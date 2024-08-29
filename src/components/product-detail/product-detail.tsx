@@ -104,7 +104,7 @@ const ProductDetail = (props: ProductDetailProps) => {
         <HyperLink
           image={Images.ruler}
           title="Cách chọn size"
-          url="https://google.com"
+          url="https://lamia.com.vn/huong-dan-do-size"
         />
 
         <AmountPicker

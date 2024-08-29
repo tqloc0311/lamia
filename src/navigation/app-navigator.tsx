@@ -33,6 +33,7 @@ import ProductCommentSubmitScreen from '@lamia/screens/product-comment-submit';
 import OrderManagementTabNavigator from './order-management-tab-navigator';
 import CButton from '@lamia/components/shared/custom-button';
 import HeaderLogo from '@lamia/components/shared/header-logo';
+import PaymentPolicyScreen from '@lamia/screens/payment-policy';
 
 const Stack = createNativeStackNavigator<AppStackParams>();
 
@@ -253,6 +254,16 @@ const AppNavigator = (): React.JSX.Element => {
           name="ProfileInfo"
           component={ProfileScreen}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PaymentPolicy"
+          component={PaymentPolicyScreen}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerTitle: 'Chính sách thanh toán',
+            headerTitleStyle: styles.headerTitle,
+            headerLeft: () => renderBackButton(navigation),
+          })}
         />
       </Stack.Group>
     </Stack.Navigator>

@@ -54,6 +54,7 @@ export type AppStackParams = {
     password?: string;
     otp?: string;
   };
+  PaymentPolicy: NativeStackNavigationBaseType;
 };
 
 export type AppNavigationType = NativeStackNavigationProp<
