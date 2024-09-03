@@ -7,7 +7,7 @@ interface DeliveryAddressProps {}
 const DeliveryAddressScreen = (_: DeliveryAddressProps) => {
   return (
     <Box flex={1} backgroundColor="white">
-      <DeliveryAddressList />
+      <DeliveryAddressList hideSelection />
     </Box>
   );
 };

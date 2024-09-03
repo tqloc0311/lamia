@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import React, { useState } from 'react';
+import { ActivityIndicator, StyleSheet } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 import { moneyFormat } from '@lamia/utils/helpers';
 import CButton from '../shared/custom-button';
@@ -7,16 +7,17 @@ import SizePicker from './size-picker';
 import AmountPicker from './amount-picker';
 import HyperLink from '../shared/hyper-link';
 import { Images } from '@lamia/utils/images';
-import { dummySizeArray, Size } from '@lamia/utils/types';
 import SegmentedControl from '../shared/segmented_control';
 import ProductDetailCaption from './product-detail-caption';
 import ProductCommentList from './product-comment-list';
 import Product from '@lamia/models/product';
 import ExpandableHtml from '../shared/expandable-html';
 import Layout from '@lamia/constants/Layout';
-import { useAppDispatch } from '@lamia/hooks/context';
+import { useAppDispatch, useAppSelector } from '@lamia/hooks/context';
 import { CartItem } from '@lamia/models/cart-item';
 import { addToCart } from '@lamia/redux/actions/cart';
+import ProductAttribute from '@lamia/models/product-attribute';
+import { fetchAttributeDetail } from '../products/actions';
 
 interface ProductDetailProps {
   product: Product;
@@ -27,17 +28,83 @@ const ProductDetail = (props: ProductDetailProps) => {
   const [selectedSegmentIndex, setSelectedSegmentIndex] = useState(0);
   const [isReturnPrivacyExpanded, setIsReturnPrivacyExpanded] = useState(false);
   const [isContentExpanded, setIsContentExpanded] = useState(false);
-  const [selectedSize, setSelectedSize] = useState<Size>(dummySizeArray[0]);
+  const [selectedAttribute, setSelectedAttribute] = useState(
+    props.product.product_attributes?.find(item => !!item.is_default),
+  );
+  const [amount, setAmount] = useState(1);
+  const { attributeDetails, isFetchingAttributeDetail } = useAppSelector(
+    state => state.products,
+  );
 
-  const addToCartHandler = (size: Size) => {
-    const item: CartItem = {
-      product: props.product,
-      quantity: 1,
-      size,
-    };
+  const selectedAttributeDetail = useMemo(
+    () => attributeDetails[`${props.product.id}_${selectedAttribute.id}`],
+    [attributeDetails, props.product, selectedAttribute],
+  );
 
-    dispatch(addToCart(item));
+  const addToCartHandler = (attribute: ProductAttribute) => {
+    if (!props.product.id || !selectedAttribute) {
+      return;
+    }
+
+    if (selectedAttributeDetail) {
+      const item: CartItem = {
+        product: props.product,
+        quantity: amount,
+        attribute,
+        attributeDetail: selectedAttributeDetail,
+      };
+
+      dispatch(addToCart(item));
+    }
   };
+
+  useEffect(() => {
+    if (!props.product.id || !selectedAttribute) {
+      return;
+    }
+
+    dispatch(
+      fetchAttributeDetail({
+        productId: props.product.id,
+        attributeId: selectedAttribute.id,
+      }),
+    );
+  }, [dispatch, props.product, selectedAttribute]);
+
+  const renderProductPrice = useCallback(() => {
+    let originalPriceText = moneyFormat(props.product.original_price);
+    let salePriceText = moneyFormat(props.product.front_sale_price);
+
+    if (props.product.id && selectedAttribute && selectedAttributeDetail) {
+      originalPriceText = moneyFormat(selectedAttributeDetail.original_price);
+      salePriceText = moneyFormat(selectedAttributeDetail.front_sale_price);
+    }
+
+    return (
+      <Box flexDirection="row" alignItems="center">
+        <Text fontWeight="700" fontSize={20} color="primary">
+          {originalPriceText}
+        </Text>
+        {salePriceText !== originalPriceText && (
+          <Text
+            ml="2"
+            textDecorationStyle="solid"
+            textDecorationLine="line-through"
+            fontWeight="400"
+            fontSize={14}
+            color="gray6">
+            {salePriceText}
+          </Text>
+        )}
+        {/* <Box bg="yellow" px="1" py="0.5" ml="2">
+      <Text color="primary" fontWeight="500" fontSize={10}>
+        -20%
+      </Text>
+    </Box> */}
+      </Box>
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedAttributeDetail]);
 
   return (
     <Box py="2" px="3" mb="6">
@@ -55,26 +122,11 @@ const ProductDetail = (props: ProductDetailProps) => {
 
       <Box height={8} />
 
-      <Box flexDirection="row" alignItems="center">
-        <Text fontWeight="700" fontSize={20} color="primary">
-          {moneyFormat(props.product.front_sale_price)}
-        </Text>
-        {props.product.front_sale_price !== props.product.original_price && (
-          <Text
-            ml="2"
-            textDecorationStyle="solid"
-            textDecorationLine="line-through"
-            fontWeight="400"
-            fontSize={14}
-            color="gray6">
-            {moneyFormat(props.product.original_price)}
-          </Text>
+      <Box flexDirection="row">
+        {renderProductPrice()}
+        {isFetchingAttributeDetail && (
+          <ActivityIndicator style={{ marginLeft: 8 }} />
         )}
-        {/* <Box bg="yellow" px="1" py="0.5" ml="2">
-          <Text color="primary" fontWeight="500" fontSize={10}>
-            -20%
-          </Text>
-        </Box> */}
       </Box>
 
       <Box height={8} />
@@ -84,12 +136,18 @@ const ProductDetail = (props: ProductDetailProps) => {
         alignItems="center"
         justifyContent="space-between">
         {/* <ProductColorPicker didSelect={() => {}} /> */}
-        <SizePicker
-          sizes={dummySizeArray}
-          selectedId={selectedSize.id}
-          onSelect={setSelectedSize}
-        />
-        <CButton filled px="5" onPress={() => addToCartHandler(selectedSize)}>
+        {!!props.product.product_attributes && (
+          <SizePicker
+            attributes={props.product.product_attributes}
+            selectedId={selectedAttribute?.id}
+            onSelect={setSelectedAttribute}
+          />
+        )}
+        <CButton
+          isEnabled={!isFetchingAttributeDetail && !!selectedAttributeDetail}
+          filled
+          px="5"
+          onPress={() => addToCartHandler(selectedAttribute)}>
           Mua ngay
         </CButton>
       </Box>
@@ -107,13 +165,7 @@ const ProductDetail = (props: ProductDetailProps) => {
           url="https://lamia.com.vn/huong-dan-do-size"
         />
 
-        <AmountPicker
-          initialValue={1}
-          maxValue={10}
-          onPick={value => {
-            console.log(value);
-          }}
-        />
+        <AmountPicker value={amount} maxValue={10} onPick={setAmount} />
       </Box>
 
       <Box height={8} />

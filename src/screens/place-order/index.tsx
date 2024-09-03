@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Box, Text, Theme } from '@lamia/utils/theme';
 import CartStepsView from '../../components/cart/cart-steps-view';
 import CartBottomButton from '../../components/cart/cart-bottom-button';
@@ -13,43 +13,105 @@ import Switch from '@lamia/components/shared/switch';
 import { Pressable } from 'react-native';
 import { useTheme } from '@shopify/restyle';
 import DismissKeyboardView from '@lamia/components/shared/dismiss-keyboard-view';
-import Dropdown from '@lamia/components/shared/dropdown';
-
-const paymentMethods = [
-  { id: 1, title: 'Thu tiền tận nơi' },
-  { id: 2, title: 'Thanh toán bằng thẻ tín dụng (One Pay)' },
-  { id: 3, title: 'Thanh toán bằng thẻ ATM (One Pay)' },
-  { id: 4, title: 'Thanh toán bằng Apple Pay' },
-];
-
-const supporters = [
-  { id: 1, name: 'Supporter 1' },
-  { id: 2, name: 'Supporter 2' },
-  { id: 3, name: 'Supporter 3' },
-  { id: 4, name: 'Supporter 4' },
-  { id: 5, name: 'Supporter 5' },
-  { id: 6, name: 'Supporter 6' },
-  { id: 7, name: 'Supporter 7' },
-  { id: 8, name: 'Supporter 8' },
-];
+import { useAppDispatch, useAppSelector } from '@lamia/hooks/context';
+import Spinner from 'react-native-loading-spinner-overlay';
+import { checkCoupon, fetchShippingOptions, makeOrder } from './actions';
+import { OrderProduct } from '@lamia/models/product-attribute';
+import ToastHelper from '@lamia/utils/toast-helper';
 
 interface PlaceOrderProps {}
 
 const PlaceOrderScreen = (_: PlaceOrderProps) => {
   const theme = useTheme<Theme>();
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const cartItemsCount = 2;
+  const { deliveryAddress, cartItems, discount, shippingOptions } =
+    useAppSelector(state => state.cart);
+  const { loading } = useAppSelector(state => state.placeOrderScreen);
+  const { paymentMethods } = useAppSelector(state => state.global);
+  const cartItemsCount = useMemo(() => cartItems.length, [cartItems]);
+  const orderTotal = useMemo(
+    () =>
+      cartItems.reduce(
+        (acc, item) =>
+          acc + (item.product.front_sale_price || 0) * item.quantity,
+        0,
+      ),
+    [cartItems],
+  );
 
-  const [vatReceipt, setVatReceipt] = useState(false);
-  const [paymentMethodId, setPaymentMethodId] = useState(1);
-
-  const renderPaymentItem = (id: number, title: string) => {
+  const defaultShippingOption = useMemo(() => {
     return (
-      <Pressable onPress={() => setPaymentMethodId(id)}>
+      shippingOptions.find(item => !!item.default) || shippingOptions.at(0)
+    );
+  }, [shippingOptions]);
+
+  const [couponCode, setCouponCode] = useState('');
+  const [vatReceipt, setVatReceipt] = useState(false);
+  const [paymentMethodId, setPaymentMethodId] = useState<string | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    dispatch(fetchShippingOptions(orderTotal));
+  }, [orderTotal, dispatch]);
+
+  useEffect(() => {
+    if (!paymentMethodId) {
+      setPaymentMethodId(paymentMethods.find(item => !!item.default)?.id);
+    }
+  }, [paymentMethods, paymentMethodId]);
+
+  const placeOrder = () => {
+    if (!deliveryAddress || !defaultShippingOption || !paymentMethodId) {
+      return;
+    }
+    const products = cartItems.map(
+      (item): OrderProduct => ({
+        product_id: item.product.id || 0,
+        attribute_id: item.attribute.id || 0,
+        qty: item.quantity,
+        price: item.attributeDetail.front_sale_price,
+      }),
+    );
+
+    const params = {
+      address: { ...deliveryAddress, country: 'VN' },
+      shipping_option: defaultShippingOption.id,
+      shipping_method: 'default',
+      payment_method: paymentMethodId,
+      coupon_code: discount?.discount.code || '',
+      products,
+      description: undefined,
+    };
+    dispatch(
+      makeOrder({
+        ...params,
+        callback: () => {
+          ToastHelper.showToast(
+            'Thành công',
+            'Tạo đơn hàng thành công!',
+            'success',
+          );
+          navigation.getParent()?.goBack();
+        },
+      }),
+    );
+  };
+
+  const onCheckCoupon = () => {
+    if (couponCode) {
+      dispatch(checkCoupon(couponCode));
+    }
+  };
+
+  const renderPaymentItem = (id: string, title: string) => {
+    return (
+      <Pressable onPress={() => setPaymentMethodId(id)} key={id}>
         <Box flexDirection="row" alignItems="center">
           <CImage
             source={
-              paymentMethodId == id ? Images.radioActive : Images.radioInactive
+              paymentMethodId === id ? Images.radioActive : Images.radioInactive
             }
             size={16}
           />
@@ -64,6 +126,7 @@ const PlaceOrderScreen = (_: PlaceOrderProps) => {
 
   return (
     <Box flex={1} bg="white">
+      <Spinner visible={loading} />
       <CartStepsView step={2} />
       <DismissKeyboardView>
         <Box flex={1} py="4" px="3">
@@ -84,21 +147,16 @@ const PlaceOrderScreen = (_: PlaceOrderProps) => {
               <CTextInput
                 placeholder="Nhập mã giảm giá"
                 placeholderTextColor={theme.colors.gray5}
+                value={couponCode}
+                onChangeText={setCouponCode}
               />
             </Box>
-            <CButton outline>Áp dụng</CButton>
+            <CButton outline onPress={onCheckCoupon}>
+              Áp dụng
+            </CButton>
           </Box>
 
           <Box height={10} />
-
-          <Dropdown
-            data={supporters}
-            titleKey="name"
-            placeholder="Mã nhân viên hỗ trợ"
-            onSelect={(item: any) => {
-              console.log(item);
-            }}
-          />
 
           <Box flexDirection="row" alignItems="center" my="5">
             <Switch value={vatReceipt} onValueChanged={setVatReceipt} />
@@ -116,7 +174,7 @@ const PlaceOrderScreen = (_: PlaceOrderProps) => {
           <Box height={12} />
 
           <Box gap="2">
-            {paymentMethods.map(item => renderPaymentItem(item.id, item.title))}
+            {paymentMethods.map(item => renderPaymentItem(item.id, item.name))}
           </Box>
         </Box>
       </DismissKeyboardView>
@@ -127,10 +185,15 @@ const PlaceOrderScreen = (_: PlaceOrderProps) => {
         shadowOpacity={0.05}
         shadowRadius={2}
         elevation={3}>
-        <CartSummary total={2000000} discount={100000} />
+        <CartSummary
+          total={orderTotal}
+          discount={discount?.discount_amount || 0}
+          shipping={defaultShippingOption?.price || 0}
+        />
         <CartBottomButton
+          disabled={loading}
           buttonTitle={`Đặt hàng (${cartItemsCount})`}
-          onPress={() => navigation.getParent()?.goBack()}
+          onPress={placeOrder}
         />
       </Box>
     </Box>

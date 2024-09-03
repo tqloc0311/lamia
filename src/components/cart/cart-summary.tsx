@@ -6,6 +6,7 @@ import { moneyFormat } from '@lamia/utils/helpers';
 interface CartSummaryProps extends BoxProps<Theme> {
   total: number;
   discount: number;
+  shipping: number;
 }
 
 const CartSummary = (props: CartSummaryProps) => {
@@ -17,6 +18,15 @@ const CartSummary = (props: CartSummaryProps) => {
         </Text>
         <Text color="gray4" fontWeight="400" fontSize={14}>
           {moneyFormat(props.total) + 'đ'}
+        </Text>
+      </Box>
+
+      <Box flexDirection="row" justifyContent="space-between" mt="2">
+        <Text color="gray4" fontWeight="400" fontSize={14}>
+          Phí vận chuyển
+        </Text>
+        <Text color="gray4" fontWeight="400" fontSize={14}>
+          {moneyFormat(props.shipping || 0) + 'đ'}
         </Text>
       </Box>
 
@@ -34,7 +44,7 @@ const CartSummary = (props: CartSummaryProps) => {
       <Box flexDirection="row" justifyContent="space-between" mt="2">
         <Text fontSize={14}>Tạm tính</Text>
         <Text fontSize={14}>
-          {moneyFormat(props.total - props.discount) + 'đ'}
+          {moneyFormat(props.total - props.discount + props.shipping) + 'đ'}
         </Text>
       </Box>
     </Box>

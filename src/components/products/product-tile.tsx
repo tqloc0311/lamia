@@ -2,18 +2,18 @@ import React from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 import CImage from '../shared/custom-image';
 import { Images } from '@lamia/utils/images';
-import { Pressable, ViewStyle } from 'react-native';
-import { moneyFormat, randomNumber } from '@lamia/utils/helpers';
-import ProductColorPicker from './product-color-picker';
+import { ActivityIndicator, Pressable, ViewStyle } from 'react-native';
+import { moneyFormat } from '@lamia/utils/helpers';
 import { useNavigation } from '@react-navigation/native';
 import { AppNavigationType } from '@lamia/navigation/types';
 import { useState } from 'react';
 import Popup from '../shared/popup';
-import { useAppDispatch } from '@lamia/hooks/context';
+import { useAppDispatch, useAppSelector } from '@lamia/hooks/context';
 import Product from '@lamia/models/product';
-import { dummySizeArray, Size } from '@lamia/utils/types';
 import { CartItem } from '@lamia/models/cart-item';
 import { addToCart } from '@lamia/redux/actions/cart';
+import ProductAttribute from '@lamia/models/product-attribute';
+import { fetchAttributeDetail } from './actions';
 
 interface ProductTileProps {
   style?: ViewStyle;
@@ -25,6 +25,15 @@ const ProductTile = (props: ProductTileProps) => {
   const navigation = useNavigation<AppNavigationType>();
   const dispatch = useAppDispatch();
   const [isSizePickerVisible, setIsSizePickerVisible] = useState(false);
+  const { isFetchingAttributeDetail } = useAppSelector(state => state.products);
+
+  const showAddToCartPopup = () => {
+    if (!props.product.id) {
+      return;
+    }
+
+    setIsSizePickerVisible(true);
+  };
 
   const renderActions = () => {
     return (
@@ -53,7 +62,7 @@ const ProductTile = (props: ProductTileProps) => {
 
           <Box width={4} /> */}
 
-          <Pressable onPress={() => setIsSizePickerVisible(true)}>
+          <Pressable onPress={() => showAddToCartPopup()}>
             <Box
               aspectRatio={1}
               bg="primary"
@@ -70,44 +79,60 @@ const ProductTile = (props: ProductTileProps) => {
     );
   };
 
-  const renderFlashSale = () => {
-    return <Box></Box>;
-  };
+  // const renderFlashSale = () => {
+  //   return <Box></Box>;
+  // };
 
-  const renderPromotion = () => {
-    return <Box></Box>;
-  };
+  // const renderPromotion = () => {
+  //   return <Box></Box>;
+  // };
 
-  const renderDiscount = () => {
-    return (
-      <Box
-        position="absolute"
-        top={8}
-        right={0}
-        bg="yellow"
-        px="1.5"
-        py="0.5"
-        borderTopLeftRadius="rounded16"
-        borderBottomLeftRadius="rounded16">
-        <Text color="red" fontWeight="500" fontSize={10}>
-          -20%
-        </Text>
-      </Box>
+  // const renderDiscount = () => {
+  //   return (
+  //     <Box
+  //       position="absolute"
+  //       top={8}
+  //       right={0}
+  //       bg="yellow"
+  //       px="1.5"
+  //       py="0.5"
+  //       borderTopLeftRadius="rounded16"
+  //       borderBottomLeftRadius="rounded16">
+  //       <Text color="red" fontWeight="500" fontSize={10}>
+  //         -20%
+  //       </Text>
+  //     </Box>
+  //   );
+  // };
+
+  // const renderBestSeller = () => {
+  //   return <Box></Box>;
+  // };
+
+  const addToCartHandler = (attribute: ProductAttribute) => {
+    if (!props.product.id) {
+      return;
+    }
+
+    dispatch(
+      fetchAttributeDetail({
+        productId: props.product.id,
+        attributeId: attribute.id,
+        callback: attributeDetail => {
+          if (attributeDetail) {
+            setIsSizePickerVisible(false);
+            const item: CartItem = {
+              product: props.product,
+              attribute,
+              attributeDetail,
+              quantity: 1,
+            };
+
+            dispatch(addToCart(item));
+          }
+        },
+      }),
     );
-  };
-
-  const renderBestSeller = () => {
-    return <Box></Box>;
-  };
-
-  const addToCartHandler = (size: Size) => {
-    const item: CartItem = {
-      product: props.product,
-      quantity: 1,
-      size,
-    };
-
-    dispatch(addToCart(item));
   };
 
   if (!props.product) {
@@ -121,28 +146,32 @@ const ProductTile = (props: ProductTileProps) => {
         position="bottom"
         onTouchOutside={() => setIsSizePickerVisible(false)}>
         <Box bg="white" px="3" pb="4">
-          <Box gap="5">
-            {dummySizeArray.map(size => {
-              return (
-                <Pressable
-                  key={size.id}
-                  onPress={() => {
-                    setIsSizePickerVisible(false);
-                    addToCartHandler(size);
-                  }}>
-                  <Box px="2">
-                    <Text textAlign="center" fontSize={18} fontWeight="700">
-                      {size.title}
-                    </Text>
-                  </Box>
-                </Pressable>
-              );
-            })}
-          </Box>
-          <Box height={20} />
-          <Text fontWeight="700" textAlign="center">
-            Bạn chọn cỡ gì?
-          </Text>
+          {isFetchingAttributeDetail && <ActivityIndicator />}
+          {!isFetchingAttributeDetail && (
+            <Box>
+              <Box gap="5">
+                {(props.product.product_attributes || []).map(attribute => {
+                  return (
+                    <Pressable
+                      key={attribute.id}
+                      onPress={() => {
+                        addToCartHandler(attribute);
+                      }}>
+                      <Box px="2">
+                        <Text textAlign="center" fontSize={18} fontWeight="700">
+                          {attribute.title}
+                        </Text>
+                      </Box>
+                    </Pressable>
+                  );
+                })}
+              </Box>
+              <Box height={20} />
+              <Text fontWeight="700" textAlign="center">
+                Bạn chọn cỡ gì?
+              </Text>
+            </Box>
+          )}
         </Box>
       </Popup>
       <Pressable

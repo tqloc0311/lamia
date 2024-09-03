@@ -9,3 +9,7 @@ export const fetchData = async (endpoint: string, params: any = {}) => {
 export const postData = async (endpoint: string, data: any) => {
   return networkService.post(endpoint, data);
 };
+
+export const putData = async (endpoint: string, data: any) => {
+  return networkService.put(endpoint, data);
+};

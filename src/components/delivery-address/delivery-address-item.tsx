@@ -4,10 +4,12 @@ import { BoxProps } from '@shopify/restyle';
 import { Pressable } from 'react-native';
 import CImage from '../shared/custom-image';
 import { Images } from '@lamia/utils/images';
+import { IAddress } from '@lamia/models/address';
 
 interface DeliveryAddressItemProps extends BoxProps<Theme> {
   selected: boolean;
-  default: boolean;
+  data: IAddress;
+  hideSelection?: boolean;
   onSelect: () => void;
   onEdit: () => void;
 }
@@ -20,20 +22,25 @@ const DeliveryAddressItem = (props: DeliveryAddressItemProps) => {
         m="3"
         borderBottomColor="gray8"
         borderBottomWidth={1}>
-        <CImage
-          source={props.selected ? Images.radioActive : Images.radioInactive}
-          size={16}
-          mr="3"
-        />
+        {!props.hideSelection && (
+          <Box mr="3">
+            <CImage
+              source={
+                props.selected ? Images.radioActive : Images.radioInactive
+              }
+              size={16}
+            />
+          </Box>
+        )}
 
         <Box flex={1}>
           <Box flexDirection="row" alignItems="center">
             <Text fontSize={14} fontWeight="700">
-              John Doe
+              {props.data.name}
             </Text>
             <Box width={1} height={10} bg="primary" mx="3" />
             <Text fontSize={14} color="gray3" fontWeight="400">
-              0909 123 456
+              {props.data.phone}
             </Text>
             <Box flex={1} />
             <Pressable onPress={props.onEdit}>
@@ -44,12 +51,16 @@ const DeliveryAddressItem = (props: DeliveryAddressItemProps) => {
           </Box>
           <Box my="2">
             <Text fontSize={12} color="gray3" fontWeight="400">
-              Test, Phường 03, Đường D1, Khu Công Nghệ Cao Phường Tân Phú, Thành
-              Phố Thủ Đức
+              {[
+                props.data.address,
+                props.data.ward,
+                props.data.district,
+                props.data.city,
+              ].join(', ')}
             </Text>
           </Box>
 
-          {props.default && (
+          {!!props.data.default_address && (
             <Box
               px="1.5"
               borderWidth={1}

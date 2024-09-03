@@ -82,7 +82,10 @@ const CartScreen = () => {
         <CartBottomButton
           buttonTitle={
             cartItems.length > 0
-              ? `Đặt hàng (${cartItems.length})`
+              ? `Đặt hàng (${cartItems.reduce(
+                  (acc, item) => acc + item.quantity,
+                  0,
+                )})`
               : 'Tiếp tục mua sắm'
           }
           onPress={() => {

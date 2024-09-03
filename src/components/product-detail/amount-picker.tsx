@@ -1,5 +1,5 @@
 import { Pressable } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 
 interface AmountPickerButtonProps {
@@ -27,47 +27,29 @@ const AmountPickerButton = (props: AmountPickerButtonProps) => {
 };
 
 interface AmountPickerProps {
-  initialValue?: number;
+  value: number;
   maxValue?: number;
   onPick: (value: number) => void;
 }
 
 const AmountPicker = (props: AmountPickerProps) => {
-  const [value, setValue] = useState<number>(props.initialValue ?? 1);
-
-  useEffect(() => {
-    props.onPick(value);
-  }, [value, props]);
-
   return (
     <Box flexDirection="row" alignItems="center">
       <AmountPickerButton
         title="-"
         onPress={() => {
-          setValue(prev => {
-            if (prev > 1) {
-              return prev - 1;
-            }
-
-            return prev;
-          });
+          props.onPick(props.value - 1);
         }}
       />
       <Box width={40} justifyContent="center" alignItems="center">
         <Text fontSize={16} color="primary">
-          {value}
+          {props.value}
         </Text>
       </Box>
       <AmountPickerButton
         title="+"
         onPress={() => {
-          setValue(prev => {
-            if ((props.maxValue && prev < props.maxValue) || !props.maxValue) {
-              return prev + 1;
-            }
-
-            return prev;
-          });
+          props.onPick(props.value + 1);
         }}
       />
     </Box>

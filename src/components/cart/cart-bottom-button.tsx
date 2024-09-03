@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface CartBottomButtonProps extends ViewProps {
   buttonTitle: string;
+  disabled?: boolean;
   onPress: () => void;
 }
 
@@ -13,7 +14,7 @@ const CartBottomButton = (props: CartBottomButtonProps) => {
   const insets = useSafeAreaInsets();
   return (
     <Box px="4" py="2" style={{ marginBottom: insets.bottom }} {...props}>
-      <CButton filled onPress={props.onPress}>
+      <CButton isEnabled={!props.disabled} filled onPress={props.onPress}>
         {props.buttonTitle}
       </CButton>
     </Box>

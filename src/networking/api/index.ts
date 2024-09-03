@@ -5,6 +5,7 @@ import * as userAPI from './userAPI';
 import * as categoryAPI from './categoryAPI';
 import * as productAPI from './productAPI';
 import * as reviewAPI from './reviewAPI';
+import * as orderAPI from './orderAPI';
 
 const API = {
   pageAPI,
@@ -14,5 +15,6 @@ const API = {
   categoryAPI,
   productAPI,
   reviewAPI,
+  orderAPI,
 };
 export default API;

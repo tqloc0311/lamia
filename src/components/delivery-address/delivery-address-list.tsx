@@ -1,35 +1,69 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 import DeliveryAddressItem from '@lamia/components/delivery-address/delivery-address-item';
-import { FlatList, ListRenderItemInfo, Pressable } from 'react-native';
+import {
+  FlatList,
+  ListRenderItemInfo,
+  Pressable,
+  RefreshControl,
+} from 'react-native';
 import CImage from '@lamia/components/shared/custom-image';
 import { Images } from '@lamia/utils/images';
 import { NativeStackNavigationBaseType } from '@lamia/navigation/types';
 import { useNavigation } from '@react-navigation/native';
+import { useAppDispatch, useAppSelector } from '@lamia/hooks/context';
+import { IAddress } from '@lamia/models/address';
+import DeliveryAddressListSkeleton from './delivery-address-list-skeleton';
+import { Colors } from '@lamia/utils/theme/colors';
+import { fetchDeliveryAddresses } from './actions';
+import { useEffectOnce } from 'react-use';
+import { setDeliveryAddress } from '@lamia/redux/slices/cartSlice';
 
-interface DeliveryAddressListProps {}
+interface DeliveryAddressListProps {
+  hideSelection?: boolean;
+  onSelect?: (item: IAddress) => void;
+}
 
-const data = [...Array(10)].map((_, i) => i + 1);
-
-const DeliveryAddressList = (_: DeliveryAddressListProps) => {
+const DeliveryAddressList = (props: DeliveryAddressListProps) => {
   const navigation = useNavigation<NativeStackNavigationBaseType>();
-  const [selectedId, setSelectedId] = useState(1);
-  let defaultId = 1;
+  const dispatch = useAppDispatch();
+  const { addresses } = useAppSelector(state => state.addresses);
+  const { loading } = useAppSelector(state => state.deliveryAddressScreen);
+  const [selectedAddress, setSelectedAddress] = useState<IAddress | undefined>(
+    undefined,
+  );
 
-  const renderItem = (itemData: ListRenderItemInfo<number>) => {
+  useEffect(() => {
+    if (!selectedAddress) {
+      setSelectedAddress(addresses.find(item => item.default_address));
+    }
+  }, [addresses, selectedAddress]);
+
+  useEffect(() => {
+    if (selectedAddress) {
+      dispatch(setDeliveryAddress(selectedAddress));
+    }
+  }, [dispatch, selectedAddress]);
+
+  useEffectOnce(() => {
+    onRefresh();
+  });
+
+  const renderItem = (itemData: ListRenderItemInfo<IAddress>) => {
     return (
       <DeliveryAddressItem
-        onSelect={() => setSelectedId(itemData.item)}
+        hideSelection={props.hideSelection}
+        onSelect={() => setSelectedAddress(itemData.item)}
         onEdit={() =>
           navigation.navigate('EditDeliveryAddress', { address: itemData.item })
         }
-        selected={selectedId === itemData.item}
-        default={defaultId === itemData.item}
+        selected={selectedAddress?.id === itemData.item.id}
+        data={itemData.item}
       />
     );
   };
 
-  const renderHeader = () => {
+  const renderHeader = useCallback(() => {
     return (
       <Pressable
         onPress={() => {
@@ -55,18 +89,33 @@ const DeliveryAddressList = (_: DeliveryAddressListProps) => {
         </Box>
       </Pressable>
     );
+  }, [navigation]);
+
+  const onRefresh = () => {
+    dispatch(fetchDeliveryAddresses());
   };
 
   return (
     <Box flex={1}>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        scrollEventThrottle={16}
-        ListHeaderComponent={renderHeader}
-      />
+      {!loading ? (
+        <FlatList
+          data={addresses}
+          renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          scrollEventThrottle={16}
+          ListHeaderComponent={renderHeader}
+          refreshControl={
+            <RefreshControl
+              refreshing={loading}
+              onRefresh={onRefresh}
+              tintColor={Colors.primary}
+            />
+          }
+        />
+      ) : (
+        <DeliveryAddressListSkeleton />
+      )}
     </Box>
   );
 };

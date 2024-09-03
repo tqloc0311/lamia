@@ -81,7 +81,6 @@ export const resend = createAsyncThunk(
         throw { message: 'Lỗi không xác định (data response not found).' };
       }
     } catch (error: any) {
-      console.log('🚀 ~ error:', error);
       ToastHelper.showError('Lỗi', error);
     } finally {
       dispatch(setLoading(false));

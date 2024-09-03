@@ -16,3 +16,12 @@ export const fetchProducts = async (
 export const fetchProductDetail = async (id: number) => {
   return await fetchData(`product/${id}`);
 };
+
+export const fetchAttributeDetail = async (
+  productId: number,
+  attributeId: number,
+) => {
+  return await fetchData(
+    `product_attributes/${productId}?attributes=${attributeId}`,
+  );
+};

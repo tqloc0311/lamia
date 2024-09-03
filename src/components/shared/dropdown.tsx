@@ -1,5 +1,5 @@
 import { Platform, Pressable, StyleSheet } from 'react-native';
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, { forwardRef } from 'react';
 import ModalDropdown from 'react-native-modal-dropdown';
 import { Box, Text, Theme } from '@lamia/utils/theme';
 import CImage from './custom-image';
@@ -8,34 +8,25 @@ import { BoxProps } from '@shopify/restyle';
 
 interface DropdownProps extends BoxProps<Theme> {
   data: any[];
-  initialIndex?: number;
+  selectedItem?: any;
   titleKey: string;
   placeholder: string;
   numOfVisibleRow?: number;
   onSelect?: (item: any) => void;
+  disabled?: boolean;
 }
 
 const DEFAULT_ROW_HEIGHT = 40;
 
-const Dropdown = (props: DropdownProps, ref: any) => {
-  const [selectedItem, setSelectedItem] = useState<any>(
-    props.initialIndex !== undefined ? props.data.at(props.initialIndex) : null,
-  );
-
-  useImperativeHandle(ref, () => ({
-    clearSelected: () => {
-      setSelectedItem(null);
-    },
-  }));
-
+const Dropdown = (props: DropdownProps) => {
   return (
     <ModalDropdown
+      disabled={props.disabled}
       shouldRasterizeIOS={false}
       dropdownStyle={styles.dropdown}
       options={props.data}
       isFullWidth
       onSelect={(index, option) => {
-        setSelectedItem(option);
         props.onSelect && props.onSelect(option);
       }}
       saveScrollPosition={false}
@@ -74,8 +65,10 @@ const Dropdown = (props: DropdownProps, ref: any) => {
             <Text
               fontWeight="400"
               fontSize={14}
-              color={selectedItem ? 'primary' : 'gray5'}>
-              {selectedItem ? selectedItem[props.titleKey] : props.placeholder}
+              color={props.selectedItem ? 'primary' : 'gray5'}>
+              {props.selectedItem
+                ? props.selectedItem[props.titleKey]
+                : props.placeholder}
             </Text>
           </Box>
           <CImage source={Images.arrowDown} size={10} />

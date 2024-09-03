@@ -67,7 +67,7 @@ export const randomNumericString = (size: number) => {
 };
 
 export const moneyFormat = (x: number | undefined | null) => {
-  if (!x) {
+  if (x === undefined || x === null) {
     return '';
   }
 

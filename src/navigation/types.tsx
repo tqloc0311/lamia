@@ -1,3 +1,4 @@
+import { IAddress } from '@lamia/models/address';
 import { ParamListBase } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -30,7 +31,7 @@ export type AppStackParams = {
   Favorite: NativeStackNavigationBaseType;
   DeliveryAddress: NativeStackNavigationBaseType;
   EditDeliveryAddress: {
-    address?: any;
+    address?: IAddress;
   };
   OrderManagement: NativeStackNavigationBaseType;
   Products: {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Text, Theme } from '@lamia/utils/theme';
 import { BoxProps } from '@shopify/restyle';
 import CImage from '../shared/custom-image';
@@ -7,13 +7,32 @@ import CIcon from '../shared/custom-icon';
 import AmountPicker from '../product-detail/amount-picker';
 import { CartItem as CartItemModel } from '@lamia/models/cart-item';
 import { moneyFormat } from '@lamia/utils/helpers';
+import { useAppDispatch } from '@lamia/hooks/context';
+import {
+  removeFromCart,
+  updateCartItemQuantity,
+} from '@lamia/redux/slices/cartSlice';
+import { TouchableOpacity } from 'react-native';
 
 interface CartItemProps extends BoxProps<Theme> {
   data: CartItemModel;
 }
 
 const CartItem = ({ data, ...props }: CartItemProps) => {
-  const { product, size, quantity } = data;
+  const dispatch = useAppDispatch();
+
+  const { product, quantity, attribute } = data;
+
+  const removeItem = () => {
+    if (!product.id) {
+      return;
+    }
+
+    dispatch(
+      removeFromCart({ attributeId: attribute.id, productId: product.id }),
+    );
+  };
+
   return (
     <Box
       {...props}
@@ -24,7 +43,7 @@ const CartItem = ({ data, ...props }: CartItemProps) => {
       <Box flexDirection="row">
         <CImage
           defaultSource={Images.noImage}
-          source={{ uri: product.images?.[0] }}
+          source={{ uri: product.image }}
           size={75}
         />
         <Box width={12} />
@@ -32,11 +51,13 @@ const CartItem = ({ data, ...props }: CartItemProps) => {
           <Box flexDirection="row">
             <Box flex={1}>
               <Text fontSize={14} fontWeight="500" numberOfLines={2}>
-                {product.name + 'abc def ghi'}
+                {product.name}
               </Text>
             </Box>
             <Box width={12} />
-            <CIcon image={Images.trash} size={20} />
+            <TouchableOpacity onPress={removeItem}>
+              <CIcon image={Images.trash} size={20} />
+            </TouchableOpacity>
           </Box>
 
           <Box my="1.5" flexDirection="row" alignItems="center">
@@ -55,7 +76,7 @@ const CartItem = ({ data, ...props }: CartItemProps) => {
             <Box width={1} height={10} bg="gray7" mx="1.5" /> */}
 
             <Text fontSize={12} color="gray5">
-              {`Size: ${size.title}`}
+              {`Size: ${attribute.title}`}
             </Text>
           </Box>
 
@@ -81,7 +102,22 @@ const CartItem = ({ data, ...props }: CartItemProps) => {
               )}
             </Box>
 
-            <AmountPicker initialValue={quantity} onPick={_ => {}} />
+            <AmountPicker
+              value={quantity}
+              onPick={amount => {
+                if (!product.id) {
+                  return;
+                }
+
+                dispatch(
+                  updateCartItemQuantity({
+                    attributeId: attribute.id,
+                    productId: product.id,
+                    quantity: amount,
+                  }),
+                );
+              }}
+            />
           </Box>
         </Box>
       </Box>

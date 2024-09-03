@@ -1,3 +1,5 @@
+import ProductAttribute from './product-attribute';
+
 interface Slugable {
   id?: number;
   key?: string;
@@ -96,7 +98,8 @@ interface IProduct {
   variations?: Variation[];
   product_labels?: ProductLabel[];
   variation_attribute_swatches_for_product_list?: AttributeSwatch[];
-  product_collections?: any[]; // Adjust type as per actual structure
+  product_collections?: any[];
+  product_attributes?: ProductAttribute[];
 }
 
 class Product implements IProduct {
@@ -142,6 +145,7 @@ class Product implements IProduct {
   product_labels?: ProductLabel[];
   variation_attribute_swatches_for_product_list?: AttributeSwatch[];
   product_collections?: any[];
+  product_attributes?: ProductAttribute[];
 }
 
 export type OptionalProduct = Product | undefined;

@@ -6,11 +6,17 @@ import bannerSlice from './slices/bannerSlice';
 import categorySlice from './slices/categorySlice';
 import productSlice from './slices/productSlice';
 import reviewSlice from './slices/reviewSlice';
+import addressSlice from './slices/addressSlice';
+import globalSlice from './slices/globalSlice';
+import userSlice from './slices/userSlice';
 import productScreenSlice from '@lamia/screens/products/store';
 import productDetailScreenSlice from '@lamia/screens/product-detail/store';
 import reviewSubmitScreenSlice from '@lamia/screens/product-comment-submit/store';
 import categoriesScreenSlice from '@lamia/screens/categories/store';
 import paymentPolicyScreenSlice from '@lamia/screens/payment-policy/store';
+import deliveryAddressScreenSlice from '@lamia/components/delivery-address/store';
+import editDeliveryAddressScreenSlice from '@lamia/screens/edit-delivery-address/store';
+import placeOrderScreenSlice from '@lamia/screens/place-order/store.ts';
 
 const rootReducer = combineReducers({
   app: appSlice,
@@ -20,11 +26,17 @@ const rootReducer = combineReducers({
   categories: categorySlice,
   products: productSlice,
   reviews: reviewSlice,
+  addresses: addressSlice,
+  global: globalSlice,
+  user: userSlice,
   productsScreen: productScreenSlice,
   productDetailScreen: productDetailScreenSlice,
   reviewSubmitScreen: reviewSubmitScreenSlice,
   categoriesScreen: categoriesScreenSlice,
   paymentPolicyScreen: paymentPolicyScreenSlice,
+  deliveryAddressScreen: deliveryAddressScreenSlice,
+  editDeliveryAddressScreen: editDeliveryAddressScreenSlice,
+  placeOrderScreen: placeOrderScreenSlice,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
