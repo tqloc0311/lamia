@@ -22,8 +22,6 @@ const ProductTileSkeleton = () => {
         />
         <Box flex={1} />
         <Animated.View style={[styles.box20, skeletonAnimatedStyle]} />
-        <Box width={8} />
-        <Animated.View style={[styles.box20, skeletonAnimatedStyle]} />
       </Box>
       <Box height={8} />
       <Animated.View style={[styles.row, skeletonAnimatedStyle]} />

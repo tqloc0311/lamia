@@ -18,12 +18,15 @@ import { CartItem } from '@lamia/models/cart-item';
 import { addToCart } from '@lamia/redux/actions/cart';
 import ProductAttribute from '@lamia/models/product-attribute';
 import { fetchAttributeDetail } from '../products/actions';
+import { useNavigation } from '@react-navigation/native';
+import { AppNavigationType } from '@lamia/navigation/types';
 
 interface ProductDetailProps {
   product: Product;
 }
 
 const ProductDetail = (props: ProductDetailProps) => {
+  const navigation = useNavigation<AppNavigationType>();
   const dispatch = useAppDispatch();
   const [selectedSegmentIndex, setSelectedSegmentIndex] = useState(0);
   const [isReturnPrivacyExpanded, setIsReturnPrivacyExpanded] = useState(false);
@@ -35,14 +38,20 @@ const ProductDetail = (props: ProductDetailProps) => {
   const { attributeDetails, isFetchingAttributeDetail } = useAppSelector(
     state => state.products,
   );
+  const { currentUser } = useAppSelector(state => state.app);
 
   const selectedAttributeDetail = useMemo(
-    () => attributeDetails[`${props.product.id}_${selectedAttribute.id}`],
+    () => attributeDetails[`${props.product.id}_${selectedAttribute?.id}`],
     [attributeDetails, props.product, selectedAttribute],
   );
 
-  const addToCartHandler = (attribute: ProductAttribute) => {
-    if (!props.product.id || !selectedAttribute) {
+  const addToCartHandler = (attribute?: ProductAttribute) => {
+    if (!currentUser) {
+      navigation.navigate('Login');
+      return;
+    }
+
+    if (!props.product.id || !selectedAttribute || !attribute) {
       return;
     }
 
@@ -108,7 +117,7 @@ const ProductDetail = (props: ProductDetailProps) => {
 
   return (
     <Box py="2" px="3" mb="6">
-      <Text>
+      <Text lineHeight={21}>
         <Text fontSize={16} numberOfLines={2}>
           {props.product.name}
         </Text>
@@ -139,7 +148,7 @@ const ProductDetail = (props: ProductDetailProps) => {
         {!!props.product.product_attributes && (
           <SizePicker
             attributes={props.product.product_attributes}
-            selectedId={selectedAttribute?.id}
+            selected={selectedAttribute}
             onSelect={setSelectedAttribute}
           />
         )}
@@ -151,6 +160,8 @@ const ProductDetail = (props: ProductDetailProps) => {
           Mua ngay
         </CButton>
       </Box>
+
+      <Text>{`Tồn kho: ${props.product.quantity}`}</Text>
 
       <Box height={8} />
 

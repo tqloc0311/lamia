@@ -10,12 +10,14 @@ import ProductAttribute from '@lamia/models/product-attribute';
 
 interface SizePickerProps {
   attributes: ProductAttribute[];
-  selectedId: number;
+  selected: ProductAttribute | undefined;
   onSelect?: (attribute: ProductAttribute) => void;
 }
 
 const SizePicker = (props: SizePickerProps) => {
-  const [selectedId, setSelectedId] = useState<number>(props.selectedId);
+  const [selected, setSelected] = useState<ProductAttribute | undefined>(
+    props.selected,
+  );
 
   const renderItem = (info: ListRenderItemInfo<ProductAttribute>) => {
     const attribute = info.item;
@@ -25,7 +27,7 @@ const SizePicker = (props: SizePickerProps) => {
         // disabled={attribute.disabled}
         onPress={() => {
           props.onSelect && props.onSelect(attribute);
-          setSelectedId(attribute.id);
+          setSelected(attribute);
         }}>
         <Box
           height={30}
@@ -33,12 +35,12 @@ const SizePicker = (props: SizePickerProps) => {
           mr="1.5"
           aspectRatio={1}
           borderWidth={1}
-          borderColor={selectedId === attribute.id ? 'primary' : 'gray6'}
+          borderColor={selected?.id === attribute.id ? 'primary' : 'gray6'}
           // bg={!attribute.disabled ? 'white' : 'gray9'}
           justifyContent="center"
           alignItems="center">
           <Text
-            color={selectedId === attribute.id ? 'primary' : 'gray5'}
+            color={selected?.id === attribute.id ? 'primary' : 'gray5'}
             fontSize={12}>
             {attribute.title}
           </Text>

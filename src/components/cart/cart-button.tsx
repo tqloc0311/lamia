@@ -1,5 +1,5 @@
 import { StyleSheet, Text } from 'react-native';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Box } from '@lamia/utils/theme';
 import CIcon from '../shared/custom-icon';
 import { Images } from '@lamia/utils/images';
@@ -16,7 +16,11 @@ import { useUpdateEffect } from 'react-use';
 const CartButton = () => {
   const navigation = useNavigation<AppNavigationType>();
   const { cartItems } = useAppSelector(state => state.cart);
-  const badge = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const { currentUser } = useAppSelector(state => state.app);
+  const badge = useMemo(
+    () => cartItems.reduce((acc, item) => acc + item.quantity, 0),
+    [cartItems],
+  );
 
   const animateScale = useSharedValue(1);
   const animateStyle = useAnimatedStyle(() => {
@@ -41,7 +45,11 @@ const CartButton = () => {
         size={20}
         mr="4"
         onPress={() => {
-          navigation.navigate('Cart');
+          if (!currentUser) {
+            navigation.navigate('Login');
+          } else {
+            navigation.navigate('Cart');
+          }
         }}
       />
       {badge > 0 && (

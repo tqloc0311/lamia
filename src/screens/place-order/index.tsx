@@ -10,7 +10,7 @@ import CButton from '@lamia/components/shared/custom-button';
 import CImage from '@lamia/components/shared/custom-image';
 import { Images } from '@lamia/utils/images';
 import Switch from '@lamia/components/shared/switch';
-import { Pressable } from 'react-native';
+import { Pressable, ScrollView } from 'react-native';
 import { useTheme } from '@shopify/restyle';
 import DismissKeyboardView from '@lamia/components/shared/dismiss-keyboard-view';
 import { useAppDispatch, useAppSelector } from '@lamia/hooks/context';
@@ -18,6 +18,10 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { checkCoupon, fetchShippingOptions, makeOrder } from './actions';
 import { OrderProduct } from '@lamia/models/product-attribute';
 import ToastHelper from '@lamia/utils/toast-helper';
+import RenderHTML from 'react-native-render-html';
+import Layout from '@lamia/constants/Layout';
+import { IShippingOption } from '@lamia/models/order';
+import { clearCart } from '@lamia/redux/slices/cartSlice';
 
 interface PlaceOrderProps {}
 
@@ -40,21 +44,26 @@ const PlaceOrderScreen = (_: PlaceOrderProps) => {
     [cartItems],
   );
 
-  const defaultShippingOption = useMemo(() => {
-    return (
-      shippingOptions.find(item => !!item.default) || shippingOptions.at(0)
-    );
-  }, [shippingOptions]);
-
   const [couponCode, setCouponCode] = useState('');
   const [vatReceipt, setVatReceipt] = useState(false);
   const [paymentMethodId, setPaymentMethodId] = useState<string | undefined>(
     undefined,
   );
+  const [shippingOption, setShippingOption] = useState<
+    IShippingOption | undefined
+  >(undefined);
 
   useEffect(() => {
     dispatch(fetchShippingOptions(orderTotal));
   }, [orderTotal, dispatch]);
+
+  useEffect(() => {
+    if (!shippingOption) {
+      setShippingOption(
+        shippingOptions.find(item => !!item.default) || shippingOptions.at(0),
+      );
+    }
+  }, [shippingOptions, shippingOption]);
 
   useEffect(() => {
     if (!paymentMethodId) {
@@ -63,7 +72,7 @@ const PlaceOrderScreen = (_: PlaceOrderProps) => {
   }, [paymentMethods, paymentMethodId]);
 
   const placeOrder = () => {
-    if (!deliveryAddress || !defaultShippingOption || !paymentMethodId) {
+    if (!deliveryAddress || !shippingOption || !paymentMethodId) {
       return;
     }
     const products = cartItems.map(
@@ -77,7 +86,7 @@ const PlaceOrderScreen = (_: PlaceOrderProps) => {
 
     const params = {
       address: { ...deliveryAddress, country: 'VN' },
-      shipping_option: defaultShippingOption.id,
+      shipping_option: shippingOption.id,
       shipping_method: 'default',
       payment_method: paymentMethodId,
       coupon_code: discount?.discount.code || '',
@@ -88,6 +97,8 @@ const PlaceOrderScreen = (_: PlaceOrderProps) => {
       makeOrder({
         ...params,
         callback: () => {
+          dispatch(clearCart());
+
           ToastHelper.showToast(
             'Thành công',
             'Tạo đơn hàng thành công!',
@@ -105,19 +116,53 @@ const PlaceOrderScreen = (_: PlaceOrderProps) => {
     }
   };
 
-  const renderPaymentItem = (id: string, title: string) => {
+  const renderPaymentItem = (id: string, title: string, des: string) => {
     return (
       <Pressable onPress={() => setPaymentMethodId(id)} key={id}>
+        <Box>
+          <Box flexDirection="row" alignItems="center">
+            <CImage
+              source={
+                paymentMethodId === id
+                  ? Images.radioActive
+                  : Images.radioInactive
+              }
+              size={16}
+            />
+
+            <Text fontWeight="400" fontSize={14} color="gray2" ml="2">
+              {title}
+            </Text>
+          </Box>
+
+          <Box ml="6" my="1">
+            {paymentMethodId === id && (
+              <RenderHTML
+                contentWidth={Layout.window.width - 40}
+                source={{ html: des }}
+              />
+            )}
+          </Box>
+        </Box>
+      </Pressable>
+    );
+  };
+
+  const renderShippingItem = (item: IShippingOption) => {
+    return (
+      <Pressable onPress={() => setShippingOption(item)} key={item.id}>
         <Box flexDirection="row" alignItems="center">
           <CImage
             source={
-              paymentMethodId === id ? Images.radioActive : Images.radioInactive
+              shippingOption?.id === item.id
+                ? Images.radioActive
+                : Images.radioInactive
             }
             size={16}
           />
 
           <Text fontWeight="400" fontSize={14} color="gray2" ml="2">
-            {title}
+            {item.name}
           </Text>
         </Box>
       </Pressable>
@@ -128,56 +173,72 @@ const PlaceOrderScreen = (_: PlaceOrderProps) => {
     <Box flex={1} bg="white">
       <Spinner visible={loading} />
       <CartStepsView step={2} />
-      <DismissKeyboardView>
-        <Box flex={1} py="4" px="3">
-          <Box>
-            <Text fontWeight="700" fontSize={16}>
-              Mã phiếu giảm giá
-            </Text>
-          </Box>
-          <Box height={12} />
-          <Box flexDirection="row" gap="2.5">
-            <Box
-              flex={1}
-              borderRadius="rounded4"
-              borderWidth={1}
-              borderColor="gray7"
-              px="2"
-              py="1.5">
-              <CTextInput
-                placeholder="Nhập mã giảm giá"
-                placeholderTextColor={theme.colors.gray5}
-                value={couponCode}
-                onChangeText={setCouponCode}
-              />
+      <ScrollView>
+        <DismissKeyboardView>
+          <Box flex={1} py="4" px="3">
+            <Box>
+              <Text fontWeight="700" fontSize={16}>
+                Mã phiếu giảm giá
+              </Text>
             </Box>
-            <CButton outline onPress={onCheckCoupon}>
-              Áp dụng
-            </CButton>
+            <Box height={12} />
+            <Box flexDirection="row" gap="2.5">
+              <Box
+                flex={1}
+                borderRadius="rounded4"
+                borderWidth={1}
+                borderColor="gray7"
+                px="2"
+                py="1.5">
+                <CTextInput
+                  placeholder="Nhập mã giảm giá"
+                  placeholderTextColor={theme.colors.gray5}
+                  value={couponCode}
+                  onChangeText={setCouponCode}
+                />
+              </Box>
+              <CButton outline onPress={onCheckCoupon}>
+                Áp dụng
+              </CButton>
+            </Box>
+
+            <Box height={10} />
+
+            <Box flexDirection="row" alignItems="center" my="5">
+              <Switch value={vatReceipt} onValueChanged={setVatReceipt} />
+              <Text color="gray2" fontWeight="400" ml="2.5">
+                Nhận hóa đơn VAT
+              </Text>
+            </Box>
+
+            <Box>
+              <Text fontWeight="700" fontSize={16}>
+                Phương thức thanh toán
+              </Text>
+            </Box>
+
+            <Box height={12} />
+
+            <Box gap="2">
+              {paymentMethods.map(item =>
+                renderPaymentItem(item.id, item.name, item.des),
+              )}
+            </Box>
+
+            <Box>
+              <Text fontWeight="700" fontSize={16} mt="2">
+                Phương thức vận chuyển
+              </Text>
+            </Box>
+
+            <Box height={12} />
+
+            <Box gap="2">
+              {shippingOptions.map(item => renderShippingItem(item))}
+            </Box>
           </Box>
-
-          <Box height={10} />
-
-          <Box flexDirection="row" alignItems="center" my="5">
-            <Switch value={vatReceipt} onValueChanged={setVatReceipt} />
-            <Text color="gray2" fontWeight="400" ml="2.5">
-              Nhận hóa đơn VAT
-            </Text>
-          </Box>
-
-          <Box>
-            <Text fontWeight="700" fontSize={16}>
-              Phương thức thanh toán
-            </Text>
-          </Box>
-
-          <Box height={12} />
-
-          <Box gap="2">
-            {paymentMethods.map(item => renderPaymentItem(item.id, item.name))}
-          </Box>
-        </Box>
-      </DismissKeyboardView>
+        </DismissKeyboardView>
+      </ScrollView>
       <Box
         bg="white"
         shadowColor="black"
@@ -188,7 +249,7 @@ const PlaceOrderScreen = (_: PlaceOrderProps) => {
         <CartSummary
           total={orderTotal}
           discount={discount?.discount_amount || 0}
-          shipping={defaultShippingOption?.price || 0}
+          shipping={shippingOption?.price || 0}
         />
         <CartBottomButton
           disabled={loading}

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import CartStepsView from '../../components/cart/cart-steps-view';
 import CartBottomButton from '../../components/cart/cart-bottom-button';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
@@ -9,12 +9,14 @@ import { Images } from '@lamia/utils/images';
 import { FlatList, StyleSheet } from 'react-native';
 import CartItem from '@lamia/components/cart/cart-item';
 import CartSummary from '@lamia/components/cart/cart-summary';
-import { useAppSelector } from '@lamia/hooks/context';
+import { useAppDispatch, useAppSelector } from '@lamia/hooks/context';
 import { CartItem as CartItemModel } from '@lamia/models/cart-item';
+import { fetchShippingOptions } from '../place-order/actions';
 
 const CartScreen = () => {
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const { cartItems } = useAppSelector(state => state.cart);
+  const { cartItems, shippingOptions } = useAppSelector(state => state.cart);
 
   const totalPrice = useMemo(
     () =>
@@ -25,6 +27,10 @@ const CartScreen = () => {
       ),
     [cartItems],
   );
+
+  useEffect(() => {
+    dispatch(fetchShippingOptions(totalPrice));
+  }, [totalPrice, dispatch]);
 
   const renderNoCart = () => {
     return (
@@ -77,7 +83,11 @@ const CartScreen = () => {
         shadowRadius={2}
         elevation={3}>
         {cartItems.length > 0 && (
-          <CartSummary total={totalPrice} discount={0} />
+          <CartSummary
+            total={totalPrice}
+            discount={0}
+            shipping={shippingOptions.find(item => !!item.default)?.price || 0}
+          />
         )}
         <CartBottomButton
           buttonTitle={

@@ -26,9 +26,15 @@ const ProductTile = (props: ProductTileProps) => {
   const dispatch = useAppDispatch();
   const [isSizePickerVisible, setIsSizePickerVisible] = useState(false);
   const { isFetchingAttributeDetail } = useAppSelector(state => state.products);
+  const { currentUser } = useAppSelector(state => state.app);
 
   const showAddToCartPopup = () => {
     if (!props.product.id) {
+      return;
+    }
+
+    if (!currentUser) {
+      navigation.navigate('Login');
       return;
     }
 
@@ -197,7 +203,12 @@ const ProductTile = (props: ProductTileProps) => {
         <Box height={4} />
         {/* <ProductColorPicker didSelect={() => {}} /> */}
         <Box height={34} my="2">
-          <Text numberOfLines={2} fontWeight="400" fontSize={14} color="text">
+          <Text
+            numberOfLines={2}
+            fontWeight="400"
+            fontSize={14}
+            color="text"
+            lineHeight={21}>
             {props.product?.name}
           </Text>
         </Box>
