@@ -1,5 +1,6 @@
 import { fetchData, postData } from '../networkLayer';
 import { Platform } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 
 export const register = async (
   phoneNumber: string,
@@ -30,10 +31,11 @@ export const resendOTP = async (phoneNumber: string) => {
 };
 
 export const login = async (phoneNumber: string, password: string) => {
+  const token = await messaging().getToken();
   const params = {
     phone_number: phoneNumber,
     password,
-    deviceToken: '',
+    deviceToken: token,
     deviceType: Platform.OS,
   };
   return postData('login', params);

@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar, View, LogBox } from 'react-native';
 import { Provider } from 'react-redux';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -12,10 +12,15 @@ import theme from './src/utils/theme';
 import ToastHelper from './src/utils/toast-helper';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ModalPortal } from 'react-native-modals';
+import { initFirebaseMessaging } from './src/services/firebase';
 
 LogBox.ignoreAllLogs(true);
 
 const App = () => {
+  useEffect(() => {
+    initFirebaseMessaging();
+  }, []);
+
   return (
     <>
       <GestureHandlerRootView>

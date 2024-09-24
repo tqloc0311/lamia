@@ -75,7 +75,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.lamia"
+    namespace "vn.lamia.app"
     defaultConfig {
         applicationId "vn.lamia.app"
         minSdkVersion rootProject.ext.minSdkVersion

@@ -1,4 +1,4 @@
-package com.lamia
+package vn.lamia.app
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
