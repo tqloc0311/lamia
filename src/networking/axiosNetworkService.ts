@@ -13,6 +13,7 @@ export interface INetworkService {
   get(url: string, params?: any): Promise<any>;
   post(url: string, data: any): Promise<any>;
   put(url: string, data: any): Promise<any>;
+  delete(url: string, data: any): Promise<any>;
 }
 
 export default class AxiosNetworkService implements INetworkService {
@@ -22,7 +23,7 @@ export default class AxiosNetworkService implements INetworkService {
   }
 
   private async request(
-    method: 'get' | 'post' | 'put',
+    method: 'get' | 'post' | 'put' | 'delete',
     url: string,
     data?: any,
     params?: any,
@@ -52,5 +53,9 @@ export default class AxiosNetworkService implements INetworkService {
 
   async put(url: string, data: any): Promise<any> {
     return this.request('put', url, data);
+  }
+
+  async delete(url: string, data: any): Promise<any> {
+    return this.request('delete', url, data);
   }
 }

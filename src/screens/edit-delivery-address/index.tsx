@@ -20,6 +20,7 @@ import { useEffectOnce } from 'react-use';
 import { useAppDispatch, useAppSelector } from '@lamia/hooks/context';
 import {
   addDeliveryAddress,
+  deleteAddress,
   editDeliveryAddress,
   fetchCities,
   fetchDistricts,
@@ -28,6 +29,7 @@ import {
 import { IAddress, ICity, IDistrict, IWard } from '@lamia/models/address';
 import ToastHelper from '@lamia/utils/toast-helper';
 import Spinner from 'react-native-loading-spinner-overlay';
+import Dialog from '@lamia/components/shared/dialog';
 
 type EditDeliveryAddressProps = RouteProp<
   AppStackParams,
@@ -57,6 +59,7 @@ const EditDeliveryAddressScreen = () => {
   const [name, setName] = useState(address?.name || '');
   const [phone, setPhone] = useState(address?.phone || '');
   const [street, setStreet] = useState(address?.address || '');
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   const { loading, cityLoading, districtLoading } = useAppSelector(
     state => state.editDeliveryAddressScreen,
@@ -239,12 +242,36 @@ const EditDeliveryAddressScreen = () => {
     }
   };
 
+  const showDeletePopup = () => {
+    setShowDeleteConfirmation(true);
+  };
+
+  const deleteAddressHandler = () => {
+    if (address) {
+      dispatch(
+        deleteAddress({
+          addressId: address.id,
+          callback: () => {
+            navigation.pop();
+          },
+        }),
+      );
+    }
+  };
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ flex: 1 }}>
       <Spinner visible={loading} textContent={'Đăng xử lý...'} textStyle={{}} />
-
+      <Dialog
+        visible={showDeleteConfirmation}
+        title="Xác nhận xóa"
+        message="Bạn muốn xóa địa chỉ này?"
+        confirmText="Xóa"
+        onCancel={() => setShowDeleteConfirmation(false)}
+        onConfirm={deleteAddressHandler}
+      />
       <Box flex={1} px="3" py="4" gap="6" bg="white">
         <Box gap="2.5">
           <Text fontWeight="700">Người nhận</Text>
@@ -367,6 +394,14 @@ const EditDeliveryAddressScreen = () => {
           <CButton filled onPress={setAsDefault}>
             Đặt làm địa chỉ mặc định
           </CButton>
+        )}
+
+        {address?.id && !address?.default_address && (
+          <Box>
+            <CButton textColor="red" onPress={showDeletePopup}>
+              Xóa địa chỉ này
+            </CButton>
+          </Box>
         )}
       </Box>
     </ScrollView>

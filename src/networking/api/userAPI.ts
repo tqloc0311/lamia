@@ -1,5 +1,5 @@
 import { IAddress } from '@lamia/models/address';
-import { fetchData, postData, putData } from '../networkLayer';
+import { deleteData, fetchData, postData, putData } from '../networkLayer';
 
 export const getUserInfo = async () => {
   return fetchData('user_info');
@@ -43,4 +43,8 @@ export const updateAddress = async (address: IAddress) => {
 
 export const setDefaultAddress = async (id: number) => {
   return putData(`address/${id}`, { default_address: 1 });
+};
+
+export const deleteAddress = async (id: number) => {
+  return deleteData(`address/${id}`, { default_address: 1 });
 };

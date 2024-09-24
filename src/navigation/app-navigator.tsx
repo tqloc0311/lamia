@@ -12,6 +12,7 @@ import {
   FavoriteScreen,
   LoginScreen,
   NotificationsScreen,
+  OrderManagementScreen,
   OTPVerificationScreen,
   PasswordResettingScreen,
   ProductDetailScreen,
@@ -30,7 +31,6 @@ import { AppNavigationType, AppStackParams } from './types';
 import CartButton from '@lamia/components/cart/cart-button';
 import ProductCommentsScreen from '@lamia/screens/product-comments';
 import ProductCommentSubmitScreen from '@lamia/screens/product-comment-submit';
-import OrderManagementTabNavigator from './order-management-tab-navigator';
 import CButton from '@lamia/components/shared/custom-button';
 import HeaderLogo from '@lamia/components/shared/header-logo';
 import PaymentPolicyScreen from '@lamia/screens/payment-policy';
@@ -149,7 +149,7 @@ const AppNavigator = (): React.JSX.Element => {
       />
       <Stack.Screen
         name="OrderManagement"
-        component={OrderManagementTabNavigator}
+        component={OrderManagementScreen}
         options={({ navigation }) => ({
           headerShown: true,
           headerTitle: 'Quản Lý Đơn Hàng',

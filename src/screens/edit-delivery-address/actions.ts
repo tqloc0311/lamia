@@ -90,6 +90,29 @@ export const setDeliveryAddressDefault = createAsyncThunk(
   },
 );
 
+export const deleteAddress = createAsyncThunk(
+  'delete-address',
+  async (
+    args: { addressId: number; callback: () => void },
+    { dispatch, getState },
+  ) => {
+    const { addressId, callback } = args;
+    try {
+      dispatch(setLoading(true));
+      await API.userAPI.deleteAddress(addressId);
+      const state: RootState = getState() as any;
+      const addresses = state.addresses.addresses;
+      const updatedAddresses = addresses.filter(item => item.id !== addressId);
+      dispatch(setAddresses(updatedAddresses));
+      callback();
+    } catch (error: any) {
+      ToastHelper.showError('Lỗi', error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  },
+);
+
 export const fetchCities = createAsyncThunk(
   'fetch-cities',
   async (_, { dispatch }) => {

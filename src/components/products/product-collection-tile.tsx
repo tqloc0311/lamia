@@ -32,9 +32,13 @@ const ProductCollectionTile = (props: ProductCollectionTileProps) => {
                 borderColor: !props.isSelected ? Colors.gray6 : 'black',
               },
             }}
-            source={{
-              uri: props.category.image,
-            }}
+            source={
+              props.category.image
+                ? {
+                    uri: props.category.image,
+                  }
+                : Images.discountTile
+            }
             defaultSource={Images.headerLogo}
           />
         </Box>

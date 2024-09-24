@@ -6,8 +6,7 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 import CImage from '../shared/custom-image';
-import { StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Pressable, StyleSheet } from 'react-native';
 import Layout from '@lamia/constants/Layout';
 
 interface HomeCarouselItemProps {
@@ -34,11 +33,8 @@ const HomeCarouselItem: React.FC<HomeCarouselItemProps> = ({
   }, [animationValue]);
 
   return (
-    <TouchableOpacity
-      activeOpacity={1}
-      onPress={onPress}
-      style={styles.wrapper}>
-      <Box flex={1}>
+    <Box flex={1}>
+      <Pressable onPress={onPress}>
         <CImage
           key={url}
           style={styles.image}
@@ -49,8 +45,8 @@ const HomeCarouselItem: React.FC<HomeCarouselItemProps> = ({
           pointerEvents="none"
           style={[styles.absoluteFill, maskStyle]}
         />
-      </Box>
-    </TouchableOpacity>
+      </Pressable>
+    </Box>
   );
 };
 

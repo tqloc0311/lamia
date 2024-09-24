@@ -18,9 +18,10 @@ interface DropdownProps extends BoxProps<Theme> {
 
 const DEFAULT_ROW_HEIGHT = 40;
 
-const Dropdown = (props: DropdownProps) => {
+const Dropdown = (props: DropdownProps, ref: any) => {
   return (
     <ModalDropdown
+      ref={ref}
       disabled={props.disabled}
       shouldRasterizeIOS={false}
       dropdownStyle={styles.dropdown}

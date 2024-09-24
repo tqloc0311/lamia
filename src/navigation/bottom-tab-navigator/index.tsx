@@ -3,7 +3,7 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import MainTabBar from './tab-bar';
-import { StyleSheet } from 'react-native';
+import { BackHandler, StyleSheet } from 'react-native';
 import {
   CategoriesScreen,
   HomeScreen,
@@ -16,6 +16,7 @@ import { BottomTabParams } from '../types';
 import { Box } from '../../utils/theme';
 import CartButton from '@lamia/components/cart/cart-button';
 import { Colors } from '@lamia/utils/theme/colors';
+import { useEffect } from 'react';
 
 type Props = {
   navigation: any;
@@ -24,6 +25,14 @@ type Props = {
 const Tab = createBottomTabNavigator<BottomTabParams>();
 
 const BottomTabNavigator = (_: Props) => {
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => true,
+    );
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <Tab.Navigator
       screenOptions={{}}

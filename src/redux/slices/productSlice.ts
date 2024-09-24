@@ -4,12 +4,14 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface ProductState {
   products: Product[];
+  searchResults: Product[];
   isFetchingAttributeDetail: boolean;
   attributeDetails: Record<string, AttributeDetail>;
 }
 
 const initialState: ProductState = {
   products: [],
+  searchResults: [],
   isFetchingAttributeDetail: false,
   attributeDetails: {},
 };
@@ -20,6 +22,9 @@ const productSlice = createSlice({
   reducers: {
     setProducts(state, action: PayloadAction<Product[]>) {
       state.products = action.payload;
+    },
+    setSearchResults(state, action: PayloadAction<Product[]>) {
+      state.searchResults = action.payload;
     },
     setIsFetchingAttributeDetail(state, action: PayloadAction<boolean>) {
       state.isFetchingAttributeDetail = action.payload;
@@ -42,6 +47,10 @@ const productSlice = createSlice({
   },
 });
 
-export const { setProducts, setAttributeDetail, setIsFetchingAttributeDetail } =
-  productSlice.actions;
+export const {
+  setProducts,
+  setAttributeDetail,
+  setIsFetchingAttributeDetail,
+  setSearchResults,
+} = productSlice.actions;
 export default productSlice.reducer;

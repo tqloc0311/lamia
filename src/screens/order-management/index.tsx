@@ -1,26 +1,29 @@
 import React from 'react';
-import { Box, Text } from '@lamia/utils/theme';
-import CImage from '@lamia/components/shared/custom-image';
-import { Images } from '@lamia/utils/images';
+import { Box } from '@lamia/utils/theme';
+import { useAppDispatch, useAppSelector } from '@lamia/hooks/context';
+import { fetchOrders } from './actions';
+import OrderList from '@lamia/components/order/order-list';
+import OrderListSkeleton from '@lamia/components/order/order-list-skeleton';
+import { useEffectOnce } from 'react-use';
 
 const OrderManagementScreen = () => {
-  const renderNoCart = () => {
-    return (
-      <Box flex={1} justifyContent="center" alignItems="center">
-        <Box width="50%" aspectRatio={1}>
-          <CImage source={Images.noCart} resizeMode="contain" />
-        </Box>
+  const dispatch = useAppDispatch();
+  const { orders, loading } = useAppSelector(
+    state => state.orderManagementScreen,
+  );
 
-        <Text color="gray2" fontSize={12}>
-          Hiện tại bạn không có đơn hàng nào!
-        </Text>
-      </Box>
-    );
+  useEffectOnce(() => {
+    dispatch(fetchOrders());
+  });
+
+  const refresh = () => {
+    dispatch(fetchOrders());
   };
 
   return (
-    <Box bg="gray9" justifyContent="center" alignItems="center" flex={1}>
-      {renderNoCart()}
+    <Box bg="white" flex={1}>
+      {!loading && <OrderList data={orders} onRefresh={refresh} />}
+      {loading && <OrderListSkeleton numOfItems={8} />}
     </Box>
   );
 };

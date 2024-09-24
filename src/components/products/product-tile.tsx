@@ -202,7 +202,7 @@ const ProductTile = (props: ProductTileProps) => {
         {renderActions()}
         <Box height={4} />
         {/* <ProductColorPicker didSelect={() => {}} /> */}
-        <Box height={34} my="2">
+        <Box height={40} my="2">
           <Text
             numberOfLines={2}
             fontWeight="400"

@@ -4,11 +4,13 @@ export const fetchProducts = async (
   categoryIds: number[],
   page: number,
   limit: number = 10,
+  q: string = '',
 ) => {
   const params = {
     categories: categoryIds,
     page,
     num: limit,
+    q,
   };
   return await fetchData('products', params);
 };
