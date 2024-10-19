@@ -1,5 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import appSlice from './slices/appSlice';
+import favoriteSlice from './slices/favoriteSlice';
 import authSlice from './slices/authSlice';
 import cartSlice from './slices/cartSlice';
 import bannerSlice from './slices/bannerSlice';
@@ -19,6 +20,7 @@ import deliveryAddressScreenSlice from '@lamia/components/delivery-address/store
 import editDeliveryAddressScreenSlice from '@lamia/screens/edit-delivery-address/store';
 import placeOrderScreenSlice from '@lamia/screens/place-order/store.ts';
 import orderManagementScreenSlice from '@lamia/screens/order-management/store.ts';
+import pageScreenSlice from '@lamia/screens/page/store.ts';
 
 const rootReducer = combineReducers({
   app: appSlice,
@@ -41,6 +43,8 @@ const rootReducer = combineReducers({
   placeOrderScreen: placeOrderScreenSlice,
   searchScreen: searchScreenSlice,
   orderManagementScreen: orderManagementScreenSlice,
+  pageScreen: pageScreenSlice,
+  favorite: favoriteSlice,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

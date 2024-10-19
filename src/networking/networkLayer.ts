@@ -15,5 +15,5 @@ export const putData = async (endpoint: string, data: any) => {
 };
 
 export const deleteData = async (endpoint: string, data: any) => {
-  return networkService.put(endpoint, data);
+  return networkService.delete(endpoint, data);
 };

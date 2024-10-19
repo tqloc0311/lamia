@@ -34,6 +34,7 @@ import ProductCommentSubmitScreen from '@lamia/screens/product-comment-submit';
 import CButton from '@lamia/components/shared/custom-button';
 import HeaderLogo from '@lamia/components/shared/header-logo';
 import PaymentPolicyScreen from '@lamia/screens/payment-policy';
+import PageScreen from '@lamia/screens/page';
 
 const Stack = createNativeStackNavigator<AppStackParams>();
 
@@ -261,6 +262,15 @@ const AppNavigator = (): React.JSX.Element => {
           options={({ navigation }) => ({
             headerShown: true,
             headerTitle: 'Chính sách thanh toán',
+            headerTitleStyle: styles.headerTitle,
+            headerLeft: () => renderBackButton(navigation),
+          })}
+        />
+        <Stack.Screen
+          name="Page"
+          component={PageScreen}
+          options={({ navigation }) => ({
+            headerShown: true,
             headerTitleStyle: styles.headerTitle,
             headerLeft: () => renderBackButton(navigation),
           })}

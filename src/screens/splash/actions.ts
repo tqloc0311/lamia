@@ -39,10 +39,10 @@ export const initialize = createAsyncThunk(
         await useFetchPromotionCategories(dispatch),
         await useRefreshSession(dispatch),
       ]);
-
-      dispatch(setDidInitialize());
     } catch (error: any) {
       console.error(error);
     }
+
+    dispatch(setDidInitialize());
   },
 );

@@ -1,7 +1,6 @@
 import React from 'react';
 import MenuItem from '../shared/menu-item';
 import { ScrollView, StyleSheet } from 'react-native';
-import MembershipCard from './membership-card';
 import { Images } from '@lamia/utils/images';
 import { Box, Text } from '@lamia/utils/theme';
 import { ProfileMenuItemType } from '@lamia/utils/types';
@@ -89,7 +88,7 @@ const AuthorizedView = (props: AuthorizedViewProps) => {
       style={styles.scrollView}
       contentContainerStyle={styles.scrollViewContentContainer}>
       <Box flex={1} mt="2">
-        <MembershipCard mx="3" />
+        {/* <MembershipCard mx="3" /> */}
         {menuData.map((item, index) => (
           <MenuItem
             key={index}

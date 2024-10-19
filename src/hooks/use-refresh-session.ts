@@ -6,6 +6,8 @@ import { DispatchType } from './context';
 import { setCities, setPaymentMethods } from '@lamia/redux/slices/globalSlice';
 import { IPaymentMethod } from '@lamia/models/payment-method';
 import { ICity } from '@lamia/models/address';
+import { IFavorite } from '@lamia/models/favorite';
+import { setFavorites } from '@lamia/redux/slices/favoriteSlice';
 
 const fetchPaymentMethods = async (dispatch: DispatchType) => {
   const response = await API.orderAPI.fetchPaymentMethods();
@@ -30,12 +32,19 @@ const fetchCities = async (dispatch: DispatchType) => {
   dispatch(setCities(data));
 };
 
+export const fetchFavorite = async (dispatch: DispatchType) => {
+  const response = await API.userAPI.getFavorite();
+  const data: IFavorite[] = response.data;
+  dispatch(setFavorites(data));
+};
+
 const useRefreshSession = async (dispatch: DispatchType) => {
   try {
     const token = await TokenManager.getToken();
     if (token) {
       const refreshTokenResponse = await API.authAPI.refreshToken(token);
       const newToken = refreshTokenResponse.token;
+      console.log('🚀 ~ useRefreshSession ~ newToken:', newToken);
       TokenManager.saveToken(newToken);
       const userResponse = await API.userAPI.getUserInfo();
       const user = new User(userResponse.data);
@@ -44,6 +53,7 @@ const useRefreshSession = async (dispatch: DispatchType) => {
       await Promise.all([
         await fetchPaymentMethods(dispatch),
         await fetchCities(dispatch),
+        await fetchFavorite(dispatch),
       ]);
     } else {
       dispatch(setCurrentUser(undefined));

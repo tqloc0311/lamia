@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet } from 'react-native';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Box, Text } from '@lamia/utils/theme';
 import { moneyFormat } from '@lamia/utils/helpers';
@@ -20,6 +20,8 @@ import ProductAttribute from '@lamia/models/product-attribute';
 import { fetchAttributeDetail } from '../products/actions';
 import { useNavigation } from '@react-navigation/native';
 import { AppNavigationType } from '@lamia/navigation/types';
+import CIcon from '../shared/custom-icon';
+import { addFavorite, removeFavorite } from './actions';
 
 interface ProductDetailProps {
   product: Product;
@@ -38,7 +40,14 @@ const ProductDetail = (props: ProductDetailProps) => {
   const { attributeDetails, isFetchingAttributeDetail } = useAppSelector(
     state => state.products,
   );
+  const { favorites, loading } = useAppSelector(state => state.favorite);
+
   const { currentUser } = useAppSelector(state => state.app);
+
+  const isFavorite = useMemo(
+    () => !!favorites.find(item => item.product_id === props.product.id),
+    [favorites, props.product],
+  );
 
   const selectedAttributeDetail = useMemo(
     () => attributeDetails[`${props.product.id}_${selectedAttribute?.id}`],
@@ -64,6 +73,30 @@ const ProductDetail = (props: ProductDetailProps) => {
       };
 
       dispatch(addToCart(item));
+    }
+  };
+
+  const toggleFavorite = () => {
+    if (!props.product.id) {
+      return;
+    }
+
+    if (!currentUser) {
+      navigation.navigate('Login');
+      return;
+    }
+
+    if (isFavorite) {
+      const existingItem = favorites.find(
+        item => item.product_id === props.product.id,
+      );
+
+      if (!existingItem) {
+        return;
+      }
+      dispatch(removeFavorite(existingItem.id));
+    } else {
+      dispatch(addFavorite(props.product.id));
     }
   };
 
@@ -152,13 +185,37 @@ const ProductDetail = (props: ProductDetailProps) => {
             onSelect={setSelectedAttribute}
           />
         )}
-        <CButton
-          isEnabled={!isFetchingAttributeDetail && !!selectedAttributeDetail}
-          filled
-          px="5"
-          onPress={() => addToCartHandler(selectedAttribute)}>
-          Mua ngay
-        </CButton>
+        <Box flexDirection="row" alignItems="center">
+          <CButton
+            isEnabled={!isFetchingAttributeDetail && !!selectedAttributeDetail}
+            filled
+            px="5"
+            onPress={() => addToCartHandler(selectedAttribute)}>
+            Mua ngay
+          </CButton>
+          <Pressable
+            onPress={() => toggleFavorite()}
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{ opacity: loading ? 0.7 : 1 }}>
+            <Box
+              borderTopLeftRadius="rounded"
+              borderBottomRightRadius="rounded"
+              borderColor="primary"
+              borderWidth={1}
+              width={38}
+              height={38}
+              justifyContent="center"
+              alignItems="center"
+              marginLeft="2">
+              <CIcon
+                image={isFavorite ? Images.heartFilled : Images.heart}
+                size={24}
+                onPress={toggleFavorite}
+                color="primary"
+              />
+            </Box>
+          </Pressable>
+        </Box>
       </Box>
 
       <Text>{`Tồn kho: ${props.product.quantity}`}</Text>

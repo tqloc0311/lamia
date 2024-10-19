@@ -2,7 +2,7 @@ import CButton from '@lamia/components/shared/custom-button';
 import CImage from '@lamia/components/shared/custom-image';
 import CTextInput from '@lamia/components/shared/custom-text-input';
 import Popup from '@lamia/components/shared/popup';
-import { useAppSelector } from '@lamia/hooks/context';
+import { useAppDispatch, useAppSelector } from '@lamia/hooks/context';
 import { AppNavigationType } from '@lamia/navigation/types';
 import { Images } from '@lamia/utils/images';
 import { Box, Text } from '@lamia/utils/theme';
@@ -10,12 +10,17 @@ import { Gender } from '@lamia/utils/types';
 import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
 import React, { useState } from 'react';
-import { Pressable, ScrollView } from 'react-native';
+import { Pressable, ScrollView, StyleSheet } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { deleteUser } from './actions';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const UserInfoScreen = () => {
   const navigation = useNavigation<AppNavigationType>();
   const user = useAppSelector(state => state.app.currentUser);
+  const dispatch = useAppDispatch();
+
+  const isLoading = useAppSelector(state => state.auth.isLoading);
 
   const [dateOfBirth, setDateOfBirth] = useState<Date | null>(null);
   const [selectedGender, setSelectedGender] = useState<Gender>(Gender.male);
@@ -46,8 +51,23 @@ const UserInfoScreen = () => {
     );
   };
 
+  const deleteUserHandler = () => {
+    setIsDeletionPopupVisible(false);
+    dispatch(deleteUser());
+  };
+
+  if (!user) {
+    navigation.pop();
+    return null;
+  }
+
   return (
     <Box bg="white" flex={1}>
+      <Spinner
+        visible={isLoading}
+        textContent={'Đang xử lý...'}
+        textStyle={styles.spinnerText}
+      />
       <Popup
         visible={isDeletionPopupVisible}
         onTouchOutside={() => setIsDeletionPopupVisible(false)}>
@@ -63,7 +83,7 @@ const UserInfoScreen = () => {
               </CButton>
             </Box>
             <Box flex={1}>
-              <CButton filled onPress={() => setIsDeletionPopupVisible(false)}>
+              <CButton filled onPress={deleteUserHandler}>
                 Xác nhận
               </CButton>
             </Box>
@@ -198,3 +218,9 @@ const UserInfoScreen = () => {
 };
 
 export default UserInfoScreen;
+
+const styles = StyleSheet.create({
+  spinnerText: {
+    color: 'white',
+  },
+});

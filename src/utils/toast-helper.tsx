@@ -41,6 +41,18 @@ const showError = (title: string, error: any) => {
   });
 };
 
+const showSuccess = (
+  title: string | undefined,
+  message: string | undefined = undefined,
+) => {
+  Toast.show({
+    type: 'success',
+    text1: title,
+    text2: message,
+    position: 'bottom',
+  });
+};
+
 const getToastConfig = (): ToastConfig => {
   return {
     error: props => (
@@ -79,5 +91,5 @@ const getToastConfig = (): ToastConfig => {
   };
 };
 
-const ToastHelper = { showToast, showError, getToastConfig };
+const ToastHelper = { showToast, showError, getToastConfig, showSuccess };
 export default ToastHelper;

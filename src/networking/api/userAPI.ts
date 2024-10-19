@@ -48,3 +48,42 @@ export const setDefaultAddress = async (id: number) => {
 export const deleteAddress = async (id: number) => {
   return deleteData(`address/${id}`, { default_address: 1 });
 };
+
+export const updateUser = async ({
+  name,
+  sex,
+  email,
+  birth_date,
+  job,
+}: {
+  name: string;
+  sex: string;
+  email: string;
+  birth_date: string;
+  job: string;
+}) => {
+  const params = {
+    name,
+    sex,
+    email,
+    birth_date,
+    job,
+  };
+  return postData('update_user', params);
+};
+
+export const deleteUser = async () => {
+  return postData('user_delete', {});
+};
+
+export const addFavorite = async (product_id: number) => {
+  return postData('product_likes', { product_id });
+};
+
+export const deleteFavorite = async (id: number) => {
+  return deleteData(`product_likes/${id}`, {});
+};
+
+export const getFavorite = async () => {
+  return fetchData('product_likes', {});
+};
