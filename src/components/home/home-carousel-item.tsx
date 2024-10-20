@@ -39,7 +39,7 @@ const HomeCarouselItem: React.FC<HomeCarouselItemProps> = ({
           key={url}
           style={styles.image}
           source={{ uri: url }}
-          resizeMode="contain"
+          resizeMode="cover"
         />
         <Animated.View
           pointerEvents="none"

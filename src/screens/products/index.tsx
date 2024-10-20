@@ -117,7 +117,7 @@ const ProductsScreen = () => {
           numOfProducts={totalProducts}
           onRefresh={refresh}
           onEndReached={fetchMore}
-          showFilter
+          // showFilter
         />
       )}
       {loading && <ProductCollectionListSkeleton numOfItems={8} />}

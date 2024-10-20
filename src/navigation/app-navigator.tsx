@@ -35,6 +35,7 @@ import CButton from '@lamia/components/shared/custom-button';
 import HeaderLogo from '@lamia/components/shared/header-logo';
 import PaymentPolicyScreen from '@lamia/screens/payment-policy';
 import PageScreen from '@lamia/screens/page';
+import NotificationDetailScreen from '@lamia/screens/notification-detail';
 
 const Stack = createNativeStackNavigator<AppStackParams>();
 
@@ -144,6 +145,16 @@ const AppNavigator = (): React.JSX.Element => {
         options={({ navigation }) => ({
           headerShown: true,
           headerTitle: 'Thông Báo Của Tôi',
+          headerTitleStyle: styles.headerTitle,
+          headerLeft: () => renderBackButton(navigation),
+        })}
+      />
+      <Stack.Screen
+        name="NotificationDetail"
+        component={NotificationDetailScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerTitle: 'Thông Báo',
           headerTitleStyle: styles.headerTitle,
           headerLeft: () => renderBackButton(navigation),
         })}

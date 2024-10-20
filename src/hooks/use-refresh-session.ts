@@ -44,7 +44,6 @@ const useRefreshSession = async (dispatch: DispatchType) => {
     if (token) {
       const refreshTokenResponse = await API.authAPI.refreshToken(token);
       const newToken = refreshTokenResponse.token;
-      console.log('🚀 ~ useRefreshSession ~ newToken:', newToken);
       TokenManager.saveToken(newToken);
       const userResponse = await API.userAPI.getUserInfo();
       const user = new User(userResponse.data);

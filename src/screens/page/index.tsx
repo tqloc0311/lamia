@@ -14,7 +14,7 @@ import { reset } from './store';
 
 type PageScreenProps = RouteProp<AppStackParams, 'Page'>;
 
-const PageScreen = (_: PageScreenProps) => {
+const PageScreen = () => {
   const navigation = useNavigation<AppNavigationType>();
   const { loading, data } = useAppSelector(state => state.pageScreen);
   const dispatch = useAppDispatch();

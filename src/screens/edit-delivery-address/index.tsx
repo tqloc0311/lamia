@@ -119,11 +119,9 @@ const EditDeliveryAddressScreen = () => {
 
   const renderSubmitButton = useCallback(() => {
     return (
-      <Box>
-        <CButton onPress={() => submit()}>
-          {address ? 'Cập nhật' : 'Thêm'}
-        </CButton>
-      </Box>
+      <CButton onPress={() => submit()}>
+        {address ? 'Cập nhật' : 'Thêm'}
+      </CButton>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [

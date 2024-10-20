@@ -40,12 +40,11 @@ const ProductList = (props: ProductListProps) => {
 
   const renderHeader = () => {
     return (
-      props.showFilter && (
-        <ProductListHeader
-          numOfProducts={props.numOfProducts || 0}
-          discountShown={props.discountShown}
-        />
-      )
+      <ProductListHeader
+        showFilter={props.showFilter}
+        numOfProducts={props.numOfProducts || 0}
+        discountShown={props.discountShown}
+      />
     );
   };
 

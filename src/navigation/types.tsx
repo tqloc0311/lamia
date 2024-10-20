@@ -1,4 +1,5 @@
 import { IAddress } from '@lamia/models/address';
+import { Notification } from '@lamia/models/notification';
 import { ParamListBase } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -28,6 +29,9 @@ export type AppStackParams = {
   UserInfo: NativeStackNavigationBaseType;
   ChangePassword: NativeStackNavigationBaseType;
   Notifications: NativeStackNavigationBaseType;
+  NotificationDetail: {
+    notification: Notification;
+  };
   Favorite: NativeStackNavigationBaseType;
   DeliveryAddress: NativeStackNavigationBaseType;
   EditDeliveryAddress: {

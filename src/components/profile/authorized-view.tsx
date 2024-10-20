@@ -58,10 +58,10 @@ const AuthorizedView = (props: AuthorizedViewProps) => {
         props.navigateTo('Contact', {});
       },
     },
-    {
-      icon: Images.chat,
-      title: 'Hỗ trợ',
-    },
+    // {
+    //   icon: Images.chat,
+    //   title: 'Hỗ trợ',
+    // },
     {
       icon: Images.logout,
       title: 'Đăng xuất',

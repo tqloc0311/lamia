@@ -10,6 +10,7 @@ import ProductFilter from './product-filter';
 
 interface ProductSortAndFiltersProps {
   numOfProducts: number;
+  showFilter?: boolean;
 }
 
 interface CombinedProps extends ProductSortAndFiltersProps, BoxProps<Theme> {}
@@ -34,27 +35,33 @@ const ProductSortAndFilters = (props: CombinedProps) => {
         dismiss={() => setIsFilterModalVisible(false)}
       />
 
-      <Box flex={1}>
-        <Text>{`${props.numOfProducts ?? 0} sản phẩm`}</Text>
-      </Box>
-      <Pressable
-        onPress={() => {
-          setIsSortModalVisible(true);
-        }}>
-        <Box flexDirection="row" alignItems="center" px="2">
-          <CImage source={Images.sort} mr="1" size={16} />
-          <Text>Sắp xếp theo</Text>
+      {props.numOfProducts > 0 && (
+        <Box flex={1}>
+          <Text>{`${props.numOfProducts ?? 0} sản phẩm`}</Text>
         </Box>
-      </Pressable>
-      <Pressable
-        onPress={() => {
-          setIsFilterModalVisible(true);
-        }}>
-        <Box flexDirection="row" alignItems="center" px="2">
-          <CImage source={Images.filter} mr="1" size={16} />
-          <Text>Bộ lọc</Text>
-        </Box>
-      </Pressable>
+      )}
+      {props.showFilter && (
+        <Pressable
+          onPress={() => {
+            setIsSortModalVisible(true);
+          }}>
+          <Box flexDirection="row" alignItems="center" px="2">
+            <CImage source={Images.sort} mr="1" size={16} />
+            <Text>Sắp xếp theo</Text>
+          </Box>
+        </Pressable>
+      )}
+      {props.showFilter && (
+        <Pressable
+          onPress={() => {
+            setIsFilterModalVisible(true);
+          }}>
+          <Box flexDirection="row" alignItems="center" px="2">
+            <CImage source={Images.filter} mr="1" size={16} />
+            <Text>Bộ lọc</Text>
+          </Box>
+        </Pressable>
+      )}
     </Box>
   );
 };

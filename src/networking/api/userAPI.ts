@@ -87,3 +87,11 @@ export const deleteFavorite = async (id: number) => {
 export const getFavorite = async () => {
   return fetchData('product_likes', {});
 };
+
+export const getNotifications = async () => {
+  return fetchData('notify', {});
+};
+
+export const setNotificationRead = async (id: number) => {
+  return postData(`notify/${id}`, { is_view: 1 });
+};
