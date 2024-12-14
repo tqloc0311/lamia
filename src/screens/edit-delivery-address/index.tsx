@@ -13,7 +13,7 @@ import {
   AppStackParams,
   NativeStackNavigationBaseType,
 } from '@lamia/navigation/types';
-import { ActivityIndicator, ScrollView } from 'react-native';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
 import CTextInput from '@lamia/components/shared/custom-text-input';
 import Dropdown from '@lamia/components/shared/dropdown';
 import { useEffectOnce } from 'react-use';
@@ -119,9 +119,11 @@ const EditDeliveryAddressScreen = () => {
 
   const renderSubmitButton = useCallback(() => {
     return (
-      <CButton onPress={() => submit()}>
-        {address ? 'Cập nhật' : 'Thêm'}
-      </CButton>
+      <View>
+        <CButton onPress={() => submit()}>
+          {address ? 'Cập nhật' : 'Thêm'}
+        </CButton>
+      </View>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
