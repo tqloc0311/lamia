@@ -16,7 +16,6 @@ import Layout from '@lamia/constants/Layout';
 import { useAppDispatch, useAppSelector } from '@lamia/hooks/context';
 import { CartItem } from '@lamia/models/cart-item';
 import { addToCart } from '@lamia/redux/actions/cart';
-import ProductAttribute from '@lamia/models/product-attribute';
 import { fetchAttributeDetail } from '../products/actions';
 import { useNavigation } from '@react-navigation/native';
 import { AppNavigationType } from '@lamia/navigation/types';
@@ -54,26 +53,29 @@ const ProductDetail = (props: ProductDetailProps) => {
     [attributeDetails, props.product, selectedAttribute],
   );
 
-  const addToCartHandler = (attribute?: ProductAttribute) => {
+  const addToCartHandler = () => {
     if (!currentUser) {
       navigation.navigate('Login');
       return;
     }
 
-    if (!props.product.id || !selectedAttribute || !attribute) {
+    const productAttributes = props.product.product_attributes || [];
+
+    if (
+      !props.product.id ||
+      (productAttributes.length > 0 && !selectedAttribute)
+    ) {
       return;
     }
 
-    if (selectedAttributeDetail) {
-      const item: CartItem = {
-        product: props.product,
-        quantity: amount,
-        attribute,
-        attributeDetail: selectedAttributeDetail,
-      };
+    const item: CartItem = {
+      product: props.product,
+      quantity: amount,
+      attribute: selectedAttribute,
+      attributeDetail: selectedAttributeDetail,
+    };
 
-      dispatch(addToCart(item));
-    }
+    dispatch(addToCart(item));
   };
 
   const toggleFavorite = () => {
@@ -187,10 +189,14 @@ const ProductDetail = (props: ProductDetailProps) => {
         )}
         <Box flexDirection="row" alignItems="center">
           <CButton
-            isEnabled={!isFetchingAttributeDetail && !!selectedAttributeDetail}
+            isEnabled={
+              (!isFetchingAttributeDetail && !!selectedAttributeDetail) ||
+              !props.product.product_attributes ||
+              props.product.product_attributes.length === 0
+            }
             filled
             px="5"
-            onPress={() => addToCartHandler(selectedAttribute)}>
+            onPress={() => addToCartHandler()}>
             Mua ngay
           </CButton>
           <Pressable

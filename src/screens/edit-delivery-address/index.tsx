@@ -101,21 +101,10 @@ const EditDeliveryAddressScreen = () => {
     loadDistricts();
   }, [loadDistricts, selectedCity]);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: address ? 'Chỉnh sửa địa chỉ' : 'Thêm địa chỉ mới',
-      headerRight: () => renderSubmitButton(),
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    name,
-    phone,
-    selectedCity,
-    selectedDistrict,
-    selectedWard,
-    street,
-    address,
-  ]);
+  navigation.setOptions({
+    headerTitle: address ? 'Chỉnh sửa địa chỉ' : 'Thêm địa chỉ mới',
+    headerRight: () => renderSubmitButton(),
+  });
 
   const renderSubmitButton = useCallback(() => {
     return (

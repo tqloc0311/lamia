@@ -24,10 +24,16 @@ const cartSlice = createSlice({
   reducers: {
     addToCart(state, action: PayloadAction<CartItem>) {
       const { quantity, attribute, product } = action.payload;
-      const existingItem = state.cartItems.find(
-        item =>
-          item.attribute.id === attribute.id && item.product.id === product.id,
-      );
+      const existingItem = state.cartItems.find(item => {
+        if (item.attribute) {
+          return !(
+            item.attribute?.id === attribute?.id &&
+            item.product.id === product.id
+          );
+        } else {
+          return item.product.id === product.id;
+        }
+      });
       if (existingItem) {
         existingItem.quantity += quantity;
       } else {
@@ -36,29 +42,37 @@ const cartSlice = createSlice({
     },
     removeFromCart(
       state,
-      action: PayloadAction<{ productId: number; attributeId: number }>,
+      action: PayloadAction<{ productId: number; attributeId?: number }>,
     ) {
-      state.cartItems = state.cartItems.filter(
-        item =>
-          !(
+      state.cartItems = state.cartItems.filter(item => {
+        if (item.attribute) {
+          return !(
             item.attribute.id === action.payload.attributeId &&
             item.product.id === action.payload.productId
-          ),
-      );
+          );
+        } else {
+          return item.product.id === action.payload.productId;
+        }
+      });
     },
     updateCartItemQuantity(
       state,
       action: PayloadAction<{
         productId: number;
-        attributeId: number;
+        attributeId?: number;
         quantity: number;
       }>,
     ) {
-      const existingItem = state.cartItems.find(
-        item =>
-          item.attribute.id === action.payload.attributeId &&
-          item.product.id === action.payload.productId,
-      );
+      const existingItem = state.cartItems.find(item => {
+        if (item.attribute) {
+          return !(
+            item.attribute.id === action.payload.attributeId &&
+            item.product.id === action.payload.productId
+          );
+        } else {
+          return item.product.id === action.payload.productId;
+        }
+      });
 
       if (existingItem && action.payload.quantity > 0) {
         existingItem.quantity = action.payload.quantity;

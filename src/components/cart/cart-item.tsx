@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Text, Theme } from '@lamia/utils/theme';
 import { BoxProps } from '@shopify/restyle';
 import CImage from '../shared/custom-image';
@@ -29,7 +29,7 @@ const CartItem = ({ data, ...props }: CartItemProps) => {
     }
 
     dispatch(
-      removeFromCart({ attributeId: attribute.id, productId: product.id }),
+      removeFromCart({ attributeId: attribute?.id, productId: product.id }),
     );
   };
 
@@ -75,9 +75,11 @@ const CartItem = ({ data, ...props }: CartItemProps) => {
 
             <Box width={1} height={10} bg="gray7" mx="1.5" /> */}
 
-            <Text fontSize={12} color="gray5">
-              {`Size: ${attribute.title}`}
-            </Text>
+            {attribute && (
+              <Text fontSize={12} color="gray5">
+                {`Size: ${attribute.title}`}
+              </Text>
+            )}
           </Box>
 
           <Box flexDirection="row" justifyContent="space-between">
@@ -111,7 +113,7 @@ const CartItem = ({ data, ...props }: CartItemProps) => {
 
                 dispatch(
                   updateCartItemQuantity({
-                    attributeId: attribute.id,
+                    attributeId: attribute?.id,
                     productId: product.id,
                     quantity: amount,
                   }),
