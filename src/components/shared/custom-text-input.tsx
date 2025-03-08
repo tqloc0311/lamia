@@ -12,10 +12,15 @@ const CTextInput: React.FC<CTextInputProps> = props => {
   const { style, ...rest } = props;
   const inputStyle = combineStyles(style, styles.input);
   const boxProps: Omit<CTextInputProps, keyof TextInputProps> = { ...rest };
+  const inputProps: TextInputProps = Object.fromEntries(
+    Object.entries(rest).filter(
+      ([key]) => !['borderWidth', 'borderColor', 'borderRadius'].includes(key),
+    ),
+  ) as TextInputProps;
 
   return (
     <Box py="1" {...boxProps}>
-      <TextInput {...rest} style={inputStyle} />
+      <TextInput {...inputProps} style={inputStyle} />
     </Box>
   );
 };

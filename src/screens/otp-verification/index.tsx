@@ -26,10 +26,12 @@ const OTPVerificationScreen = () => {
     otp: defaultOTP = '',
   } = route.params ?? {};
 
+  console.log('🚀 ~ OTPVerificationScreen ~ defaultOTP:', defaultOTP);
+
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(state => state.auth.isLoading);
   const currentUser = useAppSelector(state => state.app.currentUser);
-  const [otp, setOtp] = useState(defaultOTP);
+  const [otp, setOtp] = useState('');
 
   useEffect(() => {
     if (currentUser) {

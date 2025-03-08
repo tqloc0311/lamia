@@ -30,6 +30,7 @@ import { IAddress, ICity, IDistrict, IWard } from '@lamia/models/address';
 import ToastHelper from '@lamia/utils/toast-helper';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Dialog from '@lamia/components/shared/dialog';
+import KeyboardSpacer from '@lamia/components/shared/keyboard-spacer';
 
 type EditDeliveryAddressProps = RouteProp<
   AppStackParams,
@@ -101,11 +102,6 @@ const EditDeliveryAddressScreen = () => {
     loadDistricts();
   }, [loadDistricts, selectedCity]);
 
-  navigation.setOptions({
-    headerTitle: address ? 'Chỉnh sửa địa chỉ' : 'Thêm địa chỉ mới',
-    headerRight: () => renderSubmitButton(),
-  });
-
   const renderSubmitButton = useCallback(() => {
     return (
       <View>
@@ -124,6 +120,11 @@ const EditDeliveryAddressScreen = () => {
     street,
     address,
   ]);
+
+  navigation.setOptions({
+    headerTitle: address ? 'Chỉnh sửa địa chỉ' : 'Thêm địa chỉ mới',
+    headerRight: () => renderSubmitButton(),
+  });
 
   const validate = () => {
     if (!name) {
@@ -250,8 +251,8 @@ const EditDeliveryAddressScreen = () => {
 
   return (
     <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ flex: 1 }}>
+      style={{ backgroundColor: 'white' }}
+      showsVerticalScrollIndicator={false}>
       <Spinner visible={loading} textContent={'Đăng xử lý...'} textStyle={{}} />
       <Dialog
         visible={showDeleteConfirmation}
@@ -393,6 +394,7 @@ const EditDeliveryAddressScreen = () => {
           </Box>
         )}
       </Box>
+      <KeyboardSpacer iosOnly extraHeight={32} />
     </ScrollView>
   );
 };

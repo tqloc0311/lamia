@@ -36,8 +36,10 @@ const DeliveryAddressList = (props: DeliveryAddressListProps) => {
   useEffect(() => {
     if (!selectedAddress) {
       setSelectedAddress(addresses.find(item => item.default_address));
+    } else {
+      props.onSelect?.(selectedAddress);
     }
-  }, [addresses, selectedAddress]);
+  }, [addresses, selectedAddress, props.onSelect, props]);
 
   useEffect(() => {
     if (selectedAddress) {

@@ -78,9 +78,9 @@ const PlaceOrderScreen = (_: PlaceOrderProps) => {
     const products = cartItems.map(
       (item): OrderProduct => ({
         product_id: item.product.id || 0,
-        attribute_id: item.attribute.id || 0,
+        attribute_id: item.attribute?.id || 0,
         qty: item.quantity,
-        price: item.attributeDetail.front_sale_price,
+        price: item.attributeDetail?.front_sale_price || 0,
       }),
     );
 
